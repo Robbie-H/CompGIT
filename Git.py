@@ -1,5 +1,17 @@
+from copy import copy
+from operator import itemgetter
+
+from sage.combinat.subset import Subsets
+from sage.geometry.polyhedron.constructor import Polyhedron
+from sage.matrix.constructor import Matrix
+from sage.modules.free_module import VectorSpace
+from sage.rings.rational_field import QQ
+from sage.sets.set import Set
+
 # Decides if two non-zero vectors are proportional.
-from sage.geometry.polyhedron.parent import * #Only used in solve_strictly_polystable. Please change by the right thing to import as to make the program more efficient
+
+
+# Only used in solve_strictly_polystable. Please change by the right thing to import as to make the program more efficient
 def proportional(v1, v2):
     for i in range(len(v1)):
         if v1[i]!=0:
@@ -169,7 +181,6 @@ class GITProblem(object):
         return Set(returning_list)
 
     def compute_weights_in_all_unstable_states(self):
-        from operator import itemgetter, attrgetter
         weights=list(self.weights)
         #lengths gives a Euclidean norm to the weights, so that we have a way of choosing one.
         lengths=[sum(list(map(lambda i : i * i, weight)))  for weight in weights]
@@ -452,7 +463,7 @@ class GITProblem(object):
                 Q=Polyhedron(vertices=list(subset))
                 if Q.dim() < P.dim():
                     if self.trivial_character in Q.relative_interior():
-                        V=VectorSpace(RationalField(),self.rank)
+                        V=VectorSpace(QQ,self.rank)
                         span_of_subset=V.subspace(subset)
                         new_state=Set([v for v in self.weights if V(v) in span_of_subset])  
                         maximal_states.add(new_state)
