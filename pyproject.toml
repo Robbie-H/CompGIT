@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools >= 61.0"] # there may be more requirements to add
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "CompGIT”
+version = "0.1"
+classifiers = ["License :: GPL-3.0 license]
+description = "Compute GIT quotients”
+readme = "README.md"
+requires-python = ">=3.0”
+dependencies = [sage]
+
+[tool.setuptools]
+packages = [
+    “CompGIT”,
+]
