@@ -5,7 +5,7 @@ The CompGIT package is a tool for computing GIT quotients in algebraic geometry.
 For instance, let the non-zero complex numbers C^* act on C^2 by λ · (x, y) = (x/λ, λy). The orbits are
 conics parametrised by xy = c , the axes x = 0, y = 0, and the origin (x, y) = (0, 0). The output of
 CompGIT will instruct the user to remove the unstable orbits given by the axes - these are precisely the
-orbits that are not closed under the C^*-action. One then obtains a GIT quotient space (C^2−{axes})/C^* that is topologically equal to C.
+orbits that are not closed under the action. One then obtains a GIT quotient space (C^2−{axes})/C^* that is topologically equal to C.
 
 The contents of our code performs several simplifications that reduce the problem to analysing torus actions on projective space. This procedure is based on the paper _Computing GIT Quotients of Semisimple Groups_ by Patricio Gallardo, Jesus Martinez Garcia, Han-Bom Moon, and David Swinarski. For an introduction to GIT theory we recommend notes of Richard Thomas available on the arXiv at https://arxiv.org/abs/math/0512411. 
 
