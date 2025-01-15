@@ -15,7 +15,7 @@ def proportional(v1, v2):
 
     EXAMPLES::
 
-        sage: from CompGit.Git import proportional
+        sage: from CompGIT.Git import proportional
         sage: v1 = vector([2,0,6])
         sage: v2 = vector([6,9,1])
         sage: proportional(v1, 2*v1)

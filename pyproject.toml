@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools >= 61.0"] # there may be more requirements to add
+requires = ["setuptools >= 61.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -8,7 +8,8 @@ version = "0.1"
 classifiers = ["License :: GPL-3.0 license"]
 description = "Library for Geometric Invariant Theory (GIT) in Sagemath. Its algorithms describe the unstable, non-stable and stictly polystable loci of n-dimensional projective space acted upon by a simple group. Based on P. Gallardo, J. Martinez-Garcia, H.-B. Moon, D. Swinarski. Computation of GIT quotients of semisimple groups."
 readme = "README.md"
-requires-python = ">=3.0"
+requires-python = ">=3.9"
+dependencies = []
 
 [tool.setuptools]
 packages = [
