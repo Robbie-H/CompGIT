@@ -8,15 +8,26 @@ from sage.modules.free_module import VectorSpace
 from sage.rings.rational_field import QQ
 from sage.sets.set import Set
 
-# Decides if two non-zero vectors are proportional.
 
-
-# Only used in solve_strictly_polystable. Please change by the right thing to import as to make the program more efficient
 def proportional(v1, v2):
-    for i in range(len(v1)):
-        if v1[i]!=0:
-            break
-    return tuple([v2[i]*x for x in v1])==tuple([v1[i]*x for x in  v2])
+    """
+    Decide if two non-zero vectors are proportional.
+
+    EXAMPLES::
+
+        sage: from CompGit.Git import proportional
+        sage: v1 = vector([2,0,6])
+        sage: v2 = vector([6,9,1])
+        sage: proportional(v1, 2*v1)
+        True 
+        sage: proportional(v1, v2)
+        False
+   """
+    i = next(i for i, ci in enumerate(v1) if ci != 0)
+    m1 = v1[i]
+    m2 = v2[i]
+    return all(m2 * c1 == m1 * c2 for c1, c2 in zip(v1, v2))
+
 
 #Takes a set of weights and returns it as a matrix
 def weights_matrix(weights_set):
