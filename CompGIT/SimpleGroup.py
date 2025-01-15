@@ -1,5 +1,6 @@
 from sage.modules.vector_rational_dense import Vector_rational_dense
-
+from sage.matrix.constructor import Matrix
+from sage.rings.rational_field import QQ
 
 #if type_A=True, the type is A and
 #the vector has coordinates in basis H
