@@ -29,18 +29,37 @@ def proportional(v1, v2):
     return all(m2 * c1 == m1 * c2 for c1, c2 in zip(v1, v2))
 
 
-#Takes a set of weights and returns it as a matrix
 def weights_matrix(weights_set):
+    """
+    Takes a set of weights and returns it as a matrix
+
+    Examples:
+
+        sage: from CompGIT import weights_matrix
+		sage: weights_set = ( [a,b], [c,d] )
+		sage: weights_matrix(weights)
+		[a,b]
+		[c,d]
+    """
     return Matrix(QQ,[list(weight) for weight in weights_set])
 
-#computes length vector and picks up minimum entry.
+# computes length vector and picks up minimum entry. (what does this comment refer to?) 
 
 
 # We will compute the trivial character of the representation using
 # the function below, in case we are ever working in coordinates
 # for which chi_0 is not the origin
 
+
 def averageWeight(x):
+    """
+
+    EXAMPLES:
+     
+        sage: from CompGIT import averageWeight
+		sage: averageWeight(weights_set)
+		( (a + c)/2, (b + d)/2 )
+    """
     n=len(x[0])
     N=len(x)
     xbar=[0 for j in range(n)]
@@ -50,7 +69,6 @@ def averageWeight(x):
     for j in range(n):
         xbar[j] = (1/N)*xbar[j]
     return tuple(xbar)
-
 
 
 def timedRunProblem(representation,label='',separateOutputs=False):
