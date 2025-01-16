@@ -1,13 +1,23 @@
 # Computational GIT
 
-The CompGIT package is a tool for computing GIT quotients in algebraic geometry. Given an action of a classical group on a projective variety, CompGIT computes the certain orbits (called unstable/non-stable/strictly polystable) that need to be removed to form a well-behaved quotient. 
+The CompGIT package is a tool for computing Geometric Invariant Theory (GIT) quotients in algebraic geometry. In a nutshell, GIT is a theory to model orbit spaces of algebraic varieties into algebraic varieties. Given an action of a complex reductive connected simple Lie group $G$ on a projective space $\mathbb{P}^n$, CompGIT gives a description (up to $G$-equivalence) of orbits of $\mathbb{P}^n$ (called unstable/non-stable/strictly polystable orbits) that need to be removed/treated specially to form a well-behaved quotient of $\mathbb{P}^n$ by $G$. Because any $G$-linearised projective variety $X$ can be embedded $G$-equivariantly into some $\mathbb{P}^n$, this package is (potentially) sufficient to study any GIT quotient of a projective variety by a group $G$.
 
-For instance, let the non-zero complex numbers C^* act on C^2 by λ · (x, y) = (x/λ, λy). The orbits are
-conics parametrised by xy = c , the axes x = 0, y = 0, and the origin (x, y) = (0, 0). The output of
-CompGIT will instruct the user to remove the unstable orbits given by the axes - these are precisely the
-orbits that are not closed under the action. One then obtains a GIT quotient space (C^2−{axes})/C^* that is topologically equal to C.
+## Paradigmatic example of GIT quotient
+As an example of the kind of problem being considered, let the 1-dimensional algebraic group of non-zero complex numbers $G=\mathbb C^*$ act on $\mathbb C^2$ by $\lambda · (x, y) = (x\lambda^{-1}, \lambda y)$. Note this is not the case contemplated by our code. Indeed, this group is not simple and $\mathbb C$ is not a projective variety. However, we describe this example for pedagogical purposes as the paradigm is the same, and this example is easier to understand. The orbits are:
+* Conics parametrised by $xy = c$, $c\in \mathbb C^*$. These are stable orbits (they are closed and their stabilisers are finite).
+* the origin $(x, y) = (0, 0)$. This is a strictly polystable orbit: it is semistable and it is closed in the set of semistable orbits, but it is not stable as its stabiliser is not finite (it is $\mathbb C^* $).
+* The punctured axes $\{x = 0, y\neq 0\}$  $\{y = 0, x\neq 0\}$. These are strictly semistable orbits which are not polystable or stable (they are not closed).
 
-The contents of our code performs several simplifications that reduce the problem to analysing torus actions on projective space. This procedure is based on the paper _Computing GIT Quotients of Semisimple Groups_ by Patricio Gallardo, Jesus Martinez Garcia, Han-Bom Moon, and David Swinarski. For an introduction to GIT theory we recommend notes of Richard Thomas available on the arXiv at https://arxiv.org/abs/math/0512411. 
+We thus have an equivariant quotient map $\mathbb C^2 \rightarrow \mathbb C^2//\mathbb C^* \cong \mathbb C$, where the fibre at any $c\neq 0$ is the smooth conic $xy=c$. At $0\in \mathbb C$, the fibre is the union of the two punctured axes and the origin. Note the quotient does parametrise polystable orbits.
+
+On a projective GIT quotient $\mathbb P(V)$, we would also have unstable orbits. These are orbits that need to be removed for any sense of quotient to make sense. Unstable orbits are the orbits that contain $0\in V$ in their closure.
+
+## References
+Several simplifications and observations can be carried out to reduce the problem to analysing torus actions on projective space. For a description of these, and the algorithms used, we refer the user to the paper [Computing GIT Quotients of Semisimple Groups](https://arxiv.org/abs/2308.08049) by Patricio Gallardo, Jesus Martinez Garcia, Han-Bom Moon, and David Swinarski, to which this code is a companion of and where several examples are also discussed. Further modifications to the code, its packaging and documentation have been led by Robert Hanson, with help by Martinez-Garcia and the Sagemath community, most notably Fréderic Chapoton. 
+
+For a quick introduction to GIT we recommend [the notes by Richard Thomas](https://arxiv.org/abs/math/0512411).
+
+The aforementioned paper by Gallardo et.al. considers the more general case of projective varieties by a reductive group. However, in most applications the group is always simple or semisimple. This has the advantage that we can use existing libraries in Sagemath for simple groups.
 
 # Dependencies 
 
