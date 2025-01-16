@@ -36,10 +36,10 @@ def weights_matrix(weights_set):
     Examples:
 
         sage: from CompGIT import weights_matrix
-		sage: weights_set = ( [a,b], [c,d] )
-		sage: weights_matrix(weights)
-		[a,b]
-		[c,d]
+	sage: weights_set = ( [a,b], [c,d] )
+	sage: weights_matrix(weights)
+	[a,b]
+	[c,d]
     """
     return Matrix(QQ,[list(weight) for weight in weights_set])
 
@@ -57,8 +57,8 @@ def averageWeight(x):
     EXAMPLES:
      
         sage: from CompGIT import averageWeight
-		sage: averageWeight(weights_set)
-		( (a + c)/2, (b + d)/2 )
+	sage: averageWeight(weights_set)
+	( (a + c)/2, (b + d)/2 )
     """
     n=len(x[0])
     N=len(x)
