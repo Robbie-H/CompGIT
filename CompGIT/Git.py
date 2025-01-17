@@ -31,17 +31,17 @@ def proportional(v1, v2):
 
 def weights_matrix(weights_set):
     """
-    Takes a set of weights and returns it as a matrix
+    Take a set of weights and return it as a matrix.
 
-    Examples:
+    EXAMPLES::
 
         sage: from CompGIT import weights_matrix
-	sage: weights_set = ( [a,b], [c,d] )
+	sage: weights_set = ( [1,2], [3,4] )
 	sage: weights_matrix(weights)
-	[a,b]
-	[c,d]
+	[1,2]
+	[3,4]
     """
-    return Matrix(QQ,[list(weight) for weight in weights_set])
+    return Matrix(QQ, [list(weight) for weight in weights_set])
 
 # computes length vector and picks up minimum entry. (what does this comment refer to?) 
 
@@ -54,9 +54,10 @@ def weights_matrix(weights_set):
 def averageWeight(x):
     """
 
-    EXAMPLES:
-     
+    EXAMPLES::
+
         sage: from CompGIT import averageWeight
+	sage: weights_set = ( [a,b], [c,d] )
 	sage: averageWeight(weights_set)
 	( (a + c)/2, (b + d)/2 )
     """
@@ -67,7 +68,7 @@ def averageWeight(x):
         for j in range(n):
             xbar[j] = xbar[j]+x[i][j]
     for j in range(n):
-        xbar[j] = (1/N)*xbar[j]
+        xbar[j] = xbar[j] / N
     return tuple(xbar)
 
 
