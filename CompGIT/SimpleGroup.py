@@ -8,33 +8,52 @@ class OneParamSubgroup(Vector_rational_dense):
     def __init__(self, parent, value):
         Vector_rational_dense.__init__(self, parent, value)
 
+
+def upper_triangular_entries(dim,x,y):
+    if y>=x:
+        return 1
+    else:
+        return 0
+
+
+def lower_triangular_entries(dim,x,y):
+    """
+    transpose matrix M and take upper triangular entries 
+    """
+    return upper_triangular_entries(dim,y,x)
+    
+
 def one_param_subgroup(data, type_A=False):
+    """
+    For type_A=True, take vector in coordinates given by basis T
+    
+    EXAMPLES::
+    
+    sage: from CompGIT import one_param_subgroup
+    sage: v1 = vector([2,1,-3])
+    sage: v2 = vector([3,2,1])
+    sage: one_param_subgroup(v1, type_A=True)
+    sage: (2,3)
+    sage: one_param_subgroup(v2, type_A=False)
+    sage: (3,2,1)
+
+    """
     if type_A==True:
         BasisChange=matrix(QQ, len(data)-1, len(data)-1,
-                            lambda x,y: lower_triangular_entries(len(data)-1,x,y))
+                            lambda x,y: lower_triangular_entries(len(data)-1,x,y)) 
         v=vector(data[0:len(data)-1])
         v=tuple(BasisChange*v)
-    # data given in terms of basis T
+    
     else:
         v=tuple(data)
     return OneParamSubgroup(QQ**len(v), v)
   
     
-
 def A_coord_change_from_T_to_H(dim,x,y):
     if x==y:
         return 1
     elif x==y+1:
         return -1
-    else:
-        return 0
-
-def lower_triangular_entries(dim,x,y):
-    return upper_triangular_entries(dim,y,x)
-    
-def upper_triangular_entries(dim,x,y):
-    if y>=x:
-        return 1
     else:
         return 0
     
