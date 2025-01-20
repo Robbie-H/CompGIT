@@ -57,9 +57,9 @@ def averageWeight(x):
     EXAMPLES::
 
         sage: from CompGIT import averageWeight
-	sage: weights_set = ( [a,b], [c,d] )
+	sage: weights_set = ( [1,2], [3,4] )
 	sage: averageWeight(weights_set)
-	( (a + c)/2, (b + d)/2 )
+	(2, 3)
     """
     n=len(x[0])
     N=len(x)
