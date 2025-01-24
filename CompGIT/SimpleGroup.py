@@ -29,7 +29,7 @@ def one_param_subgroup(data, type_A=False):
     
     EXAMPLES::
     
-    sage: from CompGIT import one_param_subgroup
+    sage: from CompGIT.SimpleGroup import one_param_subgroup
     sage: v1 = vector([2,1,-3])
     sage: v2 = vector([3,2,1])
     sage: one_param_subgroup(v1, type_A=True)
