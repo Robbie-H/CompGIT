@@ -136,9 +136,11 @@ def D_fundamental_weight_constructor(dim,x,y):
 
 
 class SimpleGroup(object):
-     """
+    """
     Given a simple group, the structure of SimpleGroup() characterises the associated weights, characters and Weyl actions.
     Groups are considered sepearately according to Dynkin type A, B, C or D. 
+
+    -- Need to explain/understand the output of SimpleGroup() --
 
     EXAMPLES::
 
