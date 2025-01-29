@@ -135,14 +135,37 @@ def D_fundamental_weight_constructor(dim,x,y):
 
 class SimpleGroup(object):
     """
-    Given a simple group, the structure of SimpleGroup() characterises the associated weights, characters and Weyl actions.
-    Groups are considered sepearately according to Dynkin type A, B, C or D. 
-
-    -- Need to explain/understand the output of SimpleGroup() --
+    Characterises the associated Dynkin type, rank, weights, characters and Weyl actions of a simple group. 
+    Dynkin types A, B, C and D are each considered seperately 
 
     EXAMPLES::
 
-    -- To be added -- 
+    -- more explanation to be added -- 
+
+        sage: from CompGIT.SimpleGroup import SimpleGroup
+        sage: G=SimpleGroup("A", 2)
+        sage: G.Dynkin_type
+        'A'
+        sage: G.max_torus_dim
+        '2'
+        sage: G.cone_basis_in_H
+        [ 2  1]
+        [-1  1]
+        [-1 -2]
+
+        sage: H=SimpleGroup("B", 3)
+        sage: H.cone_basis
+        [1 1 1]
+        [0 1 1]
+        [0 0 1]
+        sage: H.T_to_H_change
+        [1 0 0]
+        [0 1 0]
+        [0 0 1]
+        sage: H.T_to_gamma_change
+        [ 1 -1  0]
+        [ 0  1 -1]
+        [ 0  0  1]
     
     """
     def __init__(self, Dynkin_type, dim):
