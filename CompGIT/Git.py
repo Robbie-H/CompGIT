@@ -124,7 +124,6 @@ class GITProblem(object):
     """
 
     EXAMPLES::
-
          
         # Cubics in P2
         sage: Phi = WeylCharacterRing("A2")
