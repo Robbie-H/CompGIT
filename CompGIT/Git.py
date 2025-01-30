@@ -22,7 +22,7 @@ def proportional(v1, v2):
         True 
         sage: proportional(v1, v2)
         False
-   """
+    """
     i = next(i for i, ci in enumerate(v1) if ci != 0)
     m1 = v1[i]
     m2 = v2[i]
@@ -121,6 +121,29 @@ def timedRunProblem(representation,label='',separateOutputs=False):
 
 
 class GITProblem(object):
+    """
+
+    EXAMPLES::
+
+         
+        # Cubics in P2
+        sage: Phi = WeylCharacterRing("A2")
+        sage: representation= Phi(3,0,0)
+        sage: P=GITProblem(representation,label="Plane quartics")
+        sage: P.solve_non_stable(Weyl_optimisation=True)
+        sage: P.print_solution_nonstable()
+        ***************************************
+        SOLUTION TO GIT PROBLEM: NONSTABLE LOCI
+        ***************************************
+        Group: A2
+        Representation  A2(3,0,0)
+        Set of maximal non-stable states:
+        (1) 1-PS = (1, 1, -2) yields a state with 7 characters
+        Maximal nonstable state={ (1, 2, 0), (2, 1, 0), (1, 1, 1), (0, 2, 1), (0, 3, 0), (2, 0, 1), (3, 0, 0) }
+        (2) 1-PS = (1, -1/2, -1/2) yields a state with 6 characters
+        Maximal nonstable state={ (1, 2, 0), (1, 0, 2), (2, 1, 0), (1, 1, 1), (2, 0, 1), (3, 0, 0) }
+    
+    """
     def __init__(self,rep,label=''):
         pair=rep.cartan_type()
         self.label=label
