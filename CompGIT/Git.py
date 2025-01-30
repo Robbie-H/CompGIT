@@ -128,7 +128,7 @@ class GITProblem(object):
         # Cubics in P2
         sage: Phi = WeylCharacterRing("A2")
         sage: representation= Phi(3,0,0)
-        sage: P=GITProblem(representation,label="Plane quartics")
+        sage: P=GITProblem(representation,label="Plane cubics")
         sage: P.solve_non_stable(Weyl_optimisation=True)
         sage: P.print_solution_nonstable()
         ***************************************
