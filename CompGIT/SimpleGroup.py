@@ -137,32 +137,52 @@ class SimpleGroup(object):
     """
     Characterises the associated Dynkin type, rank, weights, characters and Weyl actions of a simple group. 
     Dynkin types A, B, C and D are each considered seperately 
+    
+    H-coordinates for one parameter subgroups are given by the matrices H_i with only one non-zero element (i, i) of unitary size  
+    L-coordinates are the dual coordinates to H
+    T-coordinates are given by T_i = H_i for type B, C, D and T_i = H_i - H_{i+1} for type A
+    gamma-coordinates are given by gamma_i = H_1 + ... + H_i for type B, C, D
 
     EXAMPLES::
-
-    -- more explanation to be added -- 
 
         sage: from CompGIT.SimpleGroup import SimpleGroup
         sage: G=SimpleGroup("A", 2)
         sage: G.Dynkin_type
-        'A'
+        A
         sage: G.max_torus_dim
-        '2'
-        sage: G.cone_basis_in_H
+        2        
+        sage: G.cone_basis    # rays of the fundamental chamber (F) in T-coordinates
+        [2 1]
+        [1 2]
+        sage: G.T_to_H_change  
+        [ 1  0]
+        [-1  1]
+        [ 0 -1]        
+        sage: G.cone_basis_in_H    # rays of F in H-coordinates  
         [ 2  1]
         [-1  1]
         [-1 -2]
+        sage: G.pairing_matrix    # in T-coordinates for one parameter subgroups and L-coordinates for characters
+        [1 -1]
+        [0  1]
+        sage: G.fundamental_weights    # in L-coordinates
+        [1 1]
+        [0 1]
 
         sage: H=SimpleGroup("B", 3)
-        sage: H.cone_basis
+        sage: G.Dynkin_type
+        B
+        sage: G.max_torus_dim
+        3
+        sage: H.cone_basis    # in T-coordinates 
         [1 1 1]
         [0 1 1]
         [0 0 1]
-        sage: H.T_to_H_change
+        sage: H.T_to_H_change    # T = H for type B, C, D
         [1 0 0]
         [0 1 0]
         [0 0 1]
-        sage: H.T_to_gamma_change
+        sage: H.T_to_gamma_change    
         [ 1 -1  0]
         [ 0  1 -1]
         [ 0  0  1]
@@ -179,7 +199,7 @@ class SimpleGroup(object):
             self.cone_basis_in_H=matrix(QQ, dim+1, dim,
                                 lambda x,y: A_cone_basis_constructor(dim,x,y)) #From gamma-coordinates to H-coordinates. Return rays of F in H-coordinates.
             self.cone_basis=matrix(QQ, dim, dim,
-                                lambda x, y: A_cone_basis_constructor_from_T(dim,x,y)) # Return rays of F in T-coordinates.
+                                lambda x,y: A_cone_basis_constructor_from_T(dim,x,y)) # Return rays of F in T-coordinates.
             self.T_to_gamma_change=matrix(QQ, dim, dim,
                                 lambda x,y: A_T_basis_constructor_from_gamma(dim,x,y)) #From T-coordinates to gamma-coordinates. Return T-vectors in gamma-coordinates.
             self.T_to_H_change=matrix(QQ, dim+1, dim,
