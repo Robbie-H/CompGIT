@@ -131,6 +131,8 @@ class GITProblem(object):
         sage: P=GITProblem(representation,label="Plane cubics")
         sage: P.solve_non_stable(Weyl_optimisation=True)
         sage: P.print_solution_nonstable()
+
+        
         ***************************************
         SOLUTION TO GIT PROBLEM: NONSTABLE LOCI
         ***************************************
@@ -141,8 +143,35 @@ class GITProblem(object):
         Maximal nonstable state={ (1, 2, 0), (2, 1, 0), (1, 1, 1), (0, 2, 1), (0, 3, 0), (2, 0, 1), (3, 0, 0) }
         (2) 1-PS = (1, -1/2, -1/2) yields a state with 6 characters
         Maximal nonstable state={ (1, 2, 0), (1, 0, 2), (2, 1, 0), (1, 1, 1), (2, 0, 1), (3, 0, 0) }
-    
-    """
+        
+        sage: P.solve_unstable(Weyl_optimisation=True)
+        sage: P.print_solution_unstable()
+
+
+        **************************************
+        SOLUTION TO GIT PROBLEM: UNSTABLE LOCI
+        **************************************
+        Group: A2
+        Representation  A2(3,0,0)
+        Set of maximal unstable states:
+        (1) 1-PS = (1, 1/4, -5/4) yields a state with 5 characters
+        Maximal unstable state={ (1, 2, 0), (2, 1, 0), (0, 3, 0), (2, 0, 1), (3, 0, 0) }
+        
+        sage: P.solve_strictly_polystable()
+        sage: P.print_solution_strictly_polystable()
+
+
+        *************************************************************
+        SOLUTION TO GIT PROBLEM: STRICTLY POLYSTABLE LOCI
+        *************************************************************
+        Group: A2
+        Representation  A2(3,0,0)
+        Set of strictly T-polystable states:
+        (1) A state with 1 characters
+        Strictly polystable state={ (1, 1, 1) }
+        (2) A state with 3 characters
+        Strictly polystable state={ (0, 2, 1), (2, 0, 1), (1, 1, 1) }
+        """
     def __init__(self,rep,label=''):
         pair=rep.cartan_type()
         self.label=label
