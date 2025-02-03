@@ -17,7 +17,7 @@ def upper_triangular_entries(dim, x, y):
 
 def lower_triangular_entries(dim, x, y):
     """
-    transpose matrix and take upper triangular entries
+    Transpose matrix and take upper triangular entries
     """
     return upper_triangular_entries(dim, y, x)
 
@@ -135,10 +135,10 @@ def D_fundamental_weight_constructor(dim,x,y):
 
 class SimpleGroup(object):
     """
-    Characterises the associated Dynkin type, rank, weights, characters and Weyl actions of a simple group. 
-    Dynkin types A, B, C and D are each considered seperately 
+    Characterises the associated Dynkin type, rank, weights, characters and Weyl actions  
+    Dynkin types A, B, C and D are treated seperately
     
-    H-coordinates for one parameter subgroups are given by the matrices H_i with only one non-zero element (i, i) of unitary size  
+    H-coordinates, for the hom-spaces Hom(GG_m , T) of one parameter subgroups, are given by the matrices H_i with only one non-zero element (i, i) of unitary size  
     L-coordinates are the dual coordinates to H
     T-coordinates are given by T_i = H_i for type B, C, D and T_i = H_i - H_{i+1} for type A
     gamma-coordinates are given by gamma_i = H_1 + ... + H_i for type B, C, D
