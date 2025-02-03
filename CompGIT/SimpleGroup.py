@@ -17,14 +17,14 @@ def upper_triangular_entries(dim, x, y):
 
 def lower_triangular_entries(dim, x, y):
     """
-    Transpose matrix and take upper triangular entries
+    Transpose matrix and take upper triangular entries.
     """
     return upper_triangular_entries(dim, y, x)
 
 
 def one_param_subgroup(data, type_A=False):
     """
-    For type_A=True, take vector in coordinates given by basis T
+    For type_A=True, take vector in coordinates given by basis T.
 
     EXAMPLES::
 
@@ -135,50 +135,50 @@ def D_fundamental_weight_constructor(dim,x,y):
 
 class SimpleGroup(object):
     """
-    Characterises the associated Dynkin type, rank, weights, characters and Weyl actions  
-    Dynkin types A, B, C and D are treated seperately
+    Characterises the associated Dynkin type, rank, weights, characters and Weyl actions.
+    Dynkin types A, B, C and D are treated seperately.
     
-    H-coordinates, on the hom-spaces Hom(GG_m , T) of one parameter subgroups, are given by the matrices H_i with only one non-zero element (i, i) of unitary size  
-    L-coordinates are the dual coordinates to H, on the hom-spaces Hom(T, GG_m) of characters
-    T-coordinates are equal to H-coordinates in type B, C, D, and in type A are given by {T_i}_{i = 1, ..., n}, T_i = H_i - H_{i+1}. In the type A case, note the reduction from n+1 to n dimensions.
-    gamma-coordinates are given by gamma_i = H_1 + ... + H_i for type B, C, D
+    H-coordinates, on the hom-spaces Hom(GG_m , T) of one parameter subgroups, are given by the matrices H_i with only one non-zero element (i, i) of unitary size.  
+    L-coordinates are the dual coordinates to H, on the hom-spaces Hom(T, GG_m) of characters.
+    T-coordinates are equal to H-coordinates in type B, C, D, and in type A are given by {T_i}_{i = 1, ..., n}, T_i = H_i - H_{i+1}. In the type A case, note the reduction from n+1 to n dimensions (accounts for the fact that weights of a one-parameter subgroup add up to 0).
+    gamma-coordinates are given by gamma_i = H_1 + ... + H_i for type B, C, D.
 
     EXAMPLES::
 
         sage: from CompGIT.SimpleGroup import SimpleGroup
         sage: G=SimpleGroup("A", 2)
         sage: G.Dynkin_type
-        A
+        'A'
         sage: G.max_torus_dim
         2        
-        sage: G.cone_basis    # rays of the fundamental chamber (F) in T-coordinates
+        sage: G.cone_basis # rays of the fundamental chamber (F) in T-coordinates
         [2 1]
         [1 2]
         sage: G.T_to_H_change  
         [ 1  0]
         [-1  1]
         [ 0 -1]        
-        sage: G.cone_basis_in_H    # rays of F in H-coordinates  
+        sage: G.cone_basis_in_H # rays of F in H-coordinates  
         [ 2  1]
         [-1  1]
         [-1 -2]
-        sage: G.pairing_matrix    # in T-coordinates for one parameter subgroups and L-coordinates for characters
+        sage: G.pairing_matrix # in T-coordinates for one parameter subgroups and L-coordinates for characters
         [1 -1]
         [0  1]
-        sage: G.fundamental_weights    # in L-coordinates
+        sage: G.fundamental_weights # in L-coordinates
         [1 1]
         [0 1]
 
         sage: H=SimpleGroup("B", 3)
-        sage: G.Dynkin_type
-        B
-        sage: G.max_torus_dim
+        sage: H.Dynkin_type
+        'B'
+        sage: H.max_torus_dim
         3
-        sage: H.cone_basis    # in T-coordinates 
+        sage: H.cone_basis # in T-coordinates 
         [1 1 1]
         [0 1 1]
         [0 0 1]
-        sage: H.T_to_H_change    # T = H for type B, C, D
+        sage: H.T_to_H_change # T = H for type B, C, D
         [1 0 0]
         [0 1 0]
         [0 0 1]
