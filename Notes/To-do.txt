@@ -1,8 +1,7 @@
 # CompGIT to-do list 
 
 Clarify comments in SimpleGroup.py and GIT.py  
-* e.g. in SimpleGroup.SimpleGroup: “ #From gamma-coordinates to H-coordinates. Return rays of F in H-coordinates. ” 
-* Fix some notation and adding clarifications to the existing comments would help the user 
+* Fix notation and add clarifications to existing comments 
 
 Complete all doctest comments/examples in SimpleGroup.py and GIT.py 
 * Add examples of outputs for key functions and classes, following sagemamth standard notation
@@ -12,10 +11,11 @@ Explore if we need other doctest files in the repository
 
 Rewrite README.txt 
 
-Setup tests (look into this asap)
+Setup tests 
 * As advised by sage_devel user vdelecroix at https://groups.google.com/g/sage-devel/c/02V0y-EnEJ4
 * e.g. https://gitlab.com/modulispaces/admcycles/-/tree/master/tests?ref_type=heads
 * JMG: I looked the admcycles and I am afraid I don't understand how their code works.
+* RH: It appears to be a case of running some computations in CompGIT and validating their output with existing sage software 
 
 Confirm if it is correct to leave __init__.py empty
 * For admcycles (https://gitlab.com/modulispaces/admcycles/-/blob/master/admcycles/__init__.py?ref_type=heads ) the file is not empty.
