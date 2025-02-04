@@ -15,7 +15,7 @@ Setup tests
 * As advised by sage_devel user vdelecroix at https://groups.google.com/g/sage-devel/c/02V0y-EnEJ4
 * e.g. https://gitlab.com/modulispaces/admcycles/-/tree/master/tests?ref_type=heads
 * JMG: I looked the admcycles and I am afraid I don't understand how their code works.
-* RH: It appears to be a case of running some computations in CompGIT and validating their output with existing sage software 
+* RH: It appears to be a case of (1) running some computations in CompGIT and validating their output with existing sage software, and (2) confirming some basic properties of the objects being considered (e.g. averageWeight(weights) in type A examples yields zero). 
 
 Confirm if it is correct to leave __init__.py empty
 * For admcycles (https://gitlab.com/modulispaces/admcycles/-/blob/master/admcycles/__init__.py?ref_type=heads ) the file is not empty.
