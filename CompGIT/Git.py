@@ -130,6 +130,7 @@ class GITProblem(object):
         sage: representation= Phi(3,0,0)
         sage: P=GITProblem(representation,label="Plane cubics")
         sage: P.solve_non_stable(Weyl_optimisation=True)
+        {{(1, 2), (2, 1), (0, 0), (-1, 1), (0, 3), (1, -1), (3, 0)}, {(1, 2), (-1, -2), (2, 1), (0, 0), (1, -1), (3, 0)}}
         sage: P.print_solution_nonstable()
 
         
@@ -145,6 +146,7 @@ class GITProblem(object):
         Maximal nonstable state={ (1, 2, 0), (1, 0, 2), (2, 1, 0), (1, 1, 1), (2, 0, 1), (3, 0, 0) }
         
         sage: P.solve_unstable(Weyl_optimisation=True)
+        {{(1, 2), (2, 1), (0, 3), (1, -1), (3, 0)}}
         sage: P.print_solution_unstable()
 
 
@@ -158,6 +160,7 @@ class GITProblem(object):
         Maximal unstable state={ (1, 2, 0), (2, 1, 0), (0, 3, 0), (2, 0, 1), (3, 0, 0) }
         
         sage: P.solve_strictly_polystable()
+        {{(0, 0)}, {(-1, 1), (1, -1), (0, 0)}}
         sage: P.print_solution_strictly_polystable()
 
 
