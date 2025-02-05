@@ -12,12 +12,27 @@ class OneParamSubgroup(Vector_rational_dense):
 
 
 def upper_triangular_entries(dim, x, y):
+    """
+
+
+    EXAMPLES:
+
+        sage: from CompGIT.SimpleGroup import upper_triangular_entries
+        sage: upper_triangular_entries(2, [1, 2], [2,1])
+        1
+    """
     return 1 if y >= x else 0
 
 
 def lower_triangular_entries(dim, x, y):
     """
-    Transpose matrix and take upper triangular entries.
+
+
+    EXAMPLES:
+
+        sage: from CompGIT.SimpleGroup import lower_triangular_entries
+        sage: lower_triangular_entries(2, [1, 2], [2,1])
+        0
     """
     return upper_triangular_entries(dim, y, x)
 
