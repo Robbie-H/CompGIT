@@ -51,9 +51,9 @@ def one_param_subgroup(data, type_A=False):
         sage: one_param_subgroup(v2, type_A=False)
         (3, 2, 1)
     """
-    if type_A==True:
-        BasisChange=matrix(QQ, len(data)-1, len(data)-1,
-                            lambda x,y: lower_triangular_entries(len(data)-1,x,y)) 
+    if type_A:
+        BasisChange=matrix(QQ, len(data)-1, len(data)-1, 
+                           lambda x,y: lower_triangular_entries(len(data)-1,x,y)) 
         v=vector(data[0:len(data)-1])
         v=tuple(BasisChange*v)
     
@@ -153,9 +153,12 @@ class SimpleGroup(object):
     Characterises the associated Dynkin type, rank, weights, characters and Weyl actions.
     Dynkin types A, B, C and D are treated seperately.
     
-    H-coordinates, on the hom-spaces Hom(GG_m , T) of one parameter subgroups, are given by the matrices H_i with only one non-zero element (i, i) of unitary size.  
+    H-coordinates, on the hom-spaces Hom(GG_m , T) of one parameter subgroups
+    are given by the matrices H_i with only one non-zero element (i, i) of unitary size.  
     L-coordinates are the dual coordinates to H, on the hom-spaces Hom(T, GG_m) of characters.
-    T-coordinates are equal to H-coordinates in type B, C, D, and in type A are given by {T_i}_{i = 1, ..., n}, T_i = H_i - H_{i+1}. In the type A case, note the reduction from n+1 to n dimensions (accounts for the fact that weights of a one-parameter subgroup add up to 0).
+    T-coordinates are equal to H-coordinates in type B, C, D.
+    T-coordinates are given by {T_i}_{i = 1, ..., n}, T_i = H_i - H_{i+1} in in type A.
+    Note the reduction from n+1 to n dimensions in type A (to account for the fact that weights of a one-parameter subgroup add to 0).
     gamma-coordinates are given by gamma_i = H_1 + ... + H_i for type B, C, D.
 
     EXAMPLES::
