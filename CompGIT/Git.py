@@ -369,7 +369,7 @@ class GITProblem(object):
                         elif currently_maximal_state.issubset(destabilized_state):
                             maximal_nonstable_candidate_states.remove(currently_maximal_state)
                             self.gamma_OPS_nonstable_dictionary.pop(currently_maximal_state)
-                    if candidate_is_maximal==True:
+                    if candidate_is_maximal:
                         maximal_nonstable_candidate_states.add(destabilized_state)        # We find the maximal states among all the destabilised states
                         self.gamma_OPS_nonstable_dictionary[destabilized_state]=destabilizing_OPS
         
@@ -400,9 +400,9 @@ class GITProblem(object):
                         if acted_state.issubset(state) and len(acted_state)!=len(state):
                             is_maximal=False
                             break
-                    if is_maximal==False:
+                    if not is_maximal:
                         break
-                if is_maximal==True:
+                if is_maximal:
                         maximal_nonstable_final.add(candidate)
             self.maximal_nonstable_states=Set(list(maximal_nonstable_final))
         else:
@@ -417,7 +417,7 @@ class GITProblem(object):
                     if acted_state.issubset(state) and len(acted_state)!=len(state):
                         is_maximal=False
                         break
-                if is_maximal==True:
+                if is_maximal:
                     maximal_nonstable_final.add(candidate)
             self.maximal_nonstable_states=Set(list(maximal_nonstable_final))
         return self.maximal_nonstable_states
@@ -464,7 +464,7 @@ class GITProblem(object):
                         elif currently_maximal_state.issubset(destabilized_state):
                             maximal_unstable_candidate_states.remove(currently_maximal_state)
                             self.gamma_OPS_unstable_dictionary.pop(currently_maximal_state)
-                    if candidate_is_maximal==True:
+                    if candidate_is_maximal:
                         maximal_unstable_candidate_states.add(destabilized_state)        # We find the maximal states among all the destabilised states
                         self.gamma_OPS_unstable_dictionary[destabilized_state]=destabilizing_OPS
 
@@ -494,9 +494,9 @@ class GITProblem(object):
                         if acted_state.issubset(state) and len(acted_state)!=len(state):
                             is_maximal=False
                             break
-                    if is_maximal==False:
+                    if not is_maximal:
                         break
-                if is_maximal==True:
+                if is_maximal:
                         maximal_unstable_final.add(candidate)
             self.maximal_unstable_states=Set(list(maximal_unstable_final))
         else:
@@ -511,7 +511,7 @@ class GITProblem(object):
                     if acted_state.issubset(state) and len(acted_state)!=len(state):
                         is_maximal=False
                         break
-                if is_maximal==True:
+                if is_maximal:
                     maximal_unstable_final.add(candidate)
             self.maximal_unstable_states=Set(list(maximal_unstable_final))
             self.maximal_unstable_states=Set(list(self.unoptimized_maximal_unstable_states))
