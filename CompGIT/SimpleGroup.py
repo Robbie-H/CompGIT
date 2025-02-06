@@ -2,6 +2,7 @@ from sage.modules.vector_rational_dense import Vector_rational_dense
 from sage.matrix.constructor import matrix
 from sage.rings.rational_field import QQ
 from sage.modules.free_module_element import vector
+from sage.all import *
 
 
 #if type_A=True, the type is A and
