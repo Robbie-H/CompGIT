@@ -1,8 +1,4 @@
 from CompGIT import *
-from CompGIT.SimpleGroup import *
-from CompGIT.Git import *
-#load("CompGIT/SimpleGroup.py")
-#load("CompGIT/GIT.py")
 
 # Enter choice of simple group by specifying Dynkin type and rank 
 G=SimpleGroup("A", 2)
@@ -40,7 +36,7 @@ P.unstable_weights_destabilized
 # Compute maximal non-stable states 
 P.maximal_nonstable_states
 
+#TO BE FIXED:
 #timedRunProblem(representation,label="Plane cubics")
-
 
 
