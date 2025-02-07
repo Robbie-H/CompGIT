@@ -63,6 +63,17 @@ def one_param_subgroup(data, type_A=False):
 
 
 def A_coord_change_from_T_to_H(dim,x,y):
+    """
+
+    Examples::
+
+        sage: from CompGIT.SimpleGroup import A_coord_change_from_T_to_H
+        sage: x=2
+        sage: y=3
+        sage: dim=5
+        sage: A_coord_change_from_T_to_H(dim,x,y)
+        0 
+    """
     if x==y:
         return 1
     elif x==y+1:
@@ -72,6 +83,17 @@ def A_coord_change_from_T_to_H(dim,x,y):
     
 
 def inverse_of_upper_triangular(dim,x,y):
+    """
+
+    Examples::
+
+        sage: from CompGIT.SimpleGroup import inverse_of_upper_triangular
+        sage: x=2
+        sage: y=3
+        sage: dim=5
+        sage: inverse_of_upper_triangular(dim,x,y)
+        -1
+    """
     if x==y:
         return 1
     elif y==x+1:
@@ -81,6 +103,17 @@ def inverse_of_upper_triangular(dim,x,y):
 
 
 def A_cone_basis_constructor(dim, x,y):
+    """
+
+    Examples::
+
+        sage: from CompGIT.SimpleGroup import A_cone_basis_constructor
+        sage: x=2
+        sage: y=3
+        sage: dim=5
+        sage: A_cone_basis_constructor(dim,x,y)
+        2
+    """    
     if x<=y: 
         return dim-y
     else:
@@ -88,6 +121,17 @@ def A_cone_basis_constructor(dim, x,y):
 
 
 def A_cone_basis_constructor_from_T(dim,x,y):
+    """
+
+    Examples::
+
+        sage: from CompGIT.SimpleGroup import A_cone_basis_constructor_from_T
+        sage: x=2
+        sage: y=3
+        sage: dim=5
+        sage: A_cone_basis_constructor_from_T(dim,x,y)
+        6
+    """       
     if x<=y:
         return (x+1)*(dim-y)
     else:
@@ -95,6 +139,17 @@ def A_cone_basis_constructor_from_T(dim,x,y):
 
 
 def A_T_basis_constructor_from_gamma(dim,x,y):
+    """
+
+    Examples::
+
+        sage: from CompGIT.SimpleGroup import A_T_basis_constructor_from_gamma
+        sage: x=2
+        sage: y=3
+        sage: dim=5
+        sage: A_T_basis_constructor_from_gamma(dim,x,y)
+        -1/6
+    """ 
     if x == y:
         return 2/(dim+1)
     if x == y+1 or x == y-1:
@@ -102,6 +157,17 @@ def A_T_basis_constructor_from_gamma(dim,x,y):
 
 
 def D_cone_basis_constructor(dim, x,y):
+    """
+
+    Examples::
+
+        sage: from CompGIT.SimpleGroup import D_cone_basis_constructor
+        sage: x=2
+        sage: y=3
+        sage: dim=5
+        sage: D_cone_basis_constructor(dim,x,y)
+        1
+    """ 
     if x<=y: # Index starting from 0?
         return 1
     elif x == dim-1 and y == dim-2:
@@ -111,6 +177,17 @@ def D_cone_basis_constructor(dim, x,y):
 
     
 def D_T_basis_constructor_from_gamma(dim,x,y):
+    """
+
+    Examples::
+
+        sage: from CompGIT.SimpleGroup import D_T_basis_constructor_from_gamma
+        sage: x=2
+        sage: y=3
+        sage: dim=5
+        sage: D_T_basis_constructor_from_gamma(dim,x,y)
+        -1
+    """ 
     if x == y:
         if x < dim-2:
             return 1
@@ -128,6 +205,17 @@ def D_T_basis_constructor_from_gamma(dim,x,y):
 
 
 def B_fundamental_weight_constructor(dim,x,y):
+    """
+
+    Examples::
+
+        sage: from CompGIT.SimpleGroup import B_fundamental_weight_constructor
+        sage: x=2
+        sage: y=3
+        sage: dim=5
+        sage: B_fundamental_weight_constructor(dim,x,y)
+        1
+    """ 
     if y == dim-1:
         return 1/2
     elif x <= y:
@@ -137,6 +225,17 @@ def B_fundamental_weight_constructor(dim,x,y):
 
 
 def D_fundamental_weight_constructor(dim,x,y):
+    """
+
+    Examples::
+
+        from CompGIT.SimpleGroup import D_fundamental_weight_constructor
+        sage: x=2
+        sage: y=3
+        sage: dim=5
+        sage: D_fundamental_weight_constructor(dim,x,y)
+        0.5
+    """ 
     if x <= y:
         if y < dim-2:
             return 1
