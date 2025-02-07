@@ -7,6 +7,8 @@ from sage.matrix.constructor import Matrix
 from sage.modules.free_module import VectorSpace
 from sage.rings.rational_field import QQ
 from sage.sets.set import Set
+from sage.all import *
+from CompGIT.SimpleGroup import *
 
 
 def proportional(v1, v2):

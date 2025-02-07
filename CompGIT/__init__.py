@@ -1,6 +1,5 @@
 from sage.all import *
 from sage.all import WeylGroup #experimental purposes only
-
 from CompGIT import SimpleGroup
 from CompGIT import Git
 
@@ -23,4 +22,4 @@ from Git import (proportional,
                  weights_matrix,
                  averageWeight,
                  timedRunProblem,
-                 GITProblem)
+                 GITProblem
