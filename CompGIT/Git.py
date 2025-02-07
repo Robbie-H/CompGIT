@@ -45,7 +45,7 @@ def weights_matrix(weights_set):
     """
     return Matrix(QQ, [list(weight) for weight in weights_set])
 
-# computes length vector and picks up minimum entry. (what does this comment refer to?) 
+# computes length vector and picks up minimum entry.
 
 
 # We will compute the trivial character of the representation using
@@ -72,7 +72,6 @@ def averageWeight(x):
     for j in range(n):
         xbar[j] = xbar[j] / N
     return tuple(xbar)
-
 
 
 
@@ -138,7 +137,7 @@ class GITProblem(object):
         self.rank=pair[1]
         self.rep=rep
         self.group=SimpleGroup(self.Dynkin_type, self.rank)
-        if self.group==None:
+        if self.group is None:
             print ('Group {Dynkin_type}{rank} not yet implemented'.format(Dynkin_type=self.Dynkin_type, rank=self.rank), sep='')
             return None
 
@@ -229,7 +228,7 @@ class GITProblem(object):
         while weights!=list():
             good_char=False
             #the first loop chooses the weight in the intersection with minimum norm. In the meanwhile, it pops out from the list any weights that are not in the intersection.
-            while good_char==False and weights!=list():
+            while good_char is False and weights!=list():
                 weight_index=min(enumerate(lengths), key=itemgetter(1))[0] 
                 weight=weights.pop(weight_index)
                 lengths.pop(weight_index)
@@ -269,7 +268,7 @@ class GITProblem(object):
         if all_weights_considered:
             weights_considered=self.weights
         elif nonstable_weights_considered:
-            if self.nonstable_weights_candidates==None:
+            if self.nonstable_weights_candidates is None:
                 print('ERROR: nonstable_weights_candidates not yet computed')
                 return None
             weights_considered=self.nonstable_weights_candidates
@@ -290,7 +289,7 @@ class GITProblem(object):
     def solve_non_stable(self, Weyl_optimisation=False):
         
         #Reduce the number of sets of weights to be considered (set Q)
-        if self.optimized_weights_non_stable==None:
+        if self.optimized_weights_non_stable is None:
             self.generate_optimal_weights_non_stable()
         candidate_weights_subsets=Set(list(self.optimized_weights_non_stable.subsets(self.rank-1)))
         
@@ -359,7 +358,7 @@ class GITProblem(object):
                     if not is_maximal:
                         break
                 if is_maximal:
-                        maximal_nonstable_final.add(candidate)
+                    maximal_nonstable_final.add(candidate)
             self.maximal_nonstable_states=Set(list(maximal_nonstable_final))
         else:
             maximal_nonstable_final=set() #WARNING: This is a Python set, not a Sage set. Needed for add/remove
@@ -453,7 +452,7 @@ class GITProblem(object):
                     if not is_maximal:
                         break
                 if is_maximal:
-                        maximal_unstable_final.add(candidate)
+                    maximal_unstable_final.add(candidate)
             self.maximal_unstable_states=Set(list(maximal_unstable_final))
         else:
             maximal_unstable_final=set() #WARNING: This is a Python set, not a Sage set. Needed for add/remove
@@ -512,7 +511,7 @@ class GITProblem(object):
         maximal_states_list=list(maximal_states)
         Wimages = set()
         for state in maximal_states_list:
-            if not state in Wimages: 
+            if state not in Wimages: 
                 for g in group_elements:
                     gstate = self.weyl_elt_action_on_state(g,state) 
                     if gstate != state and gstate in maximal_states:
@@ -523,7 +522,7 @@ class GITProblem(object):
         return self.strictly_polystable_states
 
     def print_solution_nonstable(self):
-        if self.maximal_nonstable_states==None:
+        if self.maximal_nonstable_states is None:
             print('ERROR: The problem is not yet solved. Call solve_non_stable() first and then call print_solution_nonstable()')
             return None
         print('\n\n***************************************\nSOLUTION TO GIT PROBLEM: NONSTABLE LOCI\n***************************************')
@@ -541,7 +540,7 @@ class GITProblem(object):
 
         
     def solution_nonstable_str(self):
-        if self.maximal_nonstable_states==None:
+        if self.maximal_nonstable_states is None:
             return 'ERROR: The problem is not yet solved. Call solve_non_stable() first and then call print_solution_nonstable()'
         s='\n\n***************************************\nSOLUTION TO GIT PROBLEM: NONSTABLE LOCI\n***************************************\n'
         s=s+'Group: {s}{d}'.format(s=self.Dynkin_type, d=self.rank)
@@ -558,7 +557,7 @@ class GITProblem(object):
 
     
     def print_solution_unstable(self):
-        if self.maximal_unstable_states==None:
+        if self.maximal_unstable_state is None:
             print('ERROR: The problem is not yet solved. Call solve_unstable() first')
             return None
         print('\n\n**************************************\nSOLUTION TO GIT PROBLEM: UNSTABLE LOCI\n**************************************')
@@ -575,7 +574,7 @@ class GITProblem(object):
             i=i+1
 
     def solution_unstable_str(self):
-        if self.maximal_unstable_states==None:
+        if self.maximal_unstable_states is None:
             return 'ERROR: The problem is not yet solved. Call solve_unstable() first'
         s='\n\n**************************************\nSOLUTION TO GIT PROBLEM: UNSTABLE LOCI\n**************************************\n'
         s=s+'Group: {s}{d}'.format(s=self.Dynkin_type, d=self.rank)
@@ -592,7 +591,7 @@ class GITProblem(object):
 
             
     def print_solution_strictly_polystable(self):
-        if self.strictly_polystable_states==None:
+        if self.strictly_polystable_states is None:
             print ('ERROR: The problem is not yet solved. Call solve_unstable() and solve_strictly_polystable() and then call print_solution_strictly_polystable()')
             return None
         print ('\n\n*************************************************************\nSOLUTION TO GIT PROBLEM: STRICTLY POLYSTABLE LOCI\n*************************************************************')
@@ -609,7 +608,7 @@ class GITProblem(object):
             i=i+1
 
     def solution_strictly_polystable_str(self):
-        if self.strictly_polystable_states==None:
+        if self.strictly_polystable_states is None:
             return 'ERROR: The problem is not yet solved. Call solve_strictly_polystable() first'
         s='\n\n*************************************************************\nSOLUTION TO GIT PROBLEM: STRICTLY POLYSTABLE LOCI\n*************************************************************\n'
         s=s+'Group: {s}{d}'.format(s=self.Dynkin_type, d=self.rank)
@@ -634,3 +633,4 @@ class GITProblem(object):
     def solve_all(self):
         self.solve_nonstable()
         self.solve_unstable()
+
