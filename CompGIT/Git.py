@@ -1,5 +1,6 @@
 from copy import copy
 from operator import itemgetter
+from time import time
 
 from sage.combinat.subset import Subsets
 from sage.geometry.polyhedron.constructor import Polyhedron
@@ -72,52 +73,6 @@ def averageWeight(x):
     for j in range(n):
         xbar[j] = xbar[j] / N
     return tuple(xbar)
-
-
-def timedRunProblem(representation,label='',separateOutputs=False):
-    P=GITProblem(representation,label=label)
-    t0=time()
-    P.solve_non_stable(Weyl_optimisation=True)
-    t1=time()
-    if separateOutputs:
-        f = open(P.label+' output.txt', 'a')
-        s1=P.solution_nonstable_str()
-        f.write(s1)
-        f.close() 
-    t2=time()
-    P.solve_unstable(Weyl_optimisation=True)
-    t3=time()
-    if separateOutputs:
-        f = open(P.label+' output.txt', 'a')
-        s2=P.solution_unstable_str()
-        f.write(s2)
-        f.close()     
-    t4=time()
-    P.solve_strictly_polystable()
-    t5=time()
-    s0=str([P.label,P.rep,round(t1-t0,3),round(t3-t2,3),round(t5-t4,3),len(P.weights),len(P.optimized_weights_non_stable),len(P.unstable_weights_candidates),len(P.maximal_nonstable_states),len(P.maximal_unstable_states),len(P.strictly_polystable_states)])
-    if separateOutputs:
-        f = open(P.label+' output.txt', 'a')
-        s3=P.solution_strictly_polystable_str()
-        f.write(s3)
-        f.write("\n")
-        f.write(s0)
-        s0=str([P.label,P.rep,round(t1-t0,3),round(t3-t2,3),round(t5-t4,3),len(P.weights),len(P.optimized_weights_non_stable),len(P.unstable_weights_candidates),len(P.maximal_nonstable_states),len(P.maximal_unstable_states),len(P.strictly_polystable_states)])
-        f.close()
-    if not separateOutputs:    
-        f = open(P.label+' output.txt', 'w')
-        s1=P.solution_nonstable_str()
-        f.write(s1)
-        s2=P.solution_unstable_str()
-        f.write(s2)  
-        s3=P.solution_strictly_polystable_str()
-        f.write(s3)
-        f.write("\n")
-        s0=str([P.label,P.rep,round(t1-t0,3),round(t3-t2,3),round(t5-t4,3),len(P.weights),len(P.optimized_weights_non_stable),len(P.unstable_weights_candidates),len(P.maximal_nonstable_states),len(P.maximal_unstable_states),len(P.strictly_polystable_states)])
-        f.write(s0)
-        f.close()    
-    print('Timed run complete for '+str(representation))
-
 
 
 
