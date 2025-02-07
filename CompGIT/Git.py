@@ -1,6 +1,5 @@
 from copy import copy
 from operator import itemgetter
-from time import time
 
 from sage.combinat.subset import Subsets
 from sage.geometry.polyhedron.constructor import Polyhedron
