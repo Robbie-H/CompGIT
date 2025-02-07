@@ -36,7 +36,5 @@ P.unstable_weights_destabilized
 # Compute maximal non-stable states 
 P.maximal_nonstable_states
 
-#TO BE FIXED:
-#timedRunProblem(representation,label="Plane cubics")
 
 
