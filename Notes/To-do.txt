@@ -6,6 +6,7 @@ Complete all doctest comments/examples in SimpleGroup.py and GIT.py (POTENTIALLY
 
 Rewrite README.txt 
 * JMG to look
+* Add a section describing how to run tests in CompGIT (via sage -t commands)
 
 Figure out that doctests run OK (see "issues")
 * Need to install first (requires setup.py) RH
