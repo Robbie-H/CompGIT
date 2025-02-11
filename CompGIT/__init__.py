@@ -22,6 +22,5 @@ from SimpleGroup import (OneParamSubgroup,
 from Git import (proportional,
                  weights_matrix,
                  averageWeight,
-                 timedRunProblem,
                  GITProblem)
 
