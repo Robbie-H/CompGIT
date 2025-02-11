@@ -1,34 +1,19 @@
 # CompGIT to-do list 
 
-Clarify comments in SimpleGroup.py and GIT.py  
-* Fix notation and add clarifications to existing comments 
-
-Complete all doctest comments/examples in SimpleGroup.py and GIT.py 
+Complete all doctest comments/examples in SimpleGroup.py and GIT.py (POTENTIALLY DONE)
 * Add examples of outputs for key functions and classes, following sagemamth standard notation
 
-Explore if we need other doctest files in the repository
-* e.g. https://gitlab.com/modulispaces/admcycles/-/blob/master/_doctest_environment.py?ref_type=heads
 
 Rewrite README.txt 
+* JMG to look
+* Add a section describing how to run tests in CompGIT (via sage -t commands)
 
-Setup tests 
-* As advised by sage_devel user vdelecroix at https://groups.google.com/g/sage-devel/c/02V0y-EnEJ4
-* e.g. https://gitlab.com/modulispaces/admcycles/-/tree/master/tests?ref_type=heads
-* JMG: I looked the admcycles and I am afraid I don't understand how their code works.
-* RH: It appears to be a case of (1) running some computations in CompGIT and validating their output with existing sage software, and (2) confirming some basic properties of the objects being considered (e.g. averageWeight(weights) in type A examples yields zero). 
+Figure out that doctests run OK (see "issues")
+* Need to install first (requires setup.py) RH
+* * e.g. https://gitlab.com/modulispaces/admcycles/-/blob/master/setup.py?ref_type=heads
+* Check if current writeup of doctests is up to standard (ask Frederic). JMG
 
-Confirm if it is correct to leave __init__.py empty
-* For admcycles (https://gitlab.com/modulispaces/admcycles/-/blob/master/admcycles/__init__.py?ref_type=heads ) the file is not empty.
-* However, the discussion at https://stackoverflow.com/questions/448271/what-is-init-py-for suggests that “The __init__.py file is usually empty, but can be used to export selected portions of the package under more convenient name, hold convenience functions, etc.”
-* JMG: We can move here any imports that are common to both py files or if there are functions not associated to classes that are used by both files.
-
-Explore if we need an examples.sage file
-* e.g. https://gitlab.com/modulispaces/admcycles/-/blob/master/examples.sage?ref_type=heads 
-* Use the example from https://jesusmartinezgarcia.net/git/
-* JMG: I think it would be helpful and using the examples from the web are a good idea (but with a bit more commentary, possibly, and some prints). Check the running time table in the paper as you don't really want to run examples that take more than 10s.
-
-Explore if we need a setup.py file 
-* e.g. https://gitlab.com/modulispaces/admcycles/-/blob/master/setup.py?ref_type=heads
+Consider adding other examples to the examples.sage file from https://jesusmartinezgarcia.net/git/ JMG
 
 
 Useful links 

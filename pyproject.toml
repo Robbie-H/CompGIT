@@ -5,13 +5,26 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "CompGIT"
 version = "0.1"
-classifiers = ["License :: GPL-3.0 license"]
-description = "Library for Geometric Invariant Theory (GIT) in Sagemath. Its algorithms describe the unstable, non-stable and stictly polystable loci of n-dimensional projective space acted upon by a simple group. Based on P. Gallardo, J. Martinez-Garcia, H.-B. Moon, D. Swinarski. Computation of GIT quotients of semisimple groups."
+license = {file = "LICENSE"}
 readme = "README.md"
+authors = [
+    {name = "Patricio Gallardo"}, 
+    {name = "Jesus Martinez-Garcia"},
+    {name = "Han-Bom Moon"}, 
+    {name = "David Swinarski"},
+    ]
+keywords = ["SageMath", "geometry"]
+classifiers = [
+      "Development Status :: 5 - Production/Stable",
+      "Intended Audience :: Science/Research",
+      "Topic :: Mathematics",
+      "License :: GNU GENERAL PUBLIC LICENSE VERSION 3",
+      "Programming Language :: Python :: 3"
+    ]
 requires-python = ">=3.9"
-dependencies = []
+
 
 [tool.setuptools]
 packages = [
-    "CompGIT",
+"CompGIT",
 ]
