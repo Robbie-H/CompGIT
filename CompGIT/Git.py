@@ -8,7 +8,7 @@ from sage.modules.free_module import VectorSpace
 from sage.rings.rational_field import QQ
 from sage.sets.set import Set
 from sage.all import *
-from CompGIT.SimpleGroup import *
+from SimpleGroup import *
 
 
 def proportional(v1, v2):
@@ -17,7 +17,7 @@ def proportional(v1, v2):
 
     EXAMPLES::
 
-        sage: from CompGIT.Git import proportional
+        sage: from Git import proportional
         sage: v1 = vector([2,0,6])
         sage: v2 = vector([6,9,1])
         sage: proportional(v1, 2*v1)
@@ -37,7 +37,7 @@ def weights_matrix(weights_set):
 
     EXAMPLES::
 
-        sage: from CompGIT.Git import weights_matrix
+        sage: from Git import weights_matrix
         sage: weights = ([1,2], [3,4])
         sage: weights_matrix(weights)
         [1 2]
@@ -58,7 +58,7 @@ def averageWeight(x):
 
     EXAMPLES::
 
-        sage: from CompGIT.Git import averageWeight
+        sage: from Git import averageWeight
         sage: weights_set = ([1,2], [3,4])
         sage: averageWeight(weights_set)
         (2, 3)
@@ -74,6 +74,53 @@ def averageWeight(x):
     return tuple(xbar)
 
 
+def timedRunProblem(representation,label='',separateOutputs=False):
+    P=GITProblem(representation,label=label)
+    t0=time()
+    P.solve_non_stable(Weyl_optimisation=True)
+    t1=time()
+    if separateOutputs:
+        f = open(P.label+' output.txt', 'a')
+        s1=P.solution_nonstable_str()
+        f.write(s1)
+        f.close()
+    t2=time()
+    P.solve_unstable(Weyl_optimisation=True)
+    t3=time()
+    if separateOutputs:
+        f = open(P.label+' output.txt', 'a')
+        s2=P.solution_unstable_str()
+        f.write(s2)
+        f.close()
+    t4=time()
+    P.solve_strictly_polystable()
+    t5=time()
+    s0=str([P.label,P.rep,round(t1-t0,3),round(t3-t2,3),round(t5-t4,3),len(P.weights),len(P.optimized_weights_non_stable),len(P.unstable_weights_candidates),len(P.maximal_nonstable_states),len(P.maximal_unstable_states),len(P.strictly_polystable_states)])
+    if separateOutputs:
+        f = open(P.label+' output.txt', 'a')
+        s3=P.solution_strictly_polystable_str()
+        f.write(s3)
+        f.write("\n")
+        f.write(s0)
+        s0=str([P.label,P.rep,round(t1-t0,3),round(t3-t2,3),round(t5-t4,3),len(P.weights),len(P.optimized_weights_non_stable),len(P.unstable_weights_candidates),len(P.maximal_nonstable_states),len(P.maximal_unstable_states),len(P.strictly_polystable_states)])
+        f.close()
+    if not separateOutputs:
+        f = open(P.label+' output.txt', 'w')
+        s1=P.solution_nonstable_str()
+        f.write(s1)
+        s2=P.solution_unstable_str()
+        f.write(s2)
+        s3=P.solution_strictly_polystable_str()
+        f.write(s3)
+        f.write("\n")
+        s0=str([P.label,P.rep,round(t1-t0,3),round(t3-t2,3),round(t5-t4,3),len(P.weights),len(P.optimized_weights_non_stable),len(P.unstable_weights_candidates),len(P.maximal_nonstable_states),len(P.maximal_unstable_states),len(P.strictly_polystable_states)])
+        f.write(s0)
+        f.close()
+    print('Timed run complete for '+str(representation))
+
+
+
+
 
 class GITProblem(object):
     """
@@ -81,6 +128,7 @@ class GITProblem(object):
     EXAMPLES::
          
         # Cubics in P2
+        sage: from Git import GITProblem 
         sage: Phi = WeylCharacterRing("A2")
         sage: representation= Phi(3,0,0)
         sage: P=GITProblem(representation,label="Plane cubics")
@@ -88,7 +136,7 @@ class GITProblem(object):
         {{(1, 2), (2, 1), (0, 0), (-1, 1), (0, 3), (1, -1), (3, 0)}, {(1, 2), (-1, -2), (2, 1), (0, 0), (1, -1), (3, 0)}}
         sage: P.print_solution_nonstable()
 
-        
+
         ***************************************
         SOLUTION TO GIT PROBLEM: NONSTABLE LOCI
         ***************************************
@@ -99,7 +147,7 @@ class GITProblem(object):
         Maximal nonstable state={ (1, 2, 0), (2, 1, 0), (1, 1, 1), (0, 2, 1), (0, 3, 0), (2, 0, 1), (3, 0, 0) }
         (2) 1-PS = (1, -1/2, -1/2) yields a state with 6 characters
         Maximal nonstable state={ (1, 2, 0), (1, 0, 2), (2, 1, 0), (1, 1, 1), (2, 0, 1), (3, 0, 0) }
-        
+          
         sage: P.solve_unstable(Weyl_optimisation=True)
         {{(1, 2), (2, 1), (0, 3), (1, -1), (3, 0)}}
         sage: P.print_solution_unstable()
@@ -113,7 +161,7 @@ class GITProblem(object):
         Set of maximal unstable states:
         (1) 1-PS = (1, 1/4, -5/4) yields a state with 5 characters
         Maximal unstable state={ (1, 2, 0), (2, 1, 0), (0, 3, 0), (2, 0, 1), (3, 0, 0) }
-        
+   
         sage: P.solve_strictly_polystable()
         {{(0, 0)}, {(-1, 1), (1, -1), (0, 0)}}
         sage: P.print_solution_strictly_polystable()
@@ -158,7 +206,7 @@ class GITProblem(object):
             self.L_coord_to_H_dual_conversion=conversion_dictionary
         else:
             self.weights=weights
-        self.trivial_character=averageWeight(self.weights)             
+        self.trivial_character=averageWeight(self.weights)
         self.optimized_weights_non_stable=None
         self.maximal_nonstable_states=None
         self.nonstable_weights_candidates=None
@@ -184,7 +232,7 @@ class GITProblem(object):
             self.nonstable_weights_destabilized=self.nonstable_weights_destabilized.union(states_destabilized_by_rays[i])
             self.unstable_weights_destabilized=self.unstable_weights_destabilized.union(self.states_destabilized_by_rays_strict[i])
         
-        #Compute the weights that must be in ALL nonstable states and a superset of the weights that must be in all unstable states (intersection) 
+        #Compute the weights that must be in ALL nonstable states and a superset of the weights that must be in all unstable states (intersection)
         self.weights_in_all_nonstable_states=Set(self.weights)
         for i in range(self.rank):
             self.weights_in_all_nonstable_states=self.weights_in_all_nonstable_states.intersection(self.states_destabilized_by_rays_strict[i])
@@ -199,7 +247,7 @@ class GITProblem(object):
 
 
     def Weyl_group(self):
-        return self.group.Weyl_Group_elements()        
+        return self.group.Weyl_Group_elements()
 
     def weyl_elt_action_on_state(self,M,state):
         L=list(state)
@@ -209,8 +257,8 @@ class GITProblem(object):
         L=[[x[0] for x in y] for y in ML]
         if self.Dynkin_type=='A':
             L=[ [weight[i]-weight[len(weight)-1] for i in range(len(weight)-1)] for weight in L]
-        L=[tuple(x) for x in L]    
-        return Set(L)        
+        L=[tuple(x) for x in L]
+        return Set(L)
 
     def intersection_set(self, I_i,ray_i,monomial_0):
         returning_list=list()
@@ -229,7 +277,7 @@ class GITProblem(object):
             good_char=False
             #the first loop chooses the weight in the intersection with minimum norm. In the meanwhile, it pops out from the list any weights that are not in the intersection.
             while good_char is False and weights!=list():
-                weight_index=min(enumerate(lengths), key=itemgetter(1))[0] 
+                weight_index=min(enumerate(lengths), key=itemgetter(1))[0]
                 weight=weights.pop(weight_index)
                 lengths.pop(weight_index)
                 if weight in intersection:
@@ -378,7 +426,7 @@ class GITProblem(object):
         return self.maximal_nonstable_states
             
     def solve_unstable(self, Weyl_optimisation=False):
-        candidate_weights_subsets=Set(list(self.unstable_weights_candidates.subsets(self.rank))) 
+        candidate_weights_subsets=Set(list(self.unstable_weights_candidates.subsets(self.rank)))
         
         #We find the maximal unstable states
         unstable_states=[]
@@ -504,20 +552,20 @@ class GITProblem(object):
                     if self.trivial_character in Q.relative_interior():
                         V=VectorSpace(QQ,self.rank)
                         span_of_subset=V.subspace(subset)
-                        new_state=Set([v for v in self.weights if V(v) in span_of_subset])  
+                        new_state=Set([v for v in self.weights if V(v) in span_of_subset])
                         maximal_states.add(new_state)
         # Do lines 14-16 of Alg. 3.27
         group_elements=self.Weyl_group()
         maximal_states_list=list(maximal_states)
         Wimages = set()
         for state in maximal_states_list:
-            if state not in Wimages: 
+            if state not in Wimages:
                 for g in group_elements:
-                    gstate = self.weyl_elt_action_on_state(g,state) 
+                    gstate = self.weyl_elt_action_on_state(g,state)
                     if gstate != state and gstate in maximal_states:
                         #print('When state='+str(state)+' and g='+str(g)+', get gstate='+str(gstate)+'. Removing '+str(gstate))
                         Wimages.add(gstate)
-                        maximal_states.remove(gstate)                         
+                        maximal_states.remove(gstate)
         self.strictly_polystable_states=Set(list(maximal_states))
         return self.strictly_polystable_states
 
@@ -536,7 +584,7 @@ class GITProblem(object):
             statestr=str(statelist)
             print('Maximal nonstable state={',statestr[1:-1],"}")
             #print('\n')
-            i=i+1    
+            i=i+1
 
         
     def solution_nonstable_str(self):
@@ -557,7 +605,7 @@ class GITProblem(object):
 
     
     def print_solution_unstable(self):
-        if self.maximal_unstable_state is None:
+        if self.maximal_unstable_states is None:
             print('ERROR: The problem is not yet solved. Call solve_unstable() first')
             return None
         print('\n\n**************************************\nSOLUTION TO GIT PROBLEM: UNSTABLE LOCI\n**************************************')
@@ -633,4 +681,3 @@ class GITProblem(object):
     def solve_all(self):
         self.solve_nonstable()
         self.solve_unstable()
-
