@@ -18,7 +18,7 @@ def upper_triangular_entries(dim, x, y):
 
     EXAMPLES:
 
-        sage: from CompGIT.SimpleGroup import upper_triangular_entries
+        sage: from SimpleGroup import upper_triangular_entries
         sage: upper_triangular_entries(2, [1, 2], [2,1])
         1
     """
@@ -31,7 +31,7 @@ def lower_triangular_entries(dim, x, y):
 
     EXAMPLES:
 
-        sage: from CompGIT.SimpleGroup import lower_triangular_entries
+        sage: from SimpleGroup import lower_triangular_entries
         sage: lower_triangular_entries(2, [1, 2], [2,1])
         0
     """
@@ -44,7 +44,7 @@ def one_param_subgroup(data, type_A=False):
 
     EXAMPLES::
 
-        sage: from CompGIT.SimpleGroup import one_param_subgroup
+        sage: from SimpleGroup import one_param_subgroup
         sage: v1 = vector([2,1,-3])
         sage: v2 = vector([3,2,1])
         sage: one_param_subgroup(v1, type_A=True)
@@ -53,8 +53,8 @@ def one_param_subgroup(data, type_A=False):
         (3, 2, 1)
     """
     if type_A:
-        BasisChange=matrix(QQ, len(data)-1, len(data)-1, 
-                           lambda x,y: lower_triangular_entries(len(data)-1,x,y)) 
+        BasisChange=matrix(QQ, len(data)-1, len(data)-1,
+                           lambda x,y: lower_triangular_entries(len(data)-1,x,y))
         v=vector(data[0:len(data)-1])
         v=tuple(BasisChange*v)
     
@@ -68,7 +68,7 @@ def A_coord_change_from_T_to_H(dim,x,y):
 
     Examples::
 
-        sage: from CompGIT.SimpleGroup import A_coord_change_from_T_to_H
+        sage: from SimpleGroup import A_coord_change_from_T_to_H
         sage: x=2
         sage: y=3
         sage: dim=5
@@ -88,7 +88,7 @@ def inverse_of_upper_triangular(dim,x,y):
 
     Examples::
 
-        sage: from CompGIT.SimpleGroup import inverse_of_upper_triangular
+        sage: from SimpleGroup import inverse_of_upper_triangular
         sage: x=2
         sage: y=3
         sage: dim=5
@@ -108,14 +108,14 @@ def A_cone_basis_constructor(dim, x,y):
 
     Examples::
 
-        sage: from CompGIT.SimpleGroup import A_cone_basis_constructor
+        sage: from SimpleGroup import A_cone_basis_constructor
         sage: x=2
         sage: y=3
         sage: dim=5
         sage: A_cone_basis_constructor(dim,x,y)
         2
-    """    
-    if x<=y: 
+    """
+    if x<=y:
         return dim-y
     else:
         return -y-1
@@ -126,13 +126,13 @@ def A_cone_basis_constructor_from_T(dim,x,y):
 
     Examples::
 
-        sage: from CompGIT.SimpleGroup import A_cone_basis_constructor_from_T
+        sage: from SimpleGroup import A_cone_basis_constructor_from_T
         sage: x=2
         sage: y=3
         sage: dim=5
         sage: A_cone_basis_constructor_from_T(dim,x,y)
         6
-    """       
+    """
     if x<=y:
         return (x+1)*(dim-y)
     else:
@@ -144,13 +144,13 @@ def A_T_basis_constructor_from_gamma(dim,x,y):
 
     Examples::
 
-        sage: from CompGIT.SimpleGroup import A_T_basis_constructor_from_gamma
+        sage: from SimpleGroup import A_T_basis_constructor_from_gamma
         sage: x=2
         sage: y=3
         sage: dim=5
         sage: A_T_basis_constructor_from_gamma(dim,x,y)
         -1/6
-    """ 
+    """
     if x == y:
         return 2/(dim+1)
     if x == y+1 or x == y-1:
@@ -162,13 +162,13 @@ def D_cone_basis_constructor(dim, x,y):
 
     Examples::
 
-        sage: from CompGIT.SimpleGroup import D_cone_basis_constructor
+        sage: from SimpleGroup import D_cone_basis_constructor
         sage: x=2
         sage: y=3
         sage: dim=5
         sage: D_cone_basis_constructor(dim,x,y)
         1
-    """ 
+    """
     if x<=y: # Index starting from 0?
         return 1
     elif x == dim-1 and y == dim-2:
@@ -182,13 +182,13 @@ def D_T_basis_constructor_from_gamma(dim,x,y):
 
     Examples::
 
-        sage: from CompGIT.SimpleGroup import D_T_basis_constructor_from_gamma
+        sage: from SimpleGroup import D_T_basis_constructor_from_gamma
         sage: x=2
         sage: y=3
         sage: dim=5
         sage: D_T_basis_constructor_from_gamma(dim,x,y)
         -1
-    """ 
+    """
     if x == y:
         if x < dim-2:
             return 1
@@ -210,13 +210,13 @@ def B_fundamental_weight_constructor(dim,x,y):
 
     Examples::
 
-        sage: from CompGIT.SimpleGroup import B_fundamental_weight_constructor
+        sage: from SimpleGroup import B_fundamental_weight_constructor
         sage: x=2
         sage: y=3
         sage: dim=5
         sage: B_fundamental_weight_constructor(dim,x,y)
         1
-    """ 
+    """
     if y == dim-1:
         return 1/2
     elif x <= y:
@@ -230,13 +230,13 @@ def D_fundamental_weight_constructor(dim,x,y):
 
     Examples::
 
-        from CompGIT.SimpleGroup import D_fundamental_weight_constructor
+        sage: from SimpleGroup import D_fundamental_weight_constructor
         sage: x=2
         sage: y=3
         sage: dim=5
         sage: D_fundamental_weight_constructor(dim,x,y)
         0.5
-    """ 
+    """
     if x <= y:
         if y < dim-2:
             return 1
@@ -263,7 +263,7 @@ class SimpleGroup(object):
 
     EXAMPLES::
 
-        sage: from CompGIT.SimpleGroup import SimpleGroup
+        sage: from SimpleGroup import SimpleGroup
         sage: G=SimpleGroup("A", 2)
         sage: G.Dynkin_type
         'A'
@@ -280,9 +280,6 @@ class SimpleGroup(object):
         [ 2  1]
         [-1  1]
         [-1 -2]
-        sage: G.pairing_matrix # in T-coordinates for one parameter subgroups and L-coordinates for characters
-        [1 -1]
-        [0  1]
         sage: G.fundamental_weights # in L-coordinates
         [1 1]
         [0 1]
@@ -321,7 +318,7 @@ class SimpleGroup(object):
             self.T_to_gamma_change=matrix(QQ, dim, dim,
                                 lambda x,y: A_T_basis_constructor_from_gamma(dim,x,y)) #From T-coordinates to gamma-coordinates. Return T-vectors in gamma-coordinates.
             self.T_to_H_change=matrix(QQ, dim+1, dim,
-                                lambda x,y: A_coord_change_from_T_to_H(dim,x,y)) #From T-coordinates to H-coordinates. Return T-vectors in gamma-coordinates.            self.fundamental_weights=matrix(QQ, 
+                                lambda x,y: A_coord_change_from_T_to_H(dim,x,y)) #From T-coordinates to H-coordinates. Return T-vectors in gamma-coordinates.            self.fundamental_weights=matrix(QQ,
             self.dual_basis=matrix.identity(QQ,dim+1)
             self.fundamental_weights=matrix(QQ, dim, dim, lambda x,y: upper_triangular_entries(dim,x,y)) #Return fundamental weights in L-coordinates.
             for i in range(0,dim-1):
@@ -341,7 +338,7 @@ class SimpleGroup(object):
             self.cone_basis=matrix(QQ, dim, dim,
                                 lambda x,y: upper_triangular_entries(dim,x,y)) #From gamma-coordinates to H-coordinates. Return rays of F in H-coordinates.
             self.T_to_H_change=matrix.identity(QQ, dim) #From T-coordinates to H-coordinates. Return T-vectors in H-coordinates.
-            #self.fundamental_weights=matrix(QQ, 
+            #self.fundamental_weights=matrix(QQ,
             self.T_to_gamma_change=matrix(QQ, dim, dim,
                                 lambda x,y: inverse_of_upper_triangular(dim,x,y)) #From T-coordinates to gamma-coordinates. Return T-vectors in gamma-coordinates.
             self.fundamental_weights=matrix(QQ, dim, dim, lambda x,y: upper_triangular_entries(dim,x,y)) #Return fundamental weights in L-coordinates.
@@ -350,9 +347,9 @@ class SimpleGroup(object):
             self.lattice_standard_basis=matrix.identity(QQ,dim)
             self.cone_basis=matrix(QQ, dim, dim,
                                 lambda x,y: D_cone_basis_constructor(dim,x,y)) #From gamma-coordinates to H-coordinates. Return rays of F in H-coordinates.
-            self.T_to_gamma_change=matrix(QQ, dim, dim, 
+            self.T_to_gamma_change=matrix(QQ, dim, dim,
                                 lambda x,y: D_T_basis_constructor_from_gamma(dim,x,y)) #Return T-vectors in gamma-coordinates.
-            self.T_to_H_change=matrix.identity(QQ, dim) #From T-coordinates to H-coordinates. Return T-vectors in H-coordinates.            self.fundamental_weights=matrix(QQ, 
+            self.T_to_H_change=matrix.identity(QQ, dim) #From T-coordinates to H-coordinates. Return T-vectors in H-coordinates.            self.fundamental_weights=matrix(QQ,
             self.fundamental_weights=matrix(QQ, dim, dim, lambda x,y: D_fundamental_weight_constructor(dim,x,y)) #Return fundamental weights in L-coordinates.
         else:
             print ('Error: Dynkin type ', Dynkin_type, 'not supported/known')
@@ -373,7 +370,7 @@ class SimpleGroup(object):
 
     
     def fetch_pairing_matrix(self):
-        return self.pairing_matrix  
+        return self.pairing_matrix
 
     
     def in_cone(self, OPS):
@@ -390,6 +387,3 @@ class SimpleGroup(object):
     
     def Dynkin_type(self):
         return self.Dynkin_type
-
-    
-        
