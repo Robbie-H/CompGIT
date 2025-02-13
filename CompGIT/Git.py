@@ -14,9 +14,9 @@ from SimpleGroup import *
 def proportional(v1, v2):
     """
     Decide if two non-zero vectors are proportional.
-
+    
     EXAMPLES::
-
+        
         sage: from Git import proportional
         sage: v1 = vector([2,0,6])
         sage: v2 = vector([6,9,1])
@@ -34,9 +34,9 @@ def proportional(v1, v2):
 def weights_matrix(weights_set):
     """
     Take a set of weights and return it as a matrix.
-
+    
     EXAMPLES::
-
+                
         sage: from Git import weights_matrix
         sage: weights = ([1,2], [3,4])
         sage: weights_matrix(weights)
@@ -55,9 +55,9 @@ def weights_matrix(weights_set):
 
 def averageWeight(x):
     """
-
+    
     EXAMPLES::
-
+        
         sage: from Git import averageWeight
         sage: weights_set = ([1,2], [3,4])
         sage: averageWeight(weights_set)
@@ -124,9 +124,9 @@ def timedRunProblem(representation,label='',separateOutputs=False):
 
 class GITProblem(object):
     """
-
+    
     EXAMPLES::
-         
+                 
         # Cubics in P2
         sage: from Git import GITProblem 
         sage: Phi = WeylCharacterRing("A2")
@@ -135,8 +135,8 @@ class GITProblem(object):
         sage: P.solve_non_stable(Weyl_optimisation=True)
         {{(1, 2), (2, 1), (0, 0), (-1, 1), (0, 3), (1, -1), (3, 0)}, {(1, 2), (-1, -2), (2, 1), (0, 0), (1, -1), (3, 0)}}
         sage: P.print_solution_nonstable()
-
-
+                
+                
         ***************************************
         SOLUTION TO GIT PROBLEM: NONSTABLE LOCI
         ***************************************
@@ -147,12 +147,12 @@ class GITProblem(object):
         Maximal nonstable state={ (1, 2, 0), (2, 1, 0), (1, 1, 1), (0, 2, 1), (0, 3, 0), (2, 0, 1), (3, 0, 0) }
         (2) 1-PS = (1, -1/2, -1/2) yields a state with 6 characters
         Maximal nonstable state={ (1, 2, 0), (1, 0, 2), (2, 1, 0), (1, 1, 1), (2, 0, 1), (3, 0, 0) }
-          
+                  
         sage: P.solve_unstable(Weyl_optimisation=True)
         {{(1, 2), (2, 1), (0, 3), (1, -1), (3, 0)}}
         sage: P.print_solution_unstable()
-
-
+                
+                
         **************************************
         SOLUTION TO GIT PROBLEM: UNSTABLE LOCI
         **************************************
@@ -161,12 +161,12 @@ class GITProblem(object):
         Set of maximal unstable states:
         (1) 1-PS = (1, 1/4, -5/4) yields a state with 5 characters
         Maximal unstable state={ (1, 2, 0), (2, 1, 0), (0, 3, 0), (2, 0, 1), (3, 0, 0) }
-   
+           
         sage: P.solve_strictly_polystable()
         {{(0, 0)}, {(-1, 1), (1, -1), (0, 0)}}
         sage: P.print_solution_strictly_polystable()
-
-
+                
+        
         *************************************************************
         SOLUTION TO GIT PROBLEM: STRICTLY POLYSTABLE LOCI
         *************************************************************
@@ -247,6 +247,17 @@ class GITProblem(object):
 
 
     def Weyl_group(self):
+        """
+            
+        EXAMPLES::
+                
+            sage: from Git import GITProblem 
+            sage: Phi = WeylCharacterRing("A2")
+            sage: representation= Phi(3,0,0)
+            sage: P=GITProblem(representation,label="Plane cubics")
+            sage: print(GITProblem.Weyl_group(P))
+            Weyl Group of type ['A', 2] (as a matrix group acting on the ambient space)
+        """
         return self.group.Weyl_Group_elements()
 
     def weyl_elt_action_on_state(self,M,state):
@@ -260,7 +271,7 @@ class GITProblem(object):
         L=[tuple(x) for x in L]
         return Set(L)
 
-    def intersection_set(self, I_i,ray_i,monomial_0):
+    def intersection_set(self, I_i, ray_i, monomial_0):
         returning_list=list()
         for monomial in I_i:
             if self.group.pairing(ray_i, monomial)>self.group.pairing(ray_i, monomial_0):
@@ -268,6 +279,17 @@ class GITProblem(object):
         return Set(returning_list)
 
     def compute_weights_in_all_unstable_states(self):
+        """
+            
+        EXAMPLES::
+                
+            sage: from Git import GITProblem 
+            sage: Phi = WeylCharacterRing("A2")
+            sage: representation= Phi(3,0,0)
+            sage: P=GITProblem(representation,label="Plane cubics")
+            sage: P.compute_weights_in_all_unstable_states()
+
+        """
         weights=list(self.weights)
         #lengths gives a Euclidean norm to the weights, so that we have a way of choosing one.
         lengths=[sum(list(map(lambda i : i * i, weight)))  for weight in weights]
@@ -292,6 +314,17 @@ class GITProblem(object):
         self.weights_in_all_unstable_states=self.weights_in_all_nonstable_states.difference(intersection)
         
     def H_dual_coordinates(self, weight):
+        """
+            
+        EXAMPLES::
+                    
+            sage: from Git import GITProblem 
+            sage: Phi = WeylCharacterRing("A2")
+            sage: representation= Phi(3,0,0)
+            sage: P=GITProblem(representation,label="Plane cubics")
+            sage: P.H_dual_coordinates((2,1))
+            (2, 1, 0)
+        """
         if self.Dynkin_type=='A':
             return self.L_coord_to_H_dual_conversion[weight]
         else:
@@ -299,6 +332,17 @@ class GITProblem(object):
 
         
     def generate_optimal_weights_non_stable(self):
+        """
+        
+        EXAMPLES::
+        
+            sage: from Git import GITProblem
+            sage: Phi = WeylCharacterRing("A2")
+            sage: representation= Phi(3,0,0)
+            sage: P=GITProblem(representation)
+            sage: P.generate_optimal_weights_non_stable()
+
+        """
         zero_weight_set=Set(tuple([tuple([0 for i in range(self.rank)])]))
         first_optimization=self.nonstable_weights_candidates.difference(zero_weight_set) #WARNING: This is a Python set, not a SAGE set
         second_optimization=set([]) #WARNING: This is a Python set, not a SAGE set
@@ -313,6 +357,17 @@ class GITProblem(object):
         self.optimized_weights_non_stable=Set(second_optimization)
         
     def destabilized_weights(self, OPS, all_weights_considered=False, strict_inequality=False, nonstable_weights_considered=True):
+        """
+        
+        EXAMPLES::
+            
+            sage: from Git import GITProblem
+            sage: Phi = WeylCharacterRing("A2")
+            sage: representation= Phi(3,0,0)
+            sage: P=GITProblem(representation)
+            sage: P.destabilized_weights(1)
+            {(1, -1), (-1, -2), (0, 0)}
+        """
         if all_weights_considered:
             weights_considered=self.weights
         elif nonstable_weights_considered:
@@ -335,7 +390,17 @@ class GITProblem(object):
         
 
     def solve_non_stable(self, Weyl_optimisation=False):
+        """
         
+        EXAMPLES::
+            
+            sage: from Git import GITProblem
+            sage: Phi = WeylCharacterRing("A2")
+            sage: representation= Phi(3,0,0)
+            sage: P=GITProblem(representation)
+            sage: P.solve_non_stable()
+            {{(1, 2), (2, 1), (0, 0), (-1, 1), (0, 3), (1, -1), (3, 0)}, {(1, 2), (-1, -2), (2, 1), (0, 0), (1, -1), (3, 0)}}
+        """
         #Reduce the number of sets of weights to be considered (set Q)
         if self.optimized_weights_non_stable is None:
             self.generate_optimal_weights_non_stable()
@@ -426,6 +491,17 @@ class GITProblem(object):
         return self.maximal_nonstable_states
             
     def solve_unstable(self, Weyl_optimisation=False):
+        """
+        
+        EXAMPLES::
+            
+            sage: from Git import GITProblem
+            sage: Phi = WeylCharacterRing("A2")
+            sage: representation= Phi(3,0,0)
+            sage: P=GITProblem(representation)
+            sage: P.solve_unstable()
+            {{(1, 2), (2, 1), (0, 3), (1, -1), (3, 0)}}
+        """
         candidate_weights_subsets=Set(list(self.unstable_weights_candidates.subsets(self.rank)))
         
         #We find the maximal unstable states
@@ -525,6 +601,17 @@ class GITProblem(object):
 # Need to add Weyl group optimization
 
     def solve_strictly_polystable(self):
+        """
+        
+        EXAMPLES::
+            
+            sage: from Git import GITProblem
+            sage: Phi = WeylCharacterRing("A2")
+            sage: representation= Phi(3,0,0)
+            sage: P=GITProblem(representation)
+            sage: P.solve_strictly_polystable()
+            {{(0, 0)}, {(-1, 1), (1, -1), (0, 0)}}
+        """
         # Do lines 2 and 3 of Alg. 3.27
         maximal_states=set()   #This is the set $P_{ps}^F$ in Alg. 3.27
         candidate_states=set() #This is the set $\mathcal{S}_p$ in Alg. 3.27
@@ -570,6 +657,30 @@ class GITProblem(object):
         return self.strictly_polystable_states
 
     def print_solution_nonstable(self):
+        """
+        
+        EXAMPLES::
+            
+            sage: from Git import GITProblem
+            sage: Phi = WeylCharacterRing("A2")
+            sage: representation= Phi(3,0,0)
+            sage: P=GITProblem(representation)
+            sage: P.solve_non_stable()
+            {{(1, 2), (2, 1), (0, 0), (-1, 1), (0, 3), (1, -1), (3, 0)}, {(1, 2), (-1, -2), (2, 1), (0, 0), (1, -1), (3, 0)}}
+            sage: P.print_solution_nonstable()
+            
+            
+            ***************************************
+            SOLUTION TO GIT PROBLEM: NONSTABLE LOCI
+            ***************************************
+            Group: A2
+            Representation  A2(3,0,0)
+            Set of maximal non-stable states:
+            (1) 1-PS = (1, 1, -2) yields a state with 7 characters
+            Maximal nonstable state={ (1, 2, 0), (2, 1, 0), (1, 1, 1), (0, 2, 1), (0, 3, 0), (2, 0, 1), (3, 0, 0) }
+            (2) 1-PS = (1, -1/2, -1/2) yields a state with 6 characters
+            Maximal nonstable state={ (1, 2, 0), (1, 0, 2), (2, 1, 0), (1, 1, 1), (2, 0, 1), (3, 0, 0) }
+        """
         if self.maximal_nonstable_states is None:
             print('ERROR: The problem is not yet solved. Call solve_non_stable() first and then call print_solution_nonstable()')
             return None
@@ -588,6 +699,19 @@ class GITProblem(object):
 
         
     def solution_nonstable_str(self):
+        """
+        
+        EXAMPLES::
+            
+            sage: from Git import GITProblem
+            sage: Phi = WeylCharacterRing("A2")
+            sage: representation= Phi(3,0,0)
+            sage: P=GITProblem(representation)
+            sage: P.solve_non_stable()
+            {{(1, 2), (2, 1), (0, 0), (-1, 1), (0, 3), (1, -1), (3, 0)}, {(1, 2), (-1, -2), (2, 1), (0, 0), (1, -1), (3, 0)}}
+            sage: P.solution_nonstable_str()
+            '\n\n***************************************\nSOLUTION TO GIT PROBLEM: NONSTABLE LOCI\n***************************************\nGroup: A2 Representation A2(3,0,0)\nSet of maximal non-stable states:\n(1) 1-PS = (1, 1, -2) yields a state with 7 characters\nMaximal nonstable state={(1, 2, 0), (2, 1, 0), (1, 1, 1), (0, 2, 1), (0, 3, 0), (2, 0, 1), (3, 0, 0)}\n(2) 1-PS = (1, -1/2, -1/2) yields a state with 6 characters\nMaximal nonstable state={(1, 2, 0), (1, 0, 2), (2, 1, 0), (1, 1, 1), (2, 0, 1), (3, 0, 0)}\n'
+        """
         if self.maximal_nonstable_states is None:
             return 'ERROR: The problem is not yet solved. Call solve_non_stable() first and then call print_solution_nonstable()'
         s='\n\n***************************************\nSOLUTION TO GIT PROBLEM: NONSTABLE LOCI\n***************************************\n'
@@ -605,6 +729,28 @@ class GITProblem(object):
 
     
     def print_solution_unstable(self):
+        """
+        
+        EXAMPLES::
+            
+            sage: from Git import GITProblem
+            sage: Phi = WeylCharacterRing("A2")
+            sage: representation = Phi(3,0,0)
+            sage: P=GITProblem(representation)
+            sage: P.solve_unstable()
+            {{(1, 2), (2, 1), (0, 3), (1, -1), (3, 0)}}
+            sage: P.print_solution_unstable()
+            
+            
+            **************************************
+            SOLUTION TO GIT PROBLEM: UNSTABLE LOCI
+            **************************************
+            Group: A2
+            Representation  A2(3,0,0)
+            Set of maximal unstable states:
+            (1) 1-PS = (1, 1/4, -5/4) yields a state with 5 characters
+            Maximal unstable state={ (1, 2, 0), (2, 1, 0), (0, 3, 0), (2, 0, 1), (3, 0, 0) }
+        """
         if self.maximal_unstable_states is None:
             print('ERROR: The problem is not yet solved. Call solve_unstable() first')
             return None
@@ -622,6 +768,19 @@ class GITProblem(object):
             i=i+1
 
     def solution_unstable_str(self):
+        """
+        
+        EXAMPLES::
+            
+            sage: from Git import GITProblem
+            sage: Phi = WeylCharacterRing("A2")
+            sage: representation= Phi(3,0,0)
+            sage: P=GITProblem(representation)
+            sage: P.solve_unstable()
+            {{(1, 2), (2, 1), (0, 3), (1, -1), (3, 0)}}
+            sage: P.solution_unstable_str()
+            '\n\n**************************************\nSOLUTION TO GIT PROBLEM: UNSTABLE LOCI\n**************************************\nGroup: A2 Representation A2(3,0,0)\nSet of maximal unstable states:\n(1) 1-PS = (1, 1/4, -5/4) yields a state with 5 characters\nMaximal unstable state={(1, 2, 0), (2, 1, 0), (0, 3, 0), (2, 0, 1), (3, 0, 0)}\n'
+        """
         if self.maximal_unstable_states is None:
             return 'ERROR: The problem is not yet solved. Call solve_unstable() first'
         s='\n\n**************************************\nSOLUTION TO GIT PROBLEM: UNSTABLE LOCI\n**************************************\n'
@@ -639,6 +798,30 @@ class GITProblem(object):
 
             
     def print_solution_strictly_polystable(self):
+        """
+        
+        EXAMPLES::
+            
+            sage: from Git import GITProblem
+            sage: Phi = WeylCharacterRing("A2")
+            sage: representation= Phi(3,0,0)
+            sage: P=GITProblem(representation)
+            sage: P.solve_strictly_polystable()
+            {{(0, 0)}, {(-1, 1), (1, -1), (0, 0)}}
+            sage: P.print_solution_strictly_polystable()
+            
+            
+            *************************************************************
+            SOLUTION TO GIT PROBLEM: STRICTLY POLYSTABLE LOCI
+            *************************************************************
+            Group: A2
+            Representation  A2(3,0,0)
+            Set of strictly T-polystable states:
+            (1) A state with 1 characters
+            Strictly polystable state={ (1, 1, 1) }
+            (2) A state with 3 characters
+            Strictly polystable state={ (0, 2, 1), (2, 0, 1), (1, 1, 1) }
+        """
         if self.strictly_polystable_states is None:
             print ('ERROR: The problem is not yet solved. Call solve_unstable() and solve_strictly_polystable() and then call print_solution_strictly_polystable()')
             return None
@@ -656,6 +839,19 @@ class GITProblem(object):
             i=i+1
 
     def solution_strictly_polystable_str(self):
+        """
+        
+        EXAMPLES::
+            
+            sage: from Git import GITProblem
+            sage: Phi = WeylCharacterRing("A2")
+            sage: representation= Phi(3,0,0)
+            sage: P=GITProblem(representation)
+            sage: P.solve_strictly_polystable()
+            {{(0, 0)}, {(-1, 1), (1, -1), (0, 0)}}   
+            sage: P.solution_strictly_polystable_str()
+            '\n\n*************************************************************\nSOLUTION TO GIT PROBLEM: STRICTLY POLYSTABLE LOCI\n*************************************************************\nGroup: A2 Representation A2(3,0,0)\nSet of strictly polystable states:\n(1) A state with 1 characters\nStrictly polystable state={(1, 1, 1)}\n(2) A state with 3 characters\nStrictly polystable state={(0, 2, 1), (2, 0, 1), (1, 1, 1)}\n'
+        """
         if self.strictly_polystable_states is None:
             return 'ERROR: The problem is not yet solved. Call solve_strictly_polystable() first'
         s='\n\n*************************************************************\nSOLUTION TO GIT PROBLEM: STRICTLY POLYSTABLE LOCI\n*************************************************************\n'
@@ -674,6 +870,56 @@ class GITProblem(object):
             
 
     def print_solution(self):
+        """
+        
+        EXAMPLES::
+            
+            sage: from Git import GITProblem
+            sage: Phi = WeylCharacterRing("A2")
+            sage: representation= Phi(3,0,0)
+            sage: P=GITProblem(representation)
+            sage: P.solve_non_stable()
+            {{(1, 2), (2, 1), (0, 0), (-1, 1), (0, 3), (1, -1), (3, 0)}, {(1, 2), (-1, -2), (2, 1), (0, 0), (1, -1), (3, 0)}}
+            sage: P.solve_unstable()
+            {{(1, 2), (2, 1), (0, 3), (1, -1), (3, 0)}}
+            sage: P.solve_strictly_polystable()
+            {{(0, 0)}, {(-1, 1), (1, -1), (0, 0)}}            
+            sage: P.print_solution()
+            
+            
+            ***************************************
+            SOLUTION TO GIT PROBLEM: NONSTABLE LOCI
+            ***************************************
+            Group: A2
+            Representation  A2(3,0,0)
+            Set of maximal non-stable states:
+            (1) 1-PS = (1, 1, -2) yields a state with 7 characters
+            Maximal nonstable state={ (1, 2, 0), (2, 1, 0), (1, 1, 1), (0, 2, 1), (0, 3, 0), (2, 0, 1), (3, 0, 0) }
+            (2) 1-PS = (1, -1/2, -1/2) yields a state with 6 characters
+            Maximal nonstable state={ (1, 2, 0), (1, 0, 2), (2, 1, 0), (1, 1, 1), (2, 0, 1), (3, 0, 0) }
+            
+            
+            **************************************
+            SOLUTION TO GIT PROBLEM: UNSTABLE LOCI
+            **************************************
+            Group: A2
+            Representation  A2(3,0,0)
+            Set of maximal unstable states:
+            (1) 1-PS = (1, 1/4, -5/4) yields a state with 5 characters
+            Maximal unstable state={ (1, 2, 0), (2, 1, 0), (0, 3, 0), (2, 0, 1), (3, 0, 0) }
+            
+            
+            *************************************************************
+            SOLUTION TO GIT PROBLEM: STRICTLY POLYSTABLE LOCI
+            *************************************************************
+            Group: A2
+            Representation  A2(3,0,0)
+            Set of strictly T-polystable states:
+            (1) A state with 1 characters
+            Strictly polystable state={ (1, 1, 1) }
+            (2) A state with 3 characters
+            Strictly polystable state={ (0, 2, 1), (2, 0, 1), (1, 1, 1) }
+        """
         self.print_solution_nonstable()
         self.print_solution_unstable()
         self.print_solution_strictly_polystable()
