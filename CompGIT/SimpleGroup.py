@@ -301,7 +301,7 @@ class SimpleGroup(object):
         [ 1 -1  0]
         [ 0  1 -1]
         [ 0  0  1]
-    
+        
     """
     def __init__(self, Dynkin_type, dim):
         self.Dynkin_type=Dynkin_type
