@@ -135,8 +135,8 @@ class GITProblem(object):
         sage: P.solve_non_stable(Weyl_optimisation=True)
         {{(1, 2), (2, 1), (0, 0), (-1, 1), (0, 3), (1, -1), (3, 0)}, {(1, 2), (-1, -2), (2, 1), (0, 0), (1, -1), (3, 0)}}
         sage: P.print_solution_nonstable()
-                
-                
+        <BLANKLINE>                
+        <BLANKLINE>                
         ***************************************
         SOLUTION TO GIT PROBLEM: NONSTABLE LOCI
         ***************************************
@@ -151,8 +151,8 @@ class GITProblem(object):
         sage: P.solve_unstable(Weyl_optimisation=True)
         {{(1, 2), (2, 1), (0, 3), (1, -1), (3, 0)}}
         sage: P.print_solution_unstable()
-                
-                
+        <BLANKLINE>       
+        <BLANKLINE>                
         **************************************
         SOLUTION TO GIT PROBLEM: UNSTABLE LOCI
         **************************************
@@ -165,8 +165,8 @@ class GITProblem(object):
         sage: P.solve_strictly_polystable()
         {{(0, 0)}, {(-1, 1), (1, -1), (0, 0)}}
         sage: P.print_solution_strictly_polystable()
-                
-        
+        <BLANKLINE>             
+        <BLANKLINE>        
         *************************************************************
         SOLUTION TO GIT PROBLEM: STRICTLY POLYSTABLE LOCI
         *************************************************************
@@ -668,8 +668,8 @@ class GITProblem(object):
             sage: P.solve_non_stable()
             {{(1, 2), (2, 1), (0, 0), (-1, 1), (0, 3), (1, -1), (3, 0)}, {(1, 2), (-1, -2), (2, 1), (0, 0), (1, -1), (3, 0)}}
             sage: P.print_solution_nonstable()
-            
-            
+            <BLANKLINE>           
+            <BLANKLINE>            
             ***************************************
             SOLUTION TO GIT PROBLEM: NONSTABLE LOCI
             ***************************************
@@ -740,8 +740,8 @@ class GITProblem(object):
             sage: P.solve_unstable()
             {{(1, 2), (2, 1), (0, 3), (1, -1), (3, 0)}}
             sage: P.print_solution_unstable()
-            
-            
+            <BLANKLINE>
+            <BLANKLINE>            
             **************************************
             SOLUTION TO GIT PROBLEM: UNSTABLE LOCI
             **************************************
@@ -809,8 +809,8 @@ class GITProblem(object):
             sage: P.solve_strictly_polystable()
             {{(0, 0)}, {(-1, 1), (1, -1), (0, 0)}}
             sage: P.print_solution_strictly_polystable()
-            
-            
+            <BLANKLINE>            
+            <BLANKLINE>            
             *************************************************************
             SOLUTION TO GIT PROBLEM: STRICTLY POLYSTABLE LOCI
             *************************************************************
@@ -885,8 +885,8 @@ class GITProblem(object):
             sage: P.solve_strictly_polystable()
             {{(0, 0)}, {(-1, 1), (1, -1), (0, 0)}}            
             sage: P.print_solution()
-            
-            
+            <BLANKLINE>
+            <BLANKLINE>
             ***************************************
             SOLUTION TO GIT PROBLEM: NONSTABLE LOCI
             ***************************************
@@ -897,8 +897,8 @@ class GITProblem(object):
             Maximal nonstable state={ (1, 2, 0), (2, 1, 0), (1, 1, 1), (0, 2, 1), (0, 3, 0), (2, 0, 1), (3, 0, 0) }
             (2) 1-PS = (1, -1/2, -1/2) yields a state with 6 characters
             Maximal nonstable state={ (1, 2, 0), (1, 0, 2), (2, 1, 0), (1, 1, 1), (2, 0, 1), (3, 0, 0) }
-            
-            
+            <BLANKLINE>
+            <BLANKLINE>
             **************************************
             SOLUTION TO GIT PROBLEM: UNSTABLE LOCI
             **************************************
@@ -907,8 +907,8 @@ class GITProblem(object):
             Set of maximal unstable states:
             (1) 1-PS = (1, 1/4, -5/4) yields a state with 5 characters
             Maximal unstable state={ (1, 2, 0), (2, 1, 0), (0, 3, 0), (2, 0, 1), (3, 0, 0) }
-            
-            
+            <BLANKLINE>
+            <BLANKLINE>
             *************************************************************
             SOLUTION TO GIT PROBLEM: STRICTLY POLYSTABLE LOCI
             *************************************************************
