@@ -365,6 +365,8 @@ class GITProblem(object):
         
     def destabilized_weights(self, OPS, all_weights_considered=False, strict_inequality=False, nonstable_weights_considered=True):
         """
+        Given a one-parameter subgroup (OPS) designated by a vector (v_1, ... v_n),
+        returns the destabilized weights of the group action  
         
         EXAMPLES::
             
@@ -372,8 +374,8 @@ class GITProblem(object):
             sage: Phi = WeylCharacterRing("A2")
             sage: representation= Phi(3,0,0)
             sage: P=GITProblem(representation)
-            sage: P.destabilized_weights(1)
-            {(1, -1), (-1, -2), (0, 0)}
+            sage: P.destabilized_weights(1,2,-3)
+            {(1, -1), (-1, -2), (2, 1), (3, 0)}
         """
         if all_weights_considered:
             weights_considered = self.weights
