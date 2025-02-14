@@ -17,6 +17,23 @@ For a quick introduction to GIT we recommend [the notes by Richard Thomas](https
 
 The aforementioned paper by Gallardo et.al. considers the more general case of projective varieties by a reductive group. However, in most applications the group is always simple or semisimple. This has the advantage that we can use existing libraries in Sagemath for simple groups.
 
+# Dependencies 
+
+* SageMath version 9.0 or later and the SageMath standard library, 
+* Python version 3.9 or later
+
+The Sage installation guide is available [here](https://doc.sagemath.org/html/en/installation/index.html)
+
+Commands are run within a console, such as the SageMath Shell on linux or terminal on MacOS. Once a sage session is launched, we include the prompt ‘sage:’ in our code.  
+ 
+# Installation with pip 
+
+To add CompGIT to your SageMath installation, first download CompGIT as a ```.zip``` file from the [CompGIT GitHub homepage](https://github.com/Robbie-H/CompGIT) and then run the console command 
+
+```
+sage -pip install (location of CompGIT)
+```
+
 # Example 
 
 To use CompGIT, start a sage session and type 
@@ -66,7 +83,6 @@ Maximal nonstable state={ (1, 2, 0), (2, 1, 0), (1, 1, 1), (0, 2, 1), (0, 3, 0),
 Maximal nonstable state={ (1, 2, 0), (1, 0, 2), (2, 1, 0), (1, 1, 1), (2, 0, 1), (3, 0, 0) }
 ```
 
-
 # Outputs 
 
 The output states the Dynkin type by the notation Xn, where X is either A, B, C or D, and n is a positive integer. In the example above, A2 corresponds to the special linear group $SL_3$. The output will also state the highest weight(s) of the group action. In the example above, $SL_3$ acts on a 3-dimensional weight system, with highest weight 3𝜔_1.
@@ -76,23 +92,6 @@ Outputs can also state a list of unstable and strictly polystable loci. Essentia
 For each one-parameter subgroup, a state is listed. This state will contain all the weights of the representation which are non-stable, unstable or strictly polystable with respect to the one-parameter subgroup. The program (and the results in the paper) guarantee that any 𝑇-non-stable (or unstable, strictly polystable, respectively) point in 𝑋 must belong to one of these states. 
 
 An example for cubic surfaces is worked out in the paper. In it, one can read how to interpret this output to find all stable and strictly polystable points. More examples can be found at https://jesusmartinezgarcia.net/git/ or https://faculty.fordham.edu/dswinarski/ComputationalGIT/ 
-
-# Dependencies 
-
-* SageMath version 9.0 or later and the SageMath standard library, 
-* Python version 3.9 or later
-
-The Sage installation guide is available [here](https://doc.sagemath.org/html/en/installation/index.html)
-
-Commands are run within a console, such as the SageMath Shell on linux or terminal on MacOS. Once a sage session is launched, we include the prompt ‘sage:’ in our code.  
- 
-# Installation with pip 
-
-To add CompGIT to your SageMath installation, first download CompGIT as a ```.zip``` file from the [CompGIT GitHub homepage](https://github.com/Robbie-H/CompGIT) and then run the console command 
-
-```
-sage -pip install (location of CompGIT)
-```
 
 # Running doctests
 
