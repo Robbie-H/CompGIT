@@ -77,6 +77,23 @@ For each one-parameter subgroup, a state is listed. This state will contain all 
 
 An example for cubic surfaces is worked out in the paper. In it, one can read how to interpret this output to find all stable and strictly polystable points. More examples can be found at https://jesusmartinezgarcia.net/git/ or https://faculty.fordham.edu/dswinarski/ComputationalGIT/ 
 
+# Dependencies 
+
+* SageMath version 9.0 or later and the SageMath standard library, 
+* Python version 3.9 or later
+
+The Sage installation guide is available [here](https://doc.sagemath.org/html/en/installation/index.html)
+
+Commands are run within a console, such as the SageMath Shell on linux or terminal on MacOS. Once a sage session is launched, we include the prompt ‘sage:’ in our code.  
+ 
+# Installation with pip 
+
+To add CompGIT to your SageMath installation, first download CompGIT as a ```.zip``` file from the [CompGIT GitHub homepage](https://github.com/Robbie-H/CompGIT) and then run the console command 
+
+```
+sage -pip install (location of CompGIT)
+```
+
 # Running doctests
 
 To run doctests in CompGIT, use the following command within the CompGIT repository: 
@@ -92,10 +109,6 @@ See also the sagemath dcoumentation on doctests available [here](https://doc.sag
 All tests passed!
 ----------------------------------------------------------------------
 ```
-
-# Dependencies 
- - Python version 3.9 or later 
- - The SageMath standard library 
 
 # License
 CompGIT is distributed under the terms of the GNU General Public License v3.0. 
