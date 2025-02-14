@@ -63,7 +63,7 @@ def one_param_subgroup(data, type_A=False):
     return OneParamSubgroup(QQ**len(v), v)
 
 
-def A_coord_change_from_T_to_H(dim,x,y):
+def A_coord_change_from_T_to_H(dim,x, y):
     """
     
     Examples::
@@ -83,7 +83,7 @@ def A_coord_change_from_T_to_H(dim,x,y):
         return 0
     
 
-def inverse_of_upper_triangular(dim,x,y):
+def inverse_of_upper_triangular(dim, x, y):
     """
     
     Examples::
@@ -103,7 +103,7 @@ def inverse_of_upper_triangular(dim,x,y):
         return 0
 
 
-def A_cone_basis_constructor(dim, x,y):
+def A_cone_basis_constructor(dim, x, y):
     """
     
     Examples::
@@ -121,7 +121,7 @@ def A_cone_basis_constructor(dim, x,y):
         return -y-1
 
 
-def A_cone_basis_constructor_from_T(dim,x,y):
+def A_cone_basis_constructor_from_T(dim, x, y):
     """
     
     Examples::
@@ -134,12 +134,12 @@ def A_cone_basis_constructor_from_T(dim,x,y):
         6
     """
     if x<=y:
-        return (x+1)*(dim-y)
+        return (x+1) * (dim-y)
     else:
-        return (y+1)*(dim-x)
+        return (y+1) * (dim-x)
 
 
-def A_T_basis_constructor_from_gamma(dim,x,y):
+def A_T_basis_constructor_from_gamma(dim, x, y):
     """
     
     Examples::
@@ -157,7 +157,7 @@ def A_T_basis_constructor_from_gamma(dim,x,y):
         return -1/(dim+1)
 
 
-def D_cone_basis_constructor(dim, x,y):
+def D_cone_basis_constructor(dim, x, y):
     """
     
     Examples::
@@ -177,7 +177,7 @@ def D_cone_basis_constructor(dim, x,y):
         return 0
 
     
-def D_T_basis_constructor_from_gamma(dim,x,y):
+def D_T_basis_constructor_from_gamma(dim, x, y):
     """
     
     Examples::
@@ -205,7 +205,7 @@ def D_T_basis_constructor_from_gamma(dim,x,y):
         return 0
 
 
-def B_fundamental_weight_constructor(dim,x,y):
+def B_fundamental_weight_constructor(dim, x, y):
     """
     
     Examples::
@@ -225,7 +225,7 @@ def B_fundamental_weight_constructor(dim,x,y):
         return 0
 
 
-def D_fundamental_weight_constructor(dim,x,y):
+def D_fundamental_weight_constructor(dim, x, y):
     """
     
     Examples::
