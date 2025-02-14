@@ -835,7 +835,7 @@ class GITProblem(object):
             Strictly polystable state={ (0, 2, 1), (2, 0, 1), (1, 1, 1) }
         """
         if self.strictly_polystable_states is None:
-            print ('ERROR: The problem is not yet solved. Call solve_unstable() and solve_strictly_polystable() and then call print_solution_strictly_polystable()')
+            print ('ERROR: The problem is not yet solved. Call solve_unstable() first. Then, call solve_strictly_polystable() and print_solution_strictly_polystable().')
             return None
         print ('\n\n*************************************************************\nSOLUTION TO GIT PROBLEM: STRICTLY POLYSTABLE LOCI\n*************************************************************')
         print ('Group: {s}{d}'.format(s=self.Dynkin_type, d=self.rank))
