@@ -871,7 +871,7 @@ class GITProblem(object):
             '\n\n*************************************************************\nSOLUTION TO GIT PROBLEM: STRICTLY POLYSTABLE LOCI\n*************************************************************\nGroup: A2 Representation A2(3,0,0)\nSet of strictly polystable states:\n(1) A state with 1 characters\nStrictly polystable state={(1, 1, 1)}\n(2) A state with 3 characters\nStrictly polystable state={(0, 2, 1), (2, 0, 1), (1, 1, 1)}\n'
         """
         if self.strictly_polystable_states is None:
-            return 'ERROR: The problem is not yet solved. Call solve_strictly_polystable() first'
+            return 'ERROR: The problem is not yet solved. Call solve_unstable() first. Then, call solve_strictly_polystable() and solution_strictly_polystable_str().'
         s='\n\n*************************************************************\nSOLUTION TO GIT PROBLEM: STRICTLY POLYSTABLE LOCI\n*************************************************************\n'
         s=s+'Group: {s}{d}'.format(s=self.Dynkin_type, d=self.rank)
         s=s+' Representation '+str(self.rep)+'\n'
