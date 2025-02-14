@@ -77,6 +77,21 @@ For each one-parameter subgroup, a state is listed. This state will contain all 
 
 An example for cubic surfaces is worked out in the paper. In it, one can read how to interpret this output to find all stable and strictly polystable points. More examples can be found at https://jesusmartinezgarcia.net/git/ or https://faculty.fordham.edu/dswinarski/ComputationalGIT/ 
 
+# Running doctests
+
+To run doctests in CompGIT, use the following command within the CompGIT repository: 
+
+```
+sage -t .
+```
+
+See also the sagemath dcoumentation on doctests available [here](https://doc.sagemath.org/html/en/developer/doctesting.html). If doctests pass, you will recieve the message 
+
+```
+----------------------------------------------------------------------
+All tests passed!
+----------------------------------------------------------------------
+```
 
 # Dependencies 
  - Python version 3.9 or later 
