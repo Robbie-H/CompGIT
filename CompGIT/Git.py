@@ -55,6 +55,7 @@ def weights_matrix(weights_set):
 
 def averageWeight(x):
     """
+    Take a set of vectors (v^i_1, ... v^i_n) and return the average vector, with j^th entry ( v^1_j + ... + v^m_j ) / m
     
     EXAMPLES::
         
@@ -124,6 +125,9 @@ def timedRunProblem(representation,label='', separateOutputs=False):
 
 class GITProblem(object):
     """
+    Takes a representation of the action of a simple group, with designated weights, 
+    and returns the non-stable, unstable and strictly polystable loci. 
+    
     
     EXAMPLES::
                  
@@ -248,7 +252,8 @@ class GITProblem(object):
 
     def Weyl_group(self):
         """
-            
+        Returns the Weyl group of a simple group.  
+        
         EXAMPLES::
                 
             sage: from Git import GITProblem 
@@ -279,8 +284,7 @@ class GITProblem(object):
         return Set(returning_list)
 
     def compute_weights_in_all_unstable_states(self):
-        """
-            
+        """ 
         EXAMPLES::
                 
             sage: from Git import GITProblem 
@@ -315,7 +319,10 @@ class GITProblem(object):
         
     def H_dual_coordinates(self, weight):
         """
-            
+        Returns H-dual coordinates, on the hom-spaces Hom(T, GG_m) of characters.
+        H-coordinates, on the hom-spaces Hom(GG_m , T) of one parameter subgroups, are given by the matrices H_i 
+        with only one non-zero element (i, i) of unitary size.    
+        
         EXAMPLES::
                     
             sage: from Git import GITProblem 
@@ -354,7 +361,7 @@ class GITProblem(object):
                     break
             if good:
                 second_optimization.add(candidate)
-        self.optimized_weights_non_stable=Set(second_optimization)
+        self.optimized_weights_non_stable = Set(second_optimization)
         
     def destabilized_weights(self, OPS, all_weights_considered=False, strict_inequality=False, nonstable_weights_considered=True):
         """
@@ -391,6 +398,8 @@ class GITProblem(object):
 
     def solve_non_stable(self, Weyl_optimisation=False):
         """
+        Returns the non-stable locus of the group action, in the format {{(a_1, ..., a_r), ... }}, 
+        where a_1 is the non-stable of weight associated to the first coordinate of weight space, and so on.  
         
         EXAMPLES::
             
@@ -492,6 +501,8 @@ class GITProblem(object):
             
     def solve_unstable(self, Weyl_optimisation=False):
         """
+        Returns the unstable locus of the group action, in the format {{(a_1, ..., a_r), ... }}, 
+        where a_1 is the non-stable of weight associated to the first coordinate of weight space, and so on. 
         
         EXAMPLES::
             
@@ -602,6 +613,8 @@ class GITProblem(object):
 
     def solve_strictly_polystable(self):
         """
+        Returns the strictly polystable locus of the group action, in the format {{(a_1, ..., a_r), ... }}, 
+        where a_1 is the non-stable of weight associated to the first coordinate of weight space, and so on. 
         
         EXAMPLES::
             
