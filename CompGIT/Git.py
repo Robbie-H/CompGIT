@@ -609,8 +609,14 @@ class GITProblem(object):
             sage: Phi = WeylCharacterRing("A2")
             sage: representation= Phi(3,0,0)
             sage: P=GITProblem(representation)
+            sage: P.solve_non_stable(Weyl_optimisation=True)
+            {{(1, 2), (2, 1), (0, 0), (-1, 1), (0, 3), (1, -1), (3, 0)}, {(1, 2), (-1, -2), (2, 1), (0, 0), (1, -1), (3, 0)}}
+            sage: P.solve_non_stable()
+            {{(1, 2), (2, 1), (0, 0), (-1, 1), (0, 3), (1, -1), (3, 0)}, {(1, 2), (-1, -2), (2, 1), (0, 0), (1, -1), (3, 0)}}
+            sage: P.solve_unstable()
+            {{(1, 2), (2, 1), (0, 3), (1, -1), (3, 0)}}
             sage: P.solve_strictly_polystable()
-            {{(0, 0)}, {(-1, 1), (1, -1), (0, 0)}}
+            {{(0, 0)}, {(-1, 1), (1, -1), (0, 0)}}  
         """
         # Do lines 2 and 3 of Alg. 3.27
         maximal_states=set()   #This is the set $P_{ps}^F$ in Alg. 3.27
@@ -806,8 +812,14 @@ class GITProblem(object):
             sage: Phi = WeylCharacterRing("A2")
             sage: representation= Phi(3,0,0)
             sage: P=GITProblem(representation)
+            sage: P.solve_non_stable(Weyl_optimisation=True)
+            {{(1, 2), (2, 1), (0, 0), (-1, 1), (0, 3), (1, -1), (3, 0)}, {(1, 2), (-1, -2), (2, 1), (0, 0), (1, -1), (3, 0)}}
+            sage: P.solve_non_stable()
+            {{(1, 2), (2, 1), (0, 0), (-1, 1), (0, 3), (1, -1), (3, 0)}, {(1, 2), (-1, -2), (2, 1), (0, 0), (1, -1), (3, 0)}}
+            sage: P.solve_unstable()
+            {{(1, 2), (2, 1), (0, 3), (1, -1), (3, 0)}}
             sage: P.solve_strictly_polystable()
-            {{(0, 0)}, {(-1, 1), (1, -1), (0, 0)}}
+            {{(0, 0)}, {(-1, 1), (1, -1), (0, 0)}}  
             sage: P.print_solution_strictly_polystable()
             <BLANKLINE>            
             <BLANKLINE>            
@@ -847,8 +859,14 @@ class GITProblem(object):
             sage: Phi = WeylCharacterRing("A2")
             sage: representation= Phi(3,0,0)
             sage: P=GITProblem(representation)
+            sage: P.solve_non_stable(Weyl_optimisation=True)
+            {{(1, 2), (2, 1), (0, 0), (-1, 1), (0, 3), (1, -1), (3, 0)}, {(1, 2), (-1, -2), (2, 1), (0, 0), (1, -1), (3, 0)}}
+            sage: P.solve_non_stable()
+            {{(1, 2), (2, 1), (0, 0), (-1, 1), (0, 3), (1, -1), (3, 0)}, {(1, 2), (-1, -2), (2, 1), (0, 0), (1, -1), (3, 0)}}
+            sage: P.solve_unstable()
+            {{(1, 2), (2, 1), (0, 3), (1, -1), (3, 0)}}
             sage: P.solve_strictly_polystable()
-            {{(0, 0)}, {(-1, 1), (1, -1), (0, 0)}}   
+            {{(0, 0)}, {(-1, 1), (1, -1), (0, 0)}}    
             sage: P.solution_strictly_polystable_str()
             '\n\n*************************************************************\nSOLUTION TO GIT PROBLEM: STRICTLY POLYSTABLE LOCI\n*************************************************************\nGroup: A2 Representation A2(3,0,0)\nSet of strictly polystable states:\n(1) A state with 1 characters\nStrictly polystable state={(1, 1, 1)}\n(2) A state with 3 characters\nStrictly polystable state={(0, 2, 1), (2, 0, 1), (1, 1, 1)}\n'
         """
