@@ -1,3 +1,14 @@
+"""
+Simple Groups
+
+AUTHORS:
+
+- Patricio Gallardo (2023): initial algorithms
+- Jesus Martinez-Garcia (2023-25): initial algorithms and package version
+- Han-Bon Moon (2023): initial algorithms
+- David Swinarski (2023): initial algorithms
+- Robert Hanson (2025): package version
+"""
 from sage.modules.vector_rational_dense import Vector_rational_dense
 from sage.matrix.constructor import matrix
 from sage.rings.rational_field import QQ
@@ -12,30 +23,47 @@ class OneParamSubgroup(Vector_rational_dense):
         Vector_rational_dense.__init__(self, parent, value)
 
 
-def upper_triangular_entries(dim, x, y):
+def upper_triangular_entries(rnk, x, y):
     """
+    Constructor for a square matrix with entries equal to 1 if they are in the diagonal or above the diagonal and 0 elsewhere.
+    The function returns 1 for entry (x,y) if y>=x and 0 otherwise.
+    An example of how to combine it with a lambda function is provided.
     
-    
-    EXAMPLES:
+    EXAMPLES::
         
         sage: from SimpleGroup import upper_triangular_entries
-        sage: upper_triangular_entries(2, [1, 2], [2,1])
+        sage: upper_triangular_entries(2, 0, 1)
         1
+        sage: upper_triangular_entries(2, 1, 0)
+        0
+        sage: print(matrix(QQ, 3, 3, lambda x,y: upper_triangular_entries(3,x,y)))
+        [1 1 1]
+        [0 1 1]
+        [0 0 1]
     """
     return 1 if y >= x else 0
 
 
-def lower_triangular_entries(dim, x, y):
+def lower_triangular_entries(rnk, x, y):
     """
+    Constructor for a square matrix with entries equal to 1 if they are in the diagonal or below the diagonal and 0 elsewhere.
+    The function returns 1 for entry (x,y) if y<=x and 0 otherwise.
+    An example of how to combine it with a lambda function is provided.
     
-    
-    EXAMPLES:
+    EXAMPLES::
         
         sage: from SimpleGroup import lower_triangular_entries
-        sage: lower_triangular_entries(2, [1, 2], [2,1])
+        sage: lower_triangular_entries(2, 0, 1)
         0
+        sage: lower_triangular_entries(2, 1, 0)
+        1
+        sage: print(matrix(QQ, 3, 3, lambda x,y: lower_triangular_entries(3,x,y)))
+        [1 0 0]
+        [1 1 0]
+        [1 1 1]
+
     """
-    return upper_triangular_entries(dim, y, x)
+    return upper_triangular_entries(rnk, y, x)
 
 
 def one_param_subgroup(data, type_A=False):
@@ -63,7 +91,7 @@ def one_param_subgroup(data, type_A=False):
     return OneParamSubgroup(QQ**len(v), v)
 
 
-def A_coord_change_from_T_to_H(dim,x, y):
+def A_coord_change_from_T_to_H(rnk,x, y):
     """
     
     Examples::
@@ -71,8 +99,8 @@ def A_coord_change_from_T_to_H(dim,x, y):
         sage: from SimpleGroup import A_coord_change_from_T_to_H
         sage: x=2
         sage: y=3
-        sage: dim=5
-        sage: A_coord_change_from_T_to_H(dim,x,y)
+        sage: rnk=5
+        sage: A_coord_change_from_T_to_H(rnk,x,y)
         0 
     """
     if x==y:
@@ -83,7 +111,7 @@ def A_coord_change_from_T_to_H(dim,x, y):
         return 0
     
 
-def inverse_of_upper_triangular(dim, x, y):
+def inverse_of_upper_triangular(rnk, x, y):
     """
     
     Examples::
@@ -91,8 +119,8 @@ def inverse_of_upper_triangular(dim, x, y):
         sage: from SimpleGroup import inverse_of_upper_triangular
         sage: x=2
         sage: y=3
-        sage: dim=5
-        sage: inverse_of_upper_triangular(dim,x,y)
+        sage: rnk=5
+        sage: inverse_of_upper_triangular(rnk,x,y)
         -1
     """
     if x==y:
@@ -103,7 +131,7 @@ def inverse_of_upper_triangular(dim, x, y):
         return 0
 
 
-def A_cone_basis_constructor(dim, x, y):
+def A_cone_basis_constructor(rnk, x, y):
     """
     
     Examples::
@@ -111,17 +139,17 @@ def A_cone_basis_constructor(dim, x, y):
         sage: from SimpleGroup import A_cone_basis_constructor
         sage: x=2
         sage: y=3
-        sage: dim=5
-        sage: A_cone_basis_constructor(dim,x,y)
+        sage: rnk=5
+        sage: A_cone_basis_constructor(rnk,x,y)
         2
     """
     if x<=y:
-        return dim-y
+        return rnk-y
     else:
         return -y-1
 
 
-def A_cone_basis_constructor_from_T(dim, x, y):
+def A_cone_basis_constructor_from_T(rnk, x, y):
     """
     
     Examples::
@@ -129,17 +157,17 @@ def A_cone_basis_constructor_from_T(dim, x, y):
         sage: from SimpleGroup import A_cone_basis_constructor_from_T
         sage: x=2
         sage: y=3
-        sage: dim=5
-        sage: A_cone_basis_constructor_from_T(dim,x,y)
+        sage: rnk=5
+        sage: A_cone_basis_constructor_from_T(rnk,x,y)
         6
     """
     if x<=y:
-        return (x+1) * (dim-y)
+        return (x+1) * (rnk-y)
     else:
-        return (y+1) * (dim-x)
+        return (y+1) * (rnk-x)
 
 
-def A_T_basis_constructor_from_gamma(dim, x, y):
+def A_T_basis_constructor_from_gamma(rnk, x, y):
     """
     
     Examples::
@@ -147,17 +175,17 @@ def A_T_basis_constructor_from_gamma(dim, x, y):
         sage: from SimpleGroup import A_T_basis_constructor_from_gamma
         sage: x=2
         sage: y=3
-        sage: dim=5
-        sage: A_T_basis_constructor_from_gamma(dim,x,y)
+        sage: rnk=5
+        sage: A_T_basis_constructor_from_gamma(rnk,x,y)
         -1/6
     """
     if x == y:
-        return 2/(dim+1)
+        return 2/(rnk+1)
     if x == y+1 or x == y-1:
-        return -1/(dim+1)
+        return -1/(rnk+1)
 
 
-def D_cone_basis_constructor(dim, x, y):
+def D_cone_basis_constructor(rnk, x, y):
     """
     
     Examples::
@@ -165,19 +193,19 @@ def D_cone_basis_constructor(dim, x, y):
         sage: from SimpleGroup import D_cone_basis_constructor
         sage: x=2
         sage: y=3
-        sage: dim=5
-        sage: D_cone_basis_constructor(dim,x,y)
+        sage: rnk=5
+        sage: D_cone_basis_constructor(rnk,x,y)
         1
     """
     if x<=y: # Index starting from 0?
         return 1
-    elif x == dim-1 and y == dim-2:
+    elif x == rnk-1 and y == rnk-2:
         return -1
     else:
         return 0
 
     
-def D_T_basis_constructor_from_gamma(dim, x, y):
+def D_T_basis_constructor_from_gamma(rnk, x, y):
     """
     
     Examples::
@@ -185,27 +213,27 @@ def D_T_basis_constructor_from_gamma(dim, x, y):
         sage: from SimpleGroup import D_T_basis_constructor_from_gamma
         sage: x=2
         sage: y=3
-        sage: dim=5
-        sage: D_T_basis_constructor_from_gamma(dim,x,y)
+        sage: rnk=5
+        sage: D_T_basis_constructor_from_gamma(rnk,x,y)
         -1
     """
     if x == y:
-        if x < dim-2:
+        if x < rnk-2:
             return 1
         else:
             return 1/2
     elif x == y-1:
-        if x < dim-2:
+        if x < rnk-2:
             return -1
         else:
             return -1/2
-    elif x == dim-1 and y == dim-2:
+    elif x == rnk-1 and y == rnk-2:
         return 1/2
     else:
         return 0
 
 
-def B_fundamental_weight_constructor(dim, x, y):
+def B_fundamental_weight_constructor(rnk, x, y):
     """
     
     Examples::
@@ -213,11 +241,11 @@ def B_fundamental_weight_constructor(dim, x, y):
         sage: from SimpleGroup import B_fundamental_weight_constructor
         sage: x=2
         sage: y=3
-        sage: dim=5
-        sage: B_fundamental_weight_constructor(dim,x,y)
+        sage: rnk=5
+        sage: B_fundamental_weight_constructor(rnk,x,y)
         1
     """
-    if y == dim-1:
+    if y == rnk-1:
         return 1/2
     elif x <= y:
         return 1
@@ -225,7 +253,7 @@ def B_fundamental_weight_constructor(dim, x, y):
         return 0
 
 
-def D_fundamental_weight_constructor(dim, x, y):
+def D_fundamental_weight_constructor(rnk, x, y):
     """
     
     Examples::
@@ -233,16 +261,16 @@ def D_fundamental_weight_constructor(dim, x, y):
         sage: from SimpleGroup import D_fundamental_weight_constructor
         sage: x=2
         sage: y=3
-        sage: dim=5
-        sage: D_fundamental_weight_constructor(dim,x,y)
+        sage: rnk=5
+        sage: D_fundamental_weight_constructor(rnk,x,y)
         0.5
     """
     if x <= y:
-        if y < dim-2:
+        if y < rnk-2:
             return 1
         else:
             return 1/2
-    elif x == dim-1 and y == dim-2:
+    elif x == rnk-1 and y == rnk-2:
         return -1/2
     else:
         return 0
@@ -250,8 +278,18 @@ def D_fundamental_weight_constructor(dim, x, y):
 
 class SimpleGroup(object):
     """
-    - Attributes include Dynkin type, rank, weights, characters and Weyl actions.
-    - Dynkin types A, B, C and D are each treated seperately.
+    This is a wrapper of WeylGroup that includes a lot of data about the group necessary to solve GIT problems for this group.
+    It returns a simple group of a certain type and rank, tog
+    
+    INPUT::
+    
+    - ``Dynkin_type`` -- The Dynkin type of the simple group, in string format. Currently only types ``"A", "B", "C", "D"`` are implemented.
+    - ``rnk`` -- rank of the group.
+    
+    INTERNAL ATTRIBUTES::
+    
+    - Internal attributes include ``Dynkin_type``, ``rnk``, weights, characters and Weyl actions.
+    - Dynkin types ``A``, ``B``, ``C`` and ``D`` are each treated separately.
     - H-coordinates, on the hom-spaces Hom(GG_m , T) of one parameter subgroups, 
     are given by the matrices H_i with only one non-zero element (i, i) of unitary size.  
     - L-coordinates are the dual coordinates to H, on the hom-spaces Hom(T, GG_m) of characters.
@@ -260,6 +298,10 @@ class SimpleGroup(object):
     - Note the reduction from n+1 to n dimensions in type A (to account for the fact that weights
     of a one-parameter subgroup add to 0).
     - gamma-coordinates are given by gamma_i = H_1 + ... + H_i for type B, C, D.
+    
+    TODO::
+    
+    Types ``E6, E7, E8``, ``F4`` and ``G2`` should be implemented.
     
     EXAMPLES::
         
@@ -302,54 +344,54 @@ class SimpleGroup(object):
         [ 0  1 -1]
         [ 0  0  1]            
     """
-    def __init__(self, Dynkin_type, dim):
+    def __init__(self, Dynkin_type, rnk):
         self.Dynkin_type=Dynkin_type
-        self.max_torus_dim=dim
-        self.pairing_matrix=matrix.identity(QQ,dim)
-        self.WeylGroup=WeylGroup([Dynkin_type, dim])
+        self.max_torus_dim=rnk
+        self.pairing_matrix=matrix.identity(QQ,rnk)
+        self.WeylGroup=WeylGroup([Dynkin_type, rnk])
 
         if Dynkin_type=='A':
-            self.lattice_standard_basis=matrix.identity(QQ,dim+1)
-            self.cone_basis_in_H=matrix(QQ, dim+1, dim,
-                                lambda x,y: A_cone_basis_constructor(dim,x,y)) #From gamma-coordinates to H-coordinates. Return rays of F in H-coordinates.
-            self.cone_basis=matrix(QQ, dim, dim,
-                                lambda x,y: A_cone_basis_constructor_from_T(dim,x,y)) # Return rays of F in T-coordinates.
-            self.T_to_gamma_change=matrix(QQ, dim, dim,
-                                lambda x,y: A_T_basis_constructor_from_gamma(dim,x,y)) #From T-coordinates to gamma-coordinates. Return T-vectors in gamma-coordinates.
-            self.T_to_H_change=matrix(QQ, dim+1, dim,
-                                lambda x,y: A_coord_change_from_T_to_H(dim,x,y)) #From T-coordinates to H-coordinates. Return T-vectors in gamma-coordinates.            self.fundamental_weights=matrix(QQ,
-            self.dual_basis=matrix.identity(QQ,dim+1)
-            self.fundamental_weights=matrix(QQ, dim, dim, lambda x,y: upper_triangular_entries(dim,x,y)) #Return fundamental weights in L-coordinates.
-            for i in range(0,dim-1):
+            self.lattice_standard_basis=matrix.identity(QQ,rnk+1)
+            self.cone_basis_in_H=matrix(QQ, rnk+1, rnk,
+                                lambda x,y: A_cone_basis_constructor(rnk,x,y)) #From gamma-coordinates to H-coordinates. Return rays of F in H-coordinates.
+            self.cone_basis=matrix(QQ, rnk, rnk,
+                                lambda x,y: A_cone_basis_constructor_from_T(rnk,x,y)) # Return rays of F in T-coordinates.
+            self.T_to_gamma_change=matrix(QQ, rnk, rnk,
+                                lambda x,y: A_T_basis_constructor_from_gamma(rnk,x,y)) #From T-coordinates to gamma-coordinates. Return T-vectors in gamma-coordinates.
+            self.T_to_H_change=matrix(QQ, rnk+1, rnk,
+                                lambda x,y: A_coord_change_from_T_to_H(rnk,x,y)) #From T-coordinates to H-coordinates. Return T-vectors in gamma-coordinates.            self.fundamental_weights=matrix(QQ,
+            self.dual_basis=matrix.identity(QQ,rnk+1)
+            self.fundamental_weights=matrix(QQ, rnk, rnk, lambda x,y: upper_triangular_entries(rnk,x,y)) #Return fundamental weights in L-coordinates.
+            for i in range(0,rnk-1):
                 self.pairing_matrix[i,i+1]=-1
         
               
         elif Dynkin_type=='B':
-            self.lattice_standard_basis=matrix.identity(QQ,dim)
-            self.cone_basis=matrix(QQ, dim, dim,
-                                lambda x,y: upper_triangular_entries(dim,x,y)) #From gamma-coordinates to H-coordinates. Return rays of F in H-coordinates.
-            self.T_to_gamma_change=matrix(QQ, dim, dim,
-                                lambda x,y: inverse_of_upper_triangular(dim,x,y)) #From T-coordinates to gamma-coordinates. Return T-vectors in H-coordinates.
-            self.T_to_H_change=matrix.identity(QQ, dim) #From T-coordinates to H-coordinates. Return T-vectors in gamma-coordinates.            self.fundamental_weights=matrix(QQ, dim, dim, lambda x,y: B_fundamental_weight_constructor(dim,x,y)) #Return fundamental weights in L-coordinates.
+            self.lattice_standard_basis=matrix.identity(QQ,rnk)
+            self.cone_basis=matrix(QQ, rnk, rnk,
+                                lambda x,y: upper_triangular_entries(rnk,x,y)) #From gamma-coordinates to H-coordinates. Return rays of F in H-coordinates.
+            self.T_to_gamma_change=matrix(QQ, rnk, rnk,
+                                lambda x,y: inverse_of_upper_triangular(rnk,x,y)) #From T-coordinates to gamma-coordinates. Return T-vectors in H-coordinates.
+            self.T_to_H_change=matrix.identity(QQ, rnk) #From T-coordinates to H-coordinates. Return T-vectors in gamma-coordinates.            self.fundamental_weights=matrix(QQ, rnk, rnk, lambda x,y: B_fundamental_weight_constructor(rnk,x,y)) #Return fundamental weights in L-coordinates.
 
         elif Dynkin_type=='C':
-            self.lattice_standard_basis=matrix.identity(QQ,dim)
-            self.cone_basis=matrix(QQ, dim, dim,
-                                lambda x,y: upper_triangular_entries(dim,x,y)) #From gamma-coordinates to H-coordinates. Return rays of F in H-coordinates.
-            self.T_to_H_change=matrix.identity(QQ, dim) #From T-coordinates to H-coordinates. Return T-vectors in H-coordinates.
+            self.lattice_standard_basis=matrix.identity(QQ,rnk)
+            self.cone_basis=matrix(QQ, rnk, rnk,
+                                lambda x,y: upper_triangular_entries(rnk,x,y)) #From gamma-coordinates to H-coordinates. Return rays of F in H-coordinates.
+            self.T_to_H_change=matrix.identity(QQ, rnk) #From T-coordinates to H-coordinates. Return T-vectors in H-coordinates.
             #self.fundamental_weights=matrix(QQ,
-            self.T_to_gamma_change=matrix(QQ, dim, dim,
-                                lambda x,y: inverse_of_upper_triangular(dim,x,y)) #From T-coordinates to gamma-coordinates. Return T-vectors in gamma-coordinates.
-            self.fundamental_weights=matrix(QQ, dim, dim, lambda x,y: upper_triangular_entries(dim,x,y)) #Return fundamental weights in L-coordinates.
+            self.T_to_gamma_change=matrix(QQ, rnk, rnk,
+                                lambda x,y: inverse_of_upper_triangular(rnk,x,y)) #From T-coordinates to gamma-coordinates. Return T-vectors in gamma-coordinates.
+            self.fundamental_weights=matrix(QQ, rnk, rnk, lambda x,y: upper_triangular_entries(rnk,x,y)) #Return fundamental weights in L-coordinates.
             
         elif Dynkin_type=='D':
-            self.lattice_standard_basis=matrix.identity(QQ,dim)
-            self.cone_basis=matrix(QQ, dim, dim,
-                                lambda x,y: D_cone_basis_constructor(dim,x,y)) #From gamma-coordinates to H-coordinates. Return rays of F in H-coordinates.
-            self.T_to_gamma_change=matrix(QQ, dim, dim,
-                                lambda x,y: D_T_basis_constructor_from_gamma(dim,x,y)) #Return T-vectors in gamma-coordinates.
-            self.T_to_H_change=matrix.identity(QQ, dim) #From T-coordinates to H-coordinates. Return T-vectors in H-coordinates.            self.fundamental_weights=matrix(QQ,
-            self.fundamental_weights=matrix(QQ, dim, dim, lambda x,y: D_fundamental_weight_constructor(dim,x,y)) #Return fundamental weights in L-coordinates.
+            self.lattice_standard_basis=matrix.identity(QQ,rnk)
+            self.cone_basis=matrix(QQ, rnk, rnk,
+                                lambda x,y: D_cone_basis_constructor(rnk,x,y)) #From gamma-coordinates to H-coordinates. Return rays of F in H-coordinates.
+            self.T_to_gamma_change=matrix(QQ, rnk, rnk,
+                                lambda x,y: D_T_basis_constructor_from_gamma(rnk,x,y)) #Return T-vectors in gamma-coordinates.
+            self.T_to_H_change=matrix.identity(QQ, rnk) #From T-coordinates to H-coordinates. Return T-vectors in H-coordinates.            self.fundamental_weights=matrix(QQ,
+            self.fundamental_weights=matrix(QQ, rnk, rnk, lambda x,y: D_fundamental_weight_constructor(rnk,x,y)) #Return fundamental weights in L-coordinates.
         else:
             print ('Error: Dynkin type ', Dynkin_type, 'not supported/known')
             return None
