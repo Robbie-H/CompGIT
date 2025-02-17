@@ -26,7 +26,7 @@ class OneParamSubgroup(Vector_rational_dense):
 def upper_triangular_entries(rnk, x, y):
     """
     Constructor for a square matrix with entries equal to 1 if they are in the diagonal or above the diagonal and 0 elsewhere.
-    The function returns 1 for entry (x,y) if y>=x and 0 otherwise.
+    The function returns 1 for entry (x, y) if y>=x and 0 otherwise.
     An example of how to combine it with a lambda function is provided.
     
     EXAMPLES::
@@ -97,10 +97,10 @@ def A_coord_change_from_T_to_H(rnk,x, y):
     Examples::
         
         sage: from SimpleGroup import A_coord_change_from_T_to_H
-        sage: x=2
-        sage: y=3
-        sage: rnk=5
-        sage: A_coord_change_from_T_to_H(rnk,x,y)
+        sage: x = 2
+        sage: y = 3
+        sage: rnk = 5
+        sage: A_coord_change_from_T_to_H(rnk, x ,y)
         0 
     """
     if x==y:
@@ -117,10 +117,10 @@ def inverse_of_upper_triangular(rnk, x, y):
     Examples::
         
         sage: from SimpleGroup import inverse_of_upper_triangular
-        sage: x=2
-        sage: y=3
-        sage: rnk=5
-        sage: inverse_of_upper_triangular(rnk,x,y)
+        sage: x = 2
+        sage: y = 3
+        sage: rnk = 5
+        sage: inverse_of_upper_triangular(rnk, x, y)
         -1
     """
     if x==y:
@@ -137,16 +137,16 @@ def A_cone_basis_constructor(rnk, x, y):
     Examples::
         
         sage: from SimpleGroup import A_cone_basis_constructor
-        sage: x=2
-        sage: y=3
-        sage: rnk=5
-        sage: A_cone_basis_constructor(rnk,x,y)
+        sage: x = 2
+        sage: y = 3
+        sage: rnk = 5
+        sage: A_cone_basis_constructor(rnk, x, y)
         2
     """
     if x<=y:
         return rnk-y
     else:
-        return -y-1
+        return -y - 1
 
 
 def A_cone_basis_constructor_from_T(rnk, x, y):
@@ -155,10 +155,10 @@ def A_cone_basis_constructor_from_T(rnk, x, y):
     Examples::
         
         sage: from SimpleGroup import A_cone_basis_constructor_from_T
-        sage: x=2
-        sage: y=3
-        sage: rnk=5
-        sage: A_cone_basis_constructor_from_T(rnk,x,y)
+        sage: x = 2
+        sage: y = 3
+        sage: rnk = 5
+        sage: A_cone_basis_constructor_from_T(rnk, x, y)
         6
     """
     if x<=y:
@@ -173,15 +173,15 @@ def A_T_basis_constructor_from_gamma(rnk, x, y):
     Examples::
         
         sage: from SimpleGroup import A_T_basis_constructor_from_gamma
-        sage: x=2
-        sage: y=3
-        sage: rnk=5
-        sage: A_T_basis_constructor_from_gamma(rnk,x,y)
+        sage: x = 2
+        sage: y = 3
+        sage: rnk = 5
+        sage: A_T_basis_constructor_from_gamma(rnk, x, y)
         -1/6
     """
     if x == y:
         return 2/(rnk+1)
-    if x == y+1 or x == y-1:
+    if x == y + 1 or x == y - 1:
         return -1/(rnk+1)
 
 
@@ -191,15 +191,15 @@ def D_cone_basis_constructor(rnk, x, y):
     Examples::
         
         sage: from SimpleGroup import D_cone_basis_constructor
-        sage: x=2
-        sage: y=3
-        sage: rnk=5
-        sage: D_cone_basis_constructor(rnk,x,y)
+        sage: x = 2
+        sage: y = 3
+        sage: rnk = 5
+        sage: D_cone_basis_constructor(rnk, x, y)
         1
     """
     if x<=y: # Index starting from 0?
         return 1
-    elif x == rnk-1 and y == rnk-2:
+    elif x == rnk - 1 and y == rnk - 2:
         return -1
     else:
         return 0
@@ -211,10 +211,10 @@ def D_T_basis_constructor_from_gamma(rnk, x, y):
     Examples::
         
         sage: from SimpleGroup import D_T_basis_constructor_from_gamma
-        sage: x=2
-        sage: y=3
-        sage: rnk=5
-        sage: D_T_basis_constructor_from_gamma(rnk,x,y)
+        sage: x = 2
+        sage: y = 3
+        sage: rnk = 5
+        sage: D_T_basis_constructor_from_gamma(rnk, x, y)
         -1
     """
     if x == y:
@@ -239,10 +239,10 @@ def B_fundamental_weight_constructor(rnk, x, y):
     Examples::
         
         sage: from SimpleGroup import B_fundamental_weight_constructor
-        sage: x=2
-        sage: y=3
-        sage: rnk=5
-        sage: B_fundamental_weight_constructor(rnk,x,y)
+        sage: x = 2
+        sage: y = 3
+        sage: rnk = 5
+        sage: B_fundamental_weight_constructor(rnk, x, y)
         1
     """
     if y == rnk-1:
@@ -259,18 +259,18 @@ def D_fundamental_weight_constructor(rnk, x, y):
     Examples::
         
         sage: from SimpleGroup import D_fundamental_weight_constructor
-        sage: x=2
-        sage: y=3
-        sage: rnk=5
-        sage: D_fundamental_weight_constructor(rnk,x,y)
+        sage: x = 2
+        sage: y = 3
+        sage: rnk = 5
+        sage: D_fundamental_weight_constructor(rnk, x, y)
         0.5
     """
     if x <= y:
-        if y < rnk-2:
+        if y < rnk - 2:
             return 1
         else:
             return 1/2
-    elif x == rnk-1 and y == rnk-2:
+    elif x == rnk - 1 and y == rnk - 2:
         return -1/2
     else:
         return 0
@@ -278,8 +278,8 @@ def D_fundamental_weight_constructor(rnk, x, y):
 
 class SimpleGroup(object):
     """
-    This is a wrapper of WeylGroup that includes a lot of data about the group necessary to solve GIT problems for this group.
-    It returns a simple group of a certain type and rank, tog
+    This is a wrapper of WeylGroup that includes Group data about the group necessary to solve GIT problems.
+    It returns attributes of a simple group of a certain Dynkin type and rank. 
     
     INPUT::
     
@@ -403,7 +403,7 @@ class SimpleGroup(object):
             EXAMPLES::
             
             sage: from SimpleGroup import SimpleGroup 
-            sage: G=SimpleGroup("A", 2)
+            sage: G = SimpleGroup("A", 2)
             sage: G.Weyl_Group_elements()
             Weyl Group of type ['A', 2] (as a matrix group acting on the ambient space)
         """
@@ -416,7 +416,7 @@ class SimpleGroup(object):
             EXAMPLES::
             
             sage: from SimpleGroup import SimpleGroup 
-            sage: G=SimpleGroup("A", 2)
+            sage: G = SimpleGroup("A", 2)
             sage: G.fundamental_chamber_generators()
             [2 1]
             [1 2]
@@ -430,7 +430,7 @@ class SimpleGroup(object):
             EXAMPLES::
             
             sage: from SimpleGroup import SimpleGroup 
-            sage: G=SimpleGroup("A", 2)
+            sage: G = SimpleGroup("A", 2)
             sage: G.pairing(1,[1,2])
             (-1, 2)
         """
@@ -444,7 +444,7 @@ class SimpleGroup(object):
             EXAMPLES::
             
             sage: from SimpleGroup import SimpleGroup 
-            sage: G=SimpleGroup("A", 2)
+            sage: G = SimpleGroup("A", 2)
             sage: G.fetch_pairing_matrix()
             [ 1 -1]
             [ 0  1]
@@ -458,7 +458,7 @@ class SimpleGroup(object):
             EXAMPLES::
             
             sage: from SimpleGroup import SimpleGroup 
-            sage: G=SimpleGroup("A", 2)
+            sage: G = SimpleGroup("A", 2)
             sage: G.in_cone(1)
             False
         """
@@ -475,7 +475,7 @@ class SimpleGroup(object):
             EXAMPLES::
             
             sage: from SimpleGroup import SimpleGroup 
-            sage: G=SimpleGroup("A", 2)
+            sage: G = SimpleGroup("A", 2)
             sage: G.H_coordinates(1)
             [ 1  0]
             [-1  1]
