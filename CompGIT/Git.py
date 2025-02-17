@@ -319,9 +319,9 @@ class GITProblem(object):
         
     def H_dual_coordinates(self, weight):
         """
-        Returns H-dual coordinates, on the hom-spaces Hom(T, GG_m) of characters.
-        H-coordinates, on the hom-spaces Hom(GG_m , T) of one parameter subgroups, are given by the matrices H_i 
-        with only one non-zero element (i, i) of unitary size.    
+        Returns H-dual coordinates, on the hom-spaces Hom(T, GG_m) of characters. 
+        These are dual to H-coordinates on the hom-spaces Hom(GG_m , T) of one parameter subgroups,
+        defined by matrices H_i with only one non-zero element (i, i) of unitary size.    
         
         EXAMPLES::
                     
