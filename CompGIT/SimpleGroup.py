@@ -399,6 +399,7 @@ class SimpleGroup(object):
     
     def Weyl_Group_elements(self):
         """
+        Returns Dynkin type and rank within a string. 
         
             EXAMPLES::
             
@@ -412,6 +413,7 @@ class SimpleGroup(object):
     
     def fundamental_chamber_generators(self):
         """
+        Returns the rays that generate the fundamental chamber of the Lie group. 
         
             EXAMPLES::
             
@@ -435,11 +437,13 @@ class SimpleGroup(object):
             (-1, 2)
         """
         character=vector(QQ,list(character_tuple))
-        return (OPS*self.pairing_matrix)*character
+        return (OPS * self.pairing_matrix) * character
 
     
     def fetch_pairing_matrix(self):
         """
+        Returns the pairing on spaces of one parameter subgroups and characters as a matrix-valued bilinear form. 
+        The matrix is defined in H and H-dual coordinates. 
         
             EXAMPLES::
             
@@ -471,6 +475,7 @@ class SimpleGroup(object):
     
     def H_coordinates(self, OPS):
         """
+        Returns H coordinates on the hom-spaces Hom(T, GG_m) of characters.
         
             EXAMPLES::
             
@@ -485,6 +490,9 @@ class SimpleGroup(object):
 
     
     def Dynkin_type(self):
+        """
+        Returns the Dynkin type of the group as a string 'X', where X is A, B, C or D. 
+        """
         return self.Dynkin_type
 
     
