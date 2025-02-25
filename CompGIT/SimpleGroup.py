@@ -346,8 +346,8 @@ class SimpleGroup(object):
  
         elif Dynkin_type=='G':
             self.lattice_standard_basis = matrix.identity(QQ[sqrt(3)], 2)
-            self.cone_basis = matrix(QQ[sqrt(3)], [[1, 3/2], [0, sqrt(3)/2]])
-            self.T_to_gamma_change = matrix(QQ[sqrt(3)], [[1, -sqrt(3)], [0, 2/sqrt(3)]]) # inverse matrix to self.cone_basis
+            self.cone_basis = matrix(QQ[sqrt(3)], [[1, sqrt(3)], [0, 1]])
+            self.T_to_gamma_change = matrix(QQ[sqrt(3)], [[1, -sqrt(3)], [0, 1]) # inverse matrix to self.cone_basis
             self.T_to_H_change = matrix.identity(QQ[sqrt(3)], 2)
         
         else:
