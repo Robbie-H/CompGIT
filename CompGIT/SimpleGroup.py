@@ -94,7 +94,7 @@ def one_param_subgroup(data, type_A=False):
 def A_coord_change_from_T_to_H(rnk,x, y):
     """
     
-    Examples::
+    EXAMPLES::
         
         sage: from SimpleGroup import A_coord_change_from_T_to_H
         sage: x=2
@@ -114,7 +114,7 @@ def A_coord_change_from_T_to_H(rnk,x, y):
 def inverse_of_upper_triangular(rnk, x, y):
     """
     
-    Examples::
+    EXAMPLES::
         
         sage: from SimpleGroup import inverse_of_upper_triangular
         sage: x=2
@@ -134,7 +134,7 @@ def inverse_of_upper_triangular(rnk, x, y):
 def A_cone_basis_constructor(rnk, x, y):
     """
     
-    Examples::
+    EXAMPLES::
         
         sage: from SimpleGroup import A_cone_basis_constructor
         sage: x=2
@@ -152,7 +152,7 @@ def A_cone_basis_constructor(rnk, x, y):
 def A_cone_basis_constructor_from_T(rnk, x, y):
     """
     
-    Examples::
+    EXAMPLES::
         
         sage: from SimpleGroup import A_cone_basis_constructor_from_T
         sage: x=2
@@ -170,7 +170,7 @@ def A_cone_basis_constructor_from_T(rnk, x, y):
 def A_T_basis_constructor_from_gamma(rnk, x, y):
     """
     
-    Examples::
+    EXAMPLES::
         
         sage: from SimpleGroup import A_T_basis_constructor_from_gamma
         sage: x=2
@@ -188,7 +188,7 @@ def A_T_basis_constructor_from_gamma(rnk, x, y):
 def D_cone_basis_constructor(rnk, x, y):
     """
     
-    Examples::
+    EXAMPLES::
         
         sage: from SimpleGroup import D_cone_basis_constructor
         sage: x=2
@@ -208,7 +208,7 @@ def D_cone_basis_constructor(rnk, x, y):
 def D_T_basis_constructor_from_gamma(rnk, x, y):
     """
     
-    Examples::
+    EXAMPLES::
         
         sage: from SimpleGroup import D_T_basis_constructor_from_gamma
         sage: x=2
@@ -236,7 +236,7 @@ def D_T_basis_constructor_from_gamma(rnk, x, y):
 def B_fundamental_weight_constructor(rnk, x, y):
     """
     
-    Examples::
+    EXAMPLES::
         
         sage: from SimpleGroup import B_fundamental_weight_constructor
         sage: x=2
@@ -256,7 +256,7 @@ def B_fundamental_weight_constructor(rnk, x, y):
 def D_fundamental_weight_constructor(rnk, x, y):
     """
     
-    Examples::
+    EXAMPLES::
         
         sage: from SimpleGroup import D_fundamental_weight_constructor
         sage: x=2
@@ -279,7 +279,7 @@ def D_fundamental_weight_constructor(rnk, x, y):
 class SimpleGroup(object):
     """
     This is a wrapper of WeylGroup that includes a lot of data about the group necessary to solve GIT problems for this group.
-    It returns a simple group of a certain type and rank, tog
+    It returns a simple group of a certain type and rank.
     
     INPUT::
     
