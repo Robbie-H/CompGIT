@@ -20,6 +20,12 @@ from sage.all import *
 #if type_A=True, the type is A and
 #the vector has coordinates in basis H
 class OneParamSubgroup(Vector_rational_dense):
+    """
+    Wrapper of Vector_rational_dense to store one-parameter subgroups by storing its weights (in H-coordinates).
+    
+    It should always be called using one_param_subgroup constructor.
+    The reason for the wrapper is to make sure the class Vector_rational_dense is used.
+    """
     def __init__(self, parent, value):
         Vector_rational_dense.__init__(self, parent, value)
 
@@ -27,6 +33,7 @@ class OneParamSubgroup(Vector_rational_dense):
 def upper_triangular_entries(rnk, x, y):
     """
     Constructor for a square matrix with entries equal to 1 if they are in the diagonal or above the diagonal and 0 elsewhere.
+    
     The function returns 1 for entry (x, y) if y>=x and 0 otherwise.
     An example of how to combine it with a lambda function is provided.
     
@@ -48,6 +55,7 @@ def upper_triangular_entries(rnk, x, y):
 def lower_triangular_entries(rnk, x, y):
     """
     Constructor for a square matrix with entries equal to 1 if they are in the diagonal or below the diagonal and 0 elsewhere.
+    
     The function returns 1 for entry (x,y) if y<=x and 0 otherwise.
     An example of how to combine it with a lambda function is provided.
     
@@ -66,10 +74,12 @@ def lower_triangular_entries(rnk, x, y):
     """
     return upper_triangular_entries(rnk, y, x)
 
-
 def one_param_subgroup(data, type_A=False):
     """
-    For type_A = True, take vector in coordinates given by basis T.
+    Wrapper for OneParamSubgroup constructor that returns a OneParamSubgroup given in data as a vector.
+    
+    If type_A = True, it takes data in coordinates given by basis T and returns them in H-coordinates.
+    Otherwise, it assumes the data is already in H-coordinates.
     
     EXAMPLES::
         
@@ -91,9 +101,11 @@ def one_param_subgroup(data, type_A=False):
         v=tuple(data)
     return OneParamSubgroup(QQ**len(v), v)
 
-
 def A_coord_change_from_T_to_H(rnk,x, y):
     """
+    Auxiliary function used to create a change of basis matrix from T coordinates to H coordinates.
+    
+    It returns what the entry ``x``, ``y`` for this matrix, for a group of rank ``rnk``.
     
     EXAMPLES::
         
@@ -110,10 +122,13 @@ def A_coord_change_from_T_to_H(rnk,x, y):
         return -1
     else:
         return 0
-    
 
 def inverse_of_upper_triangular(rnk, x, y):
     """
+    Auxiliary function used to create the inverse of the matrix where the diagonal
+    and the upper entries are ``1`` and all entries under the diagonal are ``0``.
+    
+    It returns the entry ``x``, ``y`` for this inverse, for a square matrix of size ``rnk``.
     
     EXAMPLES::
         
@@ -131,27 +146,33 @@ def inverse_of_upper_triangular(rnk, x, y):
     else:
         return 0
 
-
-def A_cone_basis_constructor(rnk, x, y):
-    """
-    
-    EXAMPLES::
-        
-        sage: from SimpleGroup import A_cone_basis_constructor
-        sage: x = 2
-        sage: y = 3
-        sage: rnk = 5
-        sage: A_cone_basis_constructor(rnk, x, y)
-        2
-    """
-    if x<=y:
-        return rnk-y
-    else:
-        return -y - 1
+#This commented-out function is a constructor for the matrix of the rays of the
+#fundamental chamber (in H basis) of a group of type A.
+#It seems such expression in H coordinates is no longer needed, so we comment it out.
+#def A_cone_basis_constructor(rnk, x, y):
+#    """
+#    
+#    EXAMPLES::
+#        
+#        sage: from SimpleGroup import A_cone_basis_constructor
+#        sage: x = 2
+#        sage: y = 3
+#        sage: rnk = 5
+#        sage: A_cone_basis_constructor(rnk, x, y)
+#        2
+#    """
+#    if x<=y:
+#        return rnk-y
+#    else:
+#        return -y - 1
 
 
 def A_cone_basis_constructor_from_T(rnk, x, y):
     """
+    Auxiliary function used to list the rays of the fundamental chamber
+    in T coordinates for a group of type A.
+    
+    It returns what the entry ``x``, ``y`` for this matrix, for a group of rank ``rnk``.
     
     EXAMPLES::
         
@@ -167,10 +188,14 @@ def A_cone_basis_constructor_from_T(rnk, x, y):
     else:
         return (y+1) * (rnk-x)
 
-
 def A_T_basis_constructor_from_gamma(rnk, x, y):
     """
+    Auxiliary function used to created a change of coordinates matrix from T-coordinates
+    to gamma-coordinates for a group of type A.
     
+    It returns what the entry ``x``, ``y`` for this matrix, for a group of rank ``rnk``.
+
+
     EXAMPLES::
         
         sage: from SimpleGroup import A_T_basis_constructor_from_gamma
@@ -185,9 +210,12 @@ def A_T_basis_constructor_from_gamma(rnk, x, y):
     if x == y + 1 or x == y - 1:
         return -1/(rnk+1)
 
-
 def D_cone_basis_constructor(rnk, x, y):
     """
+    Auxiliary function used to list the rays of the fundamental chamber
+    in H coordinates for a group of type D.
+    
+    It returns what the entry ``x``, ``y`` for this matrix, for a group of rank ``rnk``.
     
     EXAMPLES::
         
@@ -205,10 +233,14 @@ def D_cone_basis_constructor(rnk, x, y):
     else:
         return 0
         
-    
+
 def D_T_basis_constructor_from_gamma(rnk, x, y):
     """
+    Auxiliary function used to created a change of coordinates matrix from T-coordinates
+    to gamma-coordinates for a group of type D.
     
+    It returns what the entry ``x``, ``y`` for this matrix, for a group of rank ``rnk``.
+
     EXAMPLES::
         
         sage: from SimpleGroup import D_T_basis_constructor_from_gamma
@@ -235,110 +267,98 @@ def D_T_basis_constructor_from_gamma(rnk, x, y):
 
 
 
-def B_fundamental_weight_constructor(rnk, x, y):
-    """
-    
-    EXAMPLES::
-        
-        sage: from SimpleGroup import B_fundamental_weight_constructor
-        sage: x = 2
-        sage: y = 3
-        sage: rnk = 5
-        sage: B_fundamental_weight_constructor(rnk, x, y)
-        1
-    """
-    if y == rnk-1:
-        return 1/2
-    elif x <= y:
-        return 1
-    else:
-        return 0
-
-
-def D_fundamental_weight_constructor(rnk, x, y):
-    """
-    
-    EXAMPLES::
-        
-        sage: from SimpleGroup import D_fundamental_weight_constructor
-        sage: x = 2
-        sage: y = 3
-        sage: rnk = 5
-        sage: D_fundamental_weight_constructor(rnk, x, y)
-        0.5
-    """
-    if x <= y:
-        if y < rnk - 2:
-            return 1
-        else:
-            return 1/2
-    elif x == rnk - 1 and y == rnk - 2:
-        return -1/2
-    else:
-        return 0
-
 
 class SimpleGroup(object):
     """
-    This is a wrapper of WeylGroup that includes Group data about the group necessary to solve GIT problems.
-    It returns attributes of a simple group of a certain Dynkin type and rank. 
+    Wrapper of WeylGroup that includes additional data about a simple Lie group necessary to solve GIT problems.
+    
+    It returns an object representing data associated to a
+    simple group of a certain Dynkin type and rank that can
+    later be used by other methods. In particular, it
+    encapsulates a fundamental domain (or fundamental
+    (Weyl) chamber) in the Euclidean domain for the root
+    system of the group.
+    
+    
     
     INPUT::
     
-    - ``Dynkin_type`` -- The Dynkin type of the simple group, in string format. Currently only types ``"A", "B", "C", "D"`` are implemented.
+    - ``Dynkin_type`` -- The Dynkin type of the simple group, in string format. Currently only types ``"A", "B", "C", "D", "G"`` are implemented.
     - ``rnk`` -- rank of the group.
+    
+    
+    
+ 
     
     INTERNAL ATTRIBUTES::
     
-    - Internal attributes include ``Dynkin_type``, ``rnk``, weights, characters and Weyl actions.
-    - Dynkin types ``A``, ``B``, ``C`` and ``D`` are each treated separately.
-    - H-coordinates, on the hom-spaces Hom(GG_m , T) of one parameter subgroups, 
-    are given by the matrices H_i with only one non-zero element (i, i) of unitary size.  
+    Given a fixed maximal torus T in a reductive group G,
+    there are a number of lattices and vector spaces that play
+    a role studying the group. There are also a number of bases
+    that can be useful when studying the group. An important basis
+    is the one given by the rays of the fundamental chamber of the
+    group (see [GMGMS] for details). Coordinates for this basis
+    are referred to as gamma coordinates. We give names
+    to the different bases coordinates. These are:
+    
+    - H-coordinates -- on the hom-spaces Hom(GG_m , T) of one parameter subgroups, 
+    basis elements are given by the matrices H_i with only one non-zero element (i, i) of unitary size.  
     - L-coordinates are the dual coordinates to H, on the hom-spaces Hom(T, GG_m) of characters.
+    - T-coordinates: basis elements are given by {T_i}_{i = 1, ..., n}, T_i = H_i - H_{i+1} in type A.
     - T-coordinates are equal to H-coordinates in type B, C, D.
-    - T-coordinates are given by {T_i}_{i = 1, ..., n}, T_i = H_i - H_{i+1} in type A.
     - Note the reduction from n+1 to n dimensions in type A (to account for the fact that weights
     of a one-parameter subgroup add to 0).
-    - gamma-coordinates are given by gamma_i = H_1 + ... + H_i for type B, C, D.
+    - gamma-coordinates are given by gamma_i = H_1 + ... + H_i for type B, C, D, G.
+    - gamma-coordinates can be obtained from a choice of simple roots of the root system in other
+    cases. This is provided ad hoc for other groups (see [HMG] for details).
     
+    With this in mind, the internal attributes used are:
+
+    - ``Dynkin_type`` -- The Dynkin type of the simple group, in string format. Currently only types ``"A", "B", "C", "D", "G"`` are implemented.
+    - ``max_torus_dim`` -- dimension of the maximal torus in the group. This is the same as rnk.
+    - ``pairing_matrix`` -- The inner product matrix between characters and one-parameter subgroups. Usually the identity.
+    - ``WeylGroup`` -- Object from class WeylGroup representing the group.
+    - ``cone_basis`` -- Matrix containing the rays of a fundamental chamber/domain for in T coordinates.
+    - ``T_to_gamma_change`` -- Change of basis matrix from T coordinates to coordinates in the basis given by the rays of the fundamental chamber of G.
+    - ``T_to_H_change`` -- Change of basis matrix from T coordinates to H-coordinates.
+
+    
+    
+
     TODO::
     
-    Types ``E6, E7, E8``, ``F4`` and ``G2`` should be implemented.
+    Types ``E6, E7, E8`` and ``F4``  should be implemented.
     
     EXAMPLES::
         
         sage: from SimpleGroup import SimpleGroup
         sage: G=SimpleGroup("A", 2)
-        sage: G.Dynkin_type
+        sage: G.group_type()
         'A'
-        sage: G.max_torus_dim
+        sage: G.rnk()
         2        
-        sage: G.cone_basis # rays of the fundamental chamber (F) in T-coordinates
+        sage: G.fundamental_chamber_generators() # rays of the fundamental chamber in T-coordinates
         [2 1]
         [1 2]
-        sage: G.T_to_H_change  
+        sage: G.T_to_H_matrix()
         [ 1  0]
         [-1  1]
         [ 0 -1]        
-        sage: G.cone_basis_in_H # rays of F in H-coordinates  
-        [ 2  1]
-        [-1  1]
-        [-1 -2]
                 
         sage: H=SimpleGroup("B", 3)
-        sage: H.Dynkin_type
+        sage: H.group_type()
         'B'
-        sage: H.max_torus_dim
+        sage: H.rnk()
         3
-        sage: H.cone_basis # in T-coordinates 
+        sage: H.fundamental_chamber_generators() # in T-coordinates 
         [1 1 1]
         [0 1 1]
         [0 0 1]
-        sage: H.T_to_H_change # T = H for type B, C, D
+        sage: H.T_to_H_matrix() # T = H for type B, C, D
         [1 0 0]
         [0 1 0]
         [0 0 1]
-        sage: H.T_to_gamma_change    
+        sage: H.T_to_gamma_matrix()
         [ 1 -1  0]
         [ 0  1 -1]
         [ 0  0  1]            
@@ -350,54 +370,50 @@ class SimpleGroup(object):
         self.WeylGroup = WeylGroup([Dynkin_type, rnk])
 
         if Dynkin_type=='A':
-            self.lattice_standard_basis=matrix.identity(QQ, rnk+1)
-            self.cone_basis_in_H = matrix(QQ, rnk+1, rnk,
-                                lambda x,y: A_cone_basis_constructor(rnk, x, y)) #From gamma-coordinates to H-coordinates. Return rays of F in H-coordinates.
+#            self.cone_basis_in_H = matrix(QQ, rnk+1, rnk,
+#                               lambda x,y: A_cone_basis_constructor(rnk, x, y)) #From gamma-coordinates to H-coordinates. Return rays of F in H-coordinates.
+#            It is never used, so we comment it out instead of deleting it in case a future update finds it useful.
             self.cone_basis = matrix(QQ, rnk, rnk,
-                                lambda x,y: A_cone_basis_constructor_from_T(rnk, x, y)) # Return rays of F in T-coordinates.
+                                lambda x,y: A_cone_basis_constructor_from_T(rnk, x, y)) #stores rays of the fundamental chamber in T-coordinates. Change of coordinate matrix from gamma-coordinates to T-coordinates.
             self.T_to_gamma_change = matrix(QQ, rnk, rnk,
-                                lambda x,y: A_T_basis_constructor_from_gamma(rnk, x, y)) #From T-coordinates to gamma-coordinates. Return T-vectors in gamma-coordinates.
+                                lambda x,y: A_T_basis_constructor_from_gamma(rnk, x, y)) #Change of basis matrix from T-coordinates to gamma-coordinates. Return T-vectors in gamma-coordinates.
             self.T_to_H_change = matrix(QQ, rnk+1, rnk,
-                                lambda x,y: A_coord_change_from_T_to_H(rnk, x, y)) #From T-coordinates to H-coordinates. Return T-vectors in gamma-coordinates.
+                                lambda x,y: A_coord_change_from_T_to_H(rnk, x, y)) #Change of basis matrix from T-coordinates to H-coordinates. Returns T-vectors in H-coordinates.
             self.dual_basis = matrix.identity(QQ,rnk+1)
             for i in range(0,rnk-1):
                 self.pairing_matrix[i,i+1]=-1
         
               
         elif Dynkin_type=='B':
-            self.lattice_standard_basis=matrix.identity(QQ, rnk)
             self.cone_basis = matrix(QQ, rnk, rnk,
-                                lambda x,y: upper_triangular_entries(rnk,x,y)) #From gamma-coordinates to H-coordinates. Return rays of F in H-coordinates.
+                                lambda x,y: upper_triangular_entries(rnk,x,y)) #stores rays of the fundamental chamber in H-coordinates. Change of coordinate matrix from gamma-coordinates to H-coordinates.
             self.T_to_gamma_change = matrix(QQ, rnk, rnk,
-                                lambda x,y: inverse_of_upper_triangular(rnk,x,y)) #From T-coordinates to gamma-coordinates. Return T-vectors in H-coordinates.
-            self.T_to_H_change = matrix.identity(QQ, rnk) #From T-coordinates to H-coordinates. Return T-vectors in gamma-coordinates.
+                                lambda x,y: inverse_of_upper_triangular(rnk,x,y)) #Change of coordinate matrix from T-coordinates to gamma-coordinates. Returns T-vectors in gamma-coordinates.
+            self.T_to_H_change = matrix.identity(QQ, rnk) #Change of coordinate matrix from T-coordinates to H-coordinates. Returns T-vectors in H-coordinates.
 
         elif Dynkin_type=='C':
-            self.lattice_standard_basis=matrix.identity(QQ, rnk)
             self.cone_basis = matrix(QQ, rnk, rnk,
                                 lambda x,y: upper_triangular_entries(rnk,x,y)) #From gamma-coordinates to H-coordinates. Return rays of F in H-coordinates.
-            self.T_to_H_change = matrix.identity(QQ, rnk) #From T-coordinates to H-coordinates. Return T-vectors in H-coordinates.
+            self.T_to_H_change = matrix.identity(QQ, rnk) #Change of coordinate matrix from T-coordinates to H-coordinates. Returns T-vectors in H-coordinates.
             self.T_to_gamma_change = matrix(QQ, rnk, rnk,
-                                lambda x,y: inverse_of_upper_triangular(rnk,x,y)) #From T-coordinates to gamma-coordinates. Return T-vectors in gamma-coordinates.
+                                lambda x,y: inverse_of_upper_triangular(rnk,x,y)) #Change of coordinate matrix from T-coordinates to gamma-coordinates. Returns T-vectors in gamma-coordinates.
             
         elif Dynkin_type=='D':
-            self.lattice_standard_basis = matrix.identity(QQ, rnk)
             self.cone_basis = matrix(QQ, rnk, rnk,
-                                lambda x,y: D_cone_basis_constructor(rnk,x,y)) #From gamma-coordinates to H-coordinates. Return rays of F in H-coordinates.
+                                lambda x,y: D_cone_basis_constructor(rnk,x,y)) #stores rays of the fundamental chamber in H-coordinates. Change of coordinate matrix from gamma-coordinates to H-coordinates.
             self.T_to_gamma_change = matrix(QQ, rnk, rnk,
-                                lambda x,y: D_T_basis_constructor_from_gamma(rnk,x,y)) #Return T-vectors in gamma-coordinates.
-            self.T_to_H_change = matrix.identity(QQ, rnk) #From T-coordinates to H-coordinates. Return T-vectors in H-coordinates.
+                                lambda x,y: D_T_basis_constructor_from_gamma(rnk,x,y)) #Change of coordinate matrix from T-coordinates to gamma-coordinates. Returns T-vectors in gamma-coordinates.
+            self.T_to_H_change = matrix.identity(QQ, rnk) #Change of coordinate matrix from T-coordinates to H-coordinates. Returns T-vectors in H-coordinates.
  
         elif Dynkin_type=='G':
-            self.lattice_standard_basis = matrix.identity(QQ[sqrt(3)], 2)
-            self.cone_basis = matrix(QQ[sqrt(3)], [[1, sqrt(3)], [0, 1]])
-            self.T_to_gamma_change = matrix(QQ[sqrt(3)], [[1, -sqrt(3)], [0, 1]) # inverse matrix to self.cone_basis
-            self.T_to_H_change = matrix.identity(QQ[sqrt(3)], 2)
+            self.cone_basis = matrix(QQ[sqrt(3)], [[1, sqrt(3)], [0, 1]]) #stores rays of the fundamental chamber in H-coordinates. Change of coordinate matrix from gamma-coordinates to H-coordinates.
+            self.T_to_gamma_change = matrix(QQ[sqrt(3)], [[1, -sqrt(3)], [0, 1]]) # inverse matrix to self.cone_basis. Change of coordinate matrix from T-coordinates to gamma-coordinates. Returns T-vectors in gamma-coordinates.
+            self.T_to_H_change = matrix.identity(QQ[sqrt(3)], 2) #Change of coordinate matrix from T-coordinates to H-coordinates. Returns T-vectors in H-coordinates.
         
         else:
             print ('Error: Dynkin type ', Dynkin_type, 'not supported/known')
             return None
-
+    
     
     def Weyl_Group_elements(self):
         """
@@ -415,7 +431,7 @@ class SimpleGroup(object):
     
     def fundamental_chamber_generators(self):
         """
-        Returns the rays that generate the fundamental chamber of the Lie group. 
+        Returns a matrix whose columns are the rays that generate the fundamental chamber of the Lie group. 
         
             EXAMPLES::
             
@@ -491,11 +507,29 @@ class SimpleGroup(object):
         return self.T_to_H_change*OPS
 
     
-    def Dynkin_type(self):
+    def group_type(self):
         """
         Returns the Dynkin type of the group as a string 'X', where X is A, B, C or D. 
         """
         return self.Dynkin_type
 
+    
+    def rnk(self):
+        """
+        Returns the rank of the group.
+        """
+        return self.max_torus_dim
+        
+    def T_to_gamma_matrix(self):
+        """
+        Returns basis T in the coordinates of gamma.
+        """
+        return self.T_to_gamma_change
+    
+    def T_to_H_matrix(self):
+        """
+        Returns basis T in the coordinates of H.
+        """
+        return self.T_to_H_change
     
         
