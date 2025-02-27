@@ -1,3 +1,20 @@
+"""
+GIT (Geometric Invariant Theory) package
+
+AUTHORS:
+
+- Patricio Gallardo (2023): initial algorithms
+- Jesus Martinez-Garcia (2023-25): initial algorithms and package version
+- Han-Bon Moon (2023): initial algorithms
+- David Swinarski (2023): initial algorithms
+- Robert Hanson (2025): package version
+
+REFERENCES:
+
+- [GMGMS] P. Gallardo, J. Martinez-Garcia, H.-B. Moon, D. Swinarski. "Computation of GIT quotients of semisimple groups". Arxiv pre-print. arXiv:2308.08049
+- [HMG] R. Hanson, J. Martinez-Garcia "CompGIT, a Sagemath package for Geometric Invariant Theory". To appear.
+
+"""
 from copy import copy
 from operator import itemgetter
 
@@ -13,7 +30,13 @@ from SimpleGroup import *
 
 def proportional(v1, v2):
     """
-    Decide if two non-zero vectors are proportional.
+    Decides if two non-zero vectors are proportional.
+    
+    The vectors inputed can be of any class that allows iteration and comparison of individual entries. They must be of the same size. Returns ``True`` if they are proportional and ``False`` otherwise.
+    
+    INPUT:
+    - ``v1`` -- Vector v1
+    - ``v2`` -- Vector v2
     
     EXAMPLES::
         
@@ -33,7 +56,10 @@ def proportional(v1, v2):
 
 def weights_matrix(weights_set):
     """
-    Take a set of weights and return it as a matrix.
+    Takes a ``Set`` of weights (vectors) and returns it as a matrix of row vectors (type ``list`` over ``QQ``.
+    
+    INPUT:
+    - ``weights_set`` -- The Set of weights.
     
     EXAMPLES::
                 
@@ -55,7 +81,10 @@ def weights_matrix(weights_set):
 
 def averageWeight(x):
     """
-    Take a set of vectors (v^i_1, ... v^i_n) and return the average vector, with j^th entry ( v^1_j + ... + v^m_j ) / m
+    Takes a tuple of ``m`` vectors (each of them expressed as a tuple of numbers) ``v^i=(v^i_1, ... v^i_n)``, ``i=1..m`` and returns the average vector ``v``, with j^th entry ``v_j=( v^1_j + ... + v^m_j ) / m``
+    
+    INPUT:
+    ``x`` -- A tuple of vectors, each of them expressed as a tuple of numbers.
     
     EXAMPLES::
         
@@ -75,58 +104,20 @@ def averageWeight(x):
     return tuple(xbar)
 
 
-def timedRunProblem(representation,label='', separateOutputs=False):
-    P=GITProblem(representation,label=label)
-    t0=time()
-    P.solve_non_stable(Weyl_optimisation=True)
-    t1=time()
-    if separateOutputs:
-        f = open(P.label+' output.txt', 'a')
-        s1=P.solution_nonstable_str()
-        f.write(s1)
-        f.close()
-    t2=time()
-    P.solve_unstable(Weyl_optimisation=True)
-    t3=time()
-    if separateOutputs:
-        f = open(P.label+' output.txt', 'a')
-        s2=P.solution_unstable_str()
-        f.write(s2)
-        f.close()
-    t4=time()
-    P.solve_strictly_polystable()
-    t5=time()
-    s0=str([P.label,P.rep,round(t1-t0,3),round(t3-t2,3),round(t5-t4,3),len(P.weights),len(P.optimized_weights_non_stable),len(P.unstable_weights_candidates),len(P.maximal_nonstable_states),len(P.maximal_unstable_states),len(P.strictly_polystable_states)])
-    if separateOutputs:
-        f = open(P.label+' output.txt', 'a')
-        s3=P.solution_strictly_polystable_str()
-        f.write(s3)
-        f.write("\n")
-        f.write(s0)
-        s0=str([P.label,P.rep,round(t1-t0,3),round(t3-t2,3),round(t5-t4,3),len(P.weights),len(P.optimized_weights_non_stable),len(P.unstable_weights_candidates),len(P.maximal_nonstable_states),len(P.maximal_unstable_states),len(P.strictly_polystable_states)])
-        f.close()
-    if not separateOutputs:
-        f = open(P.label+' output.txt', 'w')
-        s1=P.solution_nonstable_str()
-        f.write(s1)
-        s2=P.solution_unstable_str()
-        f.write(s2)
-        s3=P.solution_strictly_polystable_str()
-        f.write(s3)
-        f.write("\n")
-        s0=str([P.label,P.rep,round(t1-t0,3),round(t3-t2,3),round(t5-t4,3),len(P.weights),len(P.optimized_weights_non_stable),len(P.unstable_weights_candidates),len(P.maximal_nonstable_states),len(P.maximal_unstable_states),len(P.strictly_polystable_states)])
-        f.write(s0)
-        f.close()
-    print('Timed run complete for '+str(representation))
-
 
 
 
 
 class GITProblem(object):
     """
-    Takes a representation of the action of a simple group, with designated weights, 
-    and returns the non-stable, unstable and strictly polystable loci. 
+    Class to solve GIT problems consisting on a simple connected group acting on projective space.
+    
+    This class that encapsulates a representation of the action of a simple group, with
+    designated weights. Its methods can find the maximal families of non-stable, unstable and strictly polystable loci with respect to a fixed torus, storing these families inside the object.  When an object of the class GITProblem is created, a number of sets of weights (determining any family) is created and stored in the object, to later be used by the class's methods to find the maximal families (determined by maximal sets of weights) of non-stable, unstable and strictly polystable points. When creating the object, an object of the class ``SimpleGroup`` is created. 
+    
+    INPUT::
+    - ``rep`` -- A representation (an object of the class ``sage.combinat.root_system.weyl_characters.WeylCharacterRing_with_category.element_class``, see Examples to see an easy way of creating such objects).
+    - ``label`` -- (optional) a string to label the GIT problem for easy tracking, e.g. ``label='plane cubics'``.
     
     
     EXAMPLES::
@@ -252,7 +243,7 @@ class GITProblem(object):
 
     def Weyl_group(self):
         """
-        Returns the Weyl group of a simple group.  
+        Returns the Weyl group (class ``WeylGroup``) of the simple group associated to the object in the class ``GITProblem``.
         
         EXAMPLES::
                 
@@ -266,6 +257,14 @@ class GITProblem(object):
         return self.group.Weyl_Group_elements()
 
     def weyl_elt_action_on_state(self,M,state):
+        """
+        It returns the ``Set`` of weights corresponding to acting on the ``Set`` ``state`` via the element ``M`` in the Weyl group of the problem.
+        
+        INPUT:
+        
+        - ``M`` -- a group element in the Weyl group of the group in the problem.
+        - ``state`` -- a specific state.
+        """
         L=list(state)
         if self.Dynkin_type=='A':
             L=[self.L_coord_to_H_dual_conversion[x] for x in L]
@@ -277,6 +276,10 @@ class GITProblem(object):
         return Set(L)
 
     def intersection_set(self, I_i, ray_i, monomial_0):
+        """
+        Returns a list of monomials in ``I_i`` whose pairing with ``ray_i`` is larger than the
+        pairing with ``monomial_0``.
+        """
         returning_list=list()
         for monomial in I_i:
             if self.group.pairing(ray_i, monomial)>self.group.pairing(ray_i, monomial_0):
@@ -284,7 +287,9 @@ class GITProblem(object):
         return Set(returning_list)
 
     def compute_weights_in_all_unstable_states(self):
-        """ 
+        """
+        Computes the Set of weights that are present in all unstable states and stores it in the object. In most cases this set may be empty.
+        
         EXAMPLES::
                 
             sage: from Git import GITProblem 
@@ -319,9 +324,17 @@ class GITProblem(object):
         
     def H_dual_coordinates(self, weight):
         """
-        Returns H-dual coordinates, on the hom-spaces Hom(T, GG_m) of characters. 
-        These are dual to H-coordinates on the hom-spaces Hom(GG_m , T) of one parameter subgroups,
-        defined by matrices H_i with only one non-zero element (i, i) of unitary size.    
+        Returns ``weight`` in H-dual coordinates, taking in account the type of group of GITProblem.
+        
+        This method returns H-dual coordinates, on the hom-spaces Hom(T, GG_m) of characters.  These are dual to H-coordinates on the hom-spaces Hom(GG_m , T) of one parameter subgroups, defined by matrices H_i with only one non-zero element (i, i) of unitary size.
+        H and T are two bases to express one-parameter subgroups (see ``SimpleGroup``
+        documentation for details). For most groups, H-coordinates and T-coordinates are equal,
+        but in groups of type ``A`` they differ. As a result, the H-dual coordinates of a weight
+        will depend on the group of the representation they live in.   
+        
+        INPUT:
+        
+        - ``weight`` -- The weight whose H-coordinates we require, in T-coordinates.
         
         EXAMPLES::
                     
@@ -337,9 +350,11 @@ class GITProblem(object):
         else:
             return weight
 
-        
     def generate_optimal_weights_non_stable(self):
         """
+        This method creates a set of optimal weights to consider to apply Algorithm 3.7 in
+        [GMGMS] (Set A_3 in said Algorithm). This method stors that set in
+        attribute optimized_weights_non_stable.
         
         EXAMPLES::
         
@@ -350,9 +365,11 @@ class GITProblem(object):
             sage: P.generate_optimal_weights_non_stable()
 
         """
-        zero_weight_set=Set(tuple([tuple([0 for i in range(self.rank)])]))
-        first_optimization=self.nonstable_weights_candidates.difference(zero_weight_set) #WARNING: This is a Python set, not a SAGE set
+        zero_weight_set=Set(tuple([tuple([0 for i in range(self.rank)])]))#This is set {0} in Algorithm 3.7 in [GMGMS]
+        first_optimization=self.nonstable_weights_candidates.difference(zero_weight_set) #This is set A2 in Algorithm 3.7 in [GMGMS] #WARNING: This is a Python set, not a SAGE set
         second_optimization=set([]) #WARNING: This is a Python set, not a SAGE set
+        
+        #These are lines 5-9 in Algirthm 3.7 in [GMGMS]
         for candidate in first_optimization:
             good = True
             for element in second_optimization:
@@ -361,12 +378,22 @@ class GITProblem(object):
                     break
             if good:
                 second_optimization.add(candidate)
+        #optimized_weights_non_stable is set A3 in Algorithm 3.7 in [GMGMS]
         self.optimized_weights_non_stable = Set(second_optimization)
         
     def destabilized_weights(self, OPS, all_weights_considered=False, strict_inequality=False, nonstable_weights_considered=True):
         """
-        Given a one-parameter subgroup (OPS) designated by a vector (v_1, ... v_n),
-        returns the destabilized weights of the group action  
+        Given a one-parameter subgroup (OPS) lambda = t^v determined by a
+        vector ``OPS = v = (v_1, ... v_n)``, it returns the weights destabilized by its group action
+
+        INPUT:
+        
+        - ``OPS`` -- the one-parameter subgroup.
+        - ``all_weights_considered`` --
+        - ``strict_inequality`` --
+        - ``nonstable_weights_considered`` -- If ``True``, it will find all weights in the representation which are destabilised by the one-parameter subgroup. If ``False``, it will consider the parameter ``nonstable_weights_considered`` to determine which weights to find.
+        - ``strict_inequality`` -- If ``True`` it will only include those weights whose pairing with ``OPS`` is strictly positive. If ``False`` it will include those weights whose pairing with ``OPS`` is non-negative.
+        -- ``nonstable_weights_considered`` -- If ``True``, it will only consider weights that are non-stable with respect to ``OPS``. If ``False`` it will consider weights taht are unstable with respect to ``OPS``.
         
         EXAMPLES::
             
@@ -400,8 +427,16 @@ class GITProblem(object):
 
     def solve_non_stable(self, Weyl_optimisation=False):
         """
-        Returns the non-stable locus of the group action, in the format {{(a_1, ..., a_r), ... }}, 
-        where a_1 is the non-stable of weight associated to the first coordinate of weight space, and so on.  
+        Returns (and stores in the object) the non-stable locus of the group action with respect
+        to a fixed torus, in the format {{(a_1, ..., a_r), ... }}, where a_1 is the non-stable of weight associated to the first coordinate of weight space, and so on. 
+
+        INPUT:
+        
+        - ``Weyl_optimisation`` -- If ``True`` it will only consider one-parameter subgroups
+        within the fundamental chamber rather than the whole lattice, potentially reducing the final output by eliminating isomorphic unstable/non-stable families. Note that as of
+        January 2025, it is unknown whether this really reduces the number of maximal families
+        (see Conjecture 7.4 in [GMGMS]) as the output is the same with or without Weyl
+        optimisation.
         
         EXAMPLES::
             
@@ -503,8 +538,16 @@ class GITProblem(object):
             
     def solve_unstable(self, Weyl_optimisation=False):
         """
-        Returns the unstable locus of the group action, in the format {{(a_1, ..., a_r), ... }}, 
-        where a_1 is the non-stable of weight associated to the first coordinate of weight space, and so on. 
+        Returns (and stores in the object) the unstable locus of the group action with respect to a fixed torus, in the format {{(a_1, ..., a_r), ... }}, where a_1 is the non-stable of weight associated to the first coordinate of weight space, and so on. 
+        
+        INPUT:
+        
+        - ``Weyl_optimisation`` -- If ``True`` it will only consider one-parameter subgroups
+        within the fundamental chamber rather than the whole lattice, potentially reducing the final output by eliminating isomorphic unstable/non-stable families. Note that as of
+        January 2025, it is unknown whether this really reduces the number of maximal families
+        (see Conjecture 7.4 in [GMGMS]) as the output is the same with or without Weyl
+        optimisation.
+
         
         EXAMPLES::
             
@@ -615,8 +658,8 @@ class GITProblem(object):
 
     def solve_strictly_polystable(self):
         """
-        Returns the strictly polystable locus of the group action, in the format {{(a_1, ..., a_r), ... }}, 
-        where a_1 is the non-stable of weight associated to the first coordinate of weight space, and so on. 
+        Returns the strictly polystable locus of the group action with respect to a fixed torus,
+        in the format {{(a_1, ..., a_r), ... }}, where a_1 is the non-stable of weight associated to the first coordinate of weight space, and so on. Note solve_non_stable() and solve_unstable() must have been called first.
         
         EXAMPLES::
             
@@ -679,6 +722,8 @@ class GITProblem(object):
 
     def print_solution_nonstable(self):
         """
+        It prints the weights of maximal non-stable families with respect to a fixed torus. Note 
+        solve_non_stable() must have been called first.
         
         EXAMPLES::
             
@@ -721,7 +766,10 @@ class GITProblem(object):
         
     def solution_nonstable_str(self):
         """
-        
+        It returns a (very long) string describing the weights of maximal non-stable families
+        with respect to a fixed torus. This may be useful to save it in a file. Note
+        solve_non_stable() must have been called first.
+                
         EXAMPLES::
             
             sage: from Git import GITProblem
@@ -751,7 +799,9 @@ class GITProblem(object):
     
     def print_solution_unstable(self):
         """
-        
+        It prints the weights of maximal unstable families with respect to a fixed torus. Note 
+        solve_non_unstable() must have been called first.
+
         EXAMPLES::
             
             sage: from Git import GITProblem
@@ -790,6 +840,10 @@ class GITProblem(object):
 
     def solution_unstable_str(self):
         """
+        It returns a (very long) string describing the weights of maximal unstable families
+        with respect to a fixed torus. This may be useful to save it in a file. Note
+        solve_unstable() must have been called first.
+
         
         EXAMPLES::
             
@@ -820,6 +874,10 @@ class GITProblem(object):
             
     def print_solution_strictly_polystable(self):
         """
+        It prints the weights of maximal strictly polystable (polystable but not stable) families
+        with respect to a fixed torus. Note solve_non_unstable(), solve_unstable() and
+        solve_strictly_polystable() must have been called first.
+
         
         EXAMPLES::
             
@@ -867,7 +925,11 @@ class GITProblem(object):
 
     def solution_strictly_polystable_str(self):
         """
-        
+        It returns a (very long) string describing the weights of maximal strictly polystable
+        (polystable but not stable) families with respect to a fixed torus. This may be useful to
+        save it in a file. Note solve_non_unstable(), solve_unstable() and
+        solve_strictly_polystable() must have been called first.
+
         EXAMPLES::
             
             sage: from Git import GITProblem
@@ -904,7 +966,8 @@ class GITProblem(object):
 
     def print_solution(self):
         """
-        
+        It prints the weights of maximal unstable, non-stable and strictly polystable (polystable but not stable) families with respect to a fixed torus. Note solve_non_unstable(), solve_unstable() and solve_strictly_polystable() must have been called first.
+
         EXAMPLES::
             
             sage: from Git import GITProblem
@@ -958,5 +1021,8 @@ class GITProblem(object):
         self.print_solution_strictly_polystable()
 
     def solve_all(self):
+        """
+        It stores in the object the non-stable and unstable locus of the group action with respect to a fixed torus. It does not use Weyl Optimisation.
+        """
         self.solve_nonstable()
         self.solve_unstable()

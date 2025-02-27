@@ -8,6 +8,12 @@ AUTHORS:
 - Han-Bon Moon (2023): initial algorithms
 - David Swinarski (2023): initial algorithms
 - Robert Hanson (2025): package version
+
+
+REFERENCES:
+
+- [GMGMS] P. Gallardo, J. Martinez-Garcia, H.-B. Moon, D. Swinarski. "Computation of GIT quotients of semisimple groups". Arxiv pre-print. arXiv:2308.08049
+- [HMG] R. Hanson, J. Martinez-Garcia "CompGIT, a Sagemath package for Geometric Invariant Theory". To appear.
 """
 
 from sage.modules.vector_rational_dense import Vector_rational_dense
@@ -281,7 +287,7 @@ class SimpleGroup(object):
     
     
     
-    INPUT::
+    INPUT:
     
     - ``Dynkin_type`` -- The Dynkin type of the simple group, in string format. Currently only types ``"A", "B", "C", "D", "G"`` are implemented.
     - ``rnk`` -- rank of the group.
@@ -290,7 +296,7 @@ class SimpleGroup(object):
     
  
     
-    INTERNAL ATTRIBUTES::
+    INTERNAL ATTRIBUTES:
     
     Given a fixed maximal torus T in a reductive group G,
     there are a number of lattices and vector spaces that play
@@ -317,7 +323,7 @@ class SimpleGroup(object):
     - ``Dynkin_type`` -- The Dynkin type of the simple group, in string format. Currently only types ``"A", "B", "C", "D", "G"`` are implemented.
     - ``max_torus_dim`` -- dimension of the maximal torus in the group. This is the same as rnk.
     - ``pairing_matrix`` -- The inner product matrix between characters and one-parameter subgroups. Usually the identity.
-    - ``WeylGroup`` -- Object from class WeylGroup representing the group.
+    - ``WeylGroup`` -- Object from class ``WeylGroup`` representing the group.
     - ``cone_basis`` -- Matrix containing the rays of a fundamental chamber/domain for in T coordinates.
     - ``T_to_gamma_change`` -- Change of basis matrix from T coordinates to coordinates in the basis given by the rays of the fundamental chamber of G.
     - ``T_to_H_change`` -- Change of basis matrix from T coordinates to H-coordinates.

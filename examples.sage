@@ -4,11 +4,10 @@ from CompGIT import *
 G=SimpleGroup("A", 2)
 
 # List Lie theoretic facts 
-G.Dynkin_type 
-G.max_torus_dim 
-G.cone_basis # rays of the fundamental chamber
-G.pairing_matrix # pairing between one parameter subgroups and characters 
-G.fundamental_weights 
+G.group_type() 
+G.rnk() 
+G.fundamental_chamber_generators() # rays of the fundamental chamber
+G.fetch_pairing_matrix() # pairing between one parameter subgroups and characters 
 
 # Solve a GIT problem for plane cubics
 Phi = WeylCharacterRing("A2")
