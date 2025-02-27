@@ -84,8 +84,8 @@ def one_param_subgroup(data, type_A=False):
     EXAMPLES::
         
         sage: from SimpleGroup import one_param_subgroup
-        sage: v1 = vector([2,1,-3])
-        sage: v2 = vector([3,2,1])
+        sage: v1 = vector([2, 1, -3])
+        sage: v2 = vector([3, 2, 1])
         sage: one_param_subgroup(v1, type_A=True)
         (2, 3)
         sage: one_param_subgroup(v2, type_A=False)
@@ -251,16 +251,16 @@ def D_T_basis_constructor_from_gamma(rnk, x, y):
         -1
     """
     if x == y:
-        if x < rnk-2:
+        if x < rnk - 2:
             return 1
         else:
             return 1/2
     elif x == y-1:
-        if x < rnk-2:
+        if x < rnk - 2:
             return -1
         else:
             return -1/2
-    elif x == rnk-1 and y == rnk-2:
+    elif x == rnk - 1 and y == rnk - 2:
         return 1/2
     else:
         return 0
@@ -369,7 +369,7 @@ class SimpleGroup(object):
         self.pairing_matrix = matrix.identity(QQ, rnk)
         self.WeylGroup = WeylGroup([Dynkin_type, rnk])
 
-        if Dynkin_type=='A':
+        if Dynkin_type == 'A':
 #            self.cone_basis_in_H = matrix(QQ, rnk+1, rnk,
 #                               lambda x,y: A_cone_basis_constructor(rnk, x, y)) #From gamma-coordinates to H-coordinates. Return rays of F in H-coordinates.
 #            It is never used, so we comment it out instead of deleting it in case a future update finds it useful.
@@ -384,28 +384,28 @@ class SimpleGroup(object):
                 self.pairing_matrix[i,i+1]=-1
         
               
-        elif Dynkin_type=='B':
+        elif Dynkin_type == 'B':
             self.cone_basis = matrix(QQ, rnk, rnk,
                                 lambda x,y: upper_triangular_entries(rnk,x,y)) #stores rays of the fundamental chamber in H-coordinates. Change of coordinate matrix from gamma-coordinates to H-coordinates.
             self.T_to_gamma_change = matrix(QQ, rnk, rnk,
                                 lambda x,y: inverse_of_upper_triangular(rnk,x,y)) #Change of coordinate matrix from T-coordinates to gamma-coordinates. Returns T-vectors in gamma-coordinates.
             self.T_to_H_change = matrix.identity(QQ, rnk) #Change of coordinate matrix from T-coordinates to H-coordinates. Returns T-vectors in H-coordinates.
 
-        elif Dynkin_type=='C':
+        elif Dynkin_type == 'C':
             self.cone_basis = matrix(QQ, rnk, rnk,
                                 lambda x,y: upper_triangular_entries(rnk,x,y)) #From gamma-coordinates to H-coordinates. Return rays of F in H-coordinates.
             self.T_to_H_change = matrix.identity(QQ, rnk) #Change of coordinate matrix from T-coordinates to H-coordinates. Returns T-vectors in H-coordinates.
             self.T_to_gamma_change = matrix(QQ, rnk, rnk,
                                 lambda x,y: inverse_of_upper_triangular(rnk,x,y)) #Change of coordinate matrix from T-coordinates to gamma-coordinates. Returns T-vectors in gamma-coordinates.
             
-        elif Dynkin_type=='D':
+        elif Dynkin_type == 'D':
             self.cone_basis = matrix(QQ, rnk, rnk,
                                 lambda x,y: D_cone_basis_constructor(rnk,x,y)) #stores rays of the fundamental chamber in H-coordinates. Change of coordinate matrix from gamma-coordinates to H-coordinates.
             self.T_to_gamma_change = matrix(QQ, rnk, rnk,
                                 lambda x,y: D_T_basis_constructor_from_gamma(rnk,x,y)) #Change of coordinate matrix from T-coordinates to gamma-coordinates. Returns T-vectors in gamma-coordinates.
             self.T_to_H_change = matrix.identity(QQ, rnk) #Change of coordinate matrix from T-coordinates to H-coordinates. Returns T-vectors in H-coordinates.
  
-        elif Dynkin_type=='G':
+        elif Dynkin_type == 'G':
             self.cone_basis = matrix(QQ[sqrt(3)], [[1, sqrt(3)], [0, 1]]) #stores rays of the fundamental chamber in H-coordinates. Change of coordinate matrix from gamma-coordinates to H-coordinates.
             self.T_to_gamma_change = matrix(QQ[sqrt(3)], [[1, -sqrt(3)], [0, 1]]) # inverse matrix to self.cone_basis. Change of coordinate matrix from T-coordinates to gamma-coordinates. Returns T-vectors in gamma-coordinates.
             self.T_to_H_change = matrix.identity(QQ[sqrt(3)], 2) #Change of coordinate matrix from T-coordinates to H-coordinates. Returns T-vectors in H-coordinates.
@@ -451,7 +451,7 @@ class SimpleGroup(object):
             
             sage: from SimpleGroup import SimpleGroup 
             sage: G = SimpleGroup("A", 2)
-            sage: G.pairing(1,[1,2])
+            sage: G.pairing(1, [1,2])
             (-1, 2)
         """
         character=vector(QQ,list(character_tuple))
