@@ -410,7 +410,6 @@ class SimpleGroup(object):
             self.T_to_gamma_change = matrix(QQ, rnk, rnk,
                                 lambda x,y: D_T_basis_constructor_from_gamma(rnk,x,y)) #Change of coordinate matrix from T-coordinates to gamma-coordinates. Returns T-vectors in gamma-coordinates.
             self.T_to_H_change = matrix.identity(QQ, rnk) #Change of coordinate matrix from T-coordinates to H-coordinates. Returns T-vectors in H-coordinates.
- 
         elif Dynkin_type == 'E' and rnk == 6:
             self.cone_basis = matrix(QQ[sqrt(3)], [[sqrt(3), 0, 0, 0, 0, 1], [1/5*sqrt(3), 1/5*sqrt(3), 1/5*sqrt(3), 1/5*sqrt(3), 1/5*sqrt(3), 1], [1/3*sqrt(3), 1/3*sqrt(3), 1/3*sqrt(3), 1/3*sqrt(3), -1/3*sqrt(3), 1], [1/2*sqrt(3), 1/2*sqrt(3), 0, 0, 0, 1], [1/3*sqrt(3), 1/3*sqrt(3), 1/3*sqrt(3), 0, 0, 1], [0, 0, 0, 0, 0, 1]] )
             self.cone_basis=self.cone_basis.transpose()
@@ -432,9 +431,6 @@ class SimpleGroup(object):
         elif Dynkin_type == 'F':
             self.cone_basis = matrix(QQ, [[1, 1, 0, 0], [1, 0, 0, 0], [3, 1, 1, 1], [1, 1/2, 1/2, 0]])
             self.cone_basis=self.cone_basis.transpose()
-            self.T_to_gamma_change = self.cone_basis.inverse()
-            self.T_to_H_change = matrix.identity(QQ, 4)
- 
         elif Dynkin_type == 'G':
             self.cone_basis = matrix(QQ[sqrt(3)], [[0, 1], [1/3*sqrt(3), 1]]) #stores rays of the fundamental chamber in H-coordinates. Change of coordinate matrix from gamma-coordinates to H-coordinates.
             self.cone_basis=self.cone_basis.transpose()
