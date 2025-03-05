@@ -17,7 +17,7 @@ REFERENCES:
 """
 
 from sage.modules.vector_rational_dense import Vector_rational_dense
-from sage.matrix.constructor import matrix
+#from sage.matrix.constructor import Matrix
 from sage.rings.rational_field import QQ
 from sage.modules.free_module_element import vector
 from sage.all import *
@@ -80,7 +80,7 @@ def lower_triangular_entries(rnk, x, y):
     """
     return upper_triangular_entries(rnk, y, x)
 
-def one_param_subgroup(data, type_A=False):
+def one_param_subgroup(data, type_A=False, field=QQ):
     """
     Wrapper for OneParamSubgroup constructor that returns a OneParamSubgroup given in data as a vector.
     
@@ -105,7 +105,8 @@ def one_param_subgroup(data, type_A=False):
     
     else:
         v=tuple(data)
-    return OneParamSubgroup(QQ**len(v), v)
+    # return OneParamSubgroup(QQ**len(v), v)
+    return vector(field, v)
 
 def A_coord_change_from_T_to_H(rnk,x, y):
     """
@@ -374,6 +375,7 @@ class SimpleGroup(object):
         self.max_torus_dim = rnk
         self.pairing_matrix = matrix.identity(QQ, rnk)
         self.WeylGroup = WeylGroup([Dynkin_type, rnk])
+        self.field = QQ
 
         if Dynkin_type == 'A':
 #            self.cone_basis_in_H = matrix(QQ, rnk+1, rnk,
@@ -457,11 +459,12 @@ class SimpleGroup(object):
             self.T_to_H_change = matrix.identity(QQ, 4)
             
         elif Dynkin_type == 'G':
-            self.cone_basis = matrix(QQ[sqrt(3)], [[0,   1],
-                                                   [1/3, sqrt(3)]]
-                                                   ).transpose() #stores rays of the fundamental chamber in H-coordinates. Change of coordinate matrix from gamma-coordinates to H-coordinates.
+            R=QuadraticField(3, 'a')
+            self.field = R 
+            M = Matrix(R, [[0,   1],[1, 3*sqrt(3)]])
+            self.cone_basis = M.transpose() #stores rays of the fundamental chamber in H-coordinates. Change of coordinate matrix from gamma-coordinates to H-coordinates.
             self.T_to_gamma_change = self.cone_basis.inverse() # inverse matrix to self.cone_basis. Change of coordinate matrix from T-coordinates to gamma-coordinates. Returns T-vectors in gamma-coordinates.
-            self.T_to_H_change = matrix.identity(QQ[sqrt(3)], 2)
+            self.T_to_H_change = matrix.identity(R, 2)
         
         else:
             print ('Error: Dynkin type ', Dynkin_type, 'not supported/known')
@@ -584,5 +587,11 @@ class SimpleGroup(object):
         Returns basis T in the coordinates of H.
         """
         return self.T_to_H_change
+    
+    def lattice_field(self):
+        """
+        Returns the ground field used in the vector space containing the lattice.
+        """
+        return self.field
     
         

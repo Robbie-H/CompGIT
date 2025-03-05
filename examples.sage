@@ -37,7 +37,7 @@ P.maximal_nonstable_states
 
 # Solve a GIT problem for G2
 Phi2 = WeylCharacterRing("G2")
-representation= Phi2(3,0,0,0,0,0,0) # G_2 is acting on a 7 dimensional weight system with highest weight 3omega_1
+representation= Phi2(3,0) # G_2 is acting on a 7 dimensional weight system with highest weight 3omega_1
 P2=GITProblem(representation,label="Weird cubics")
 P2.solve_non_stable(Weyl_optimisation=True)
 P2.print_solution_nonstable() 

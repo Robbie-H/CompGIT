@@ -179,7 +179,9 @@ class GITProblem(object):
         self.Dynkin_type=pair[0]
         self.rank=pair[1]
         self.rep=rep
+        print("Creating group")
         self.group=SimpleGroup(self.Dynkin_type, self.rank)
+        print("Group created")
         if self.group is None:
             print ('Group {Dynkin_type}{rank} not yet implemented'.format(Dynkin_type=self.Dynkin_type, rank=self.rank), sep='')
             return None
@@ -215,7 +217,7 @@ class GITProblem(object):
         self.fundamental_chamber_generators=self.group.fundamental_chamber_generators()
         
         #Compute the states destabilised by each generator of the Weyl fundamental chamber
-        self.OPS_rays_list=([one_param_subgroup(tuple(self.fundamental_chamber_generators[:,i].transpose())[0]) for i in range(0,self.rank)])
+        self.OPS_rays_list=([one_param_subgroup(tuple(self.fundamental_chamber_generators[:,i].transpose())[0], field=self.group.lattice_field()) for i in range(0,self.rank)])
         states_destabilized_by_rays=[Set(self.destabilized_weights(OPS, all_weights_considered=True)) for OPS in self.OPS_rays_list]
         self.states_destabilized_by_rays_strict=[Set(self.destabilized_weights(OPS, all_weights_considered=True, strict_inequality=True)) for OPS in self.OPS_rays_list]
         
@@ -464,7 +466,7 @@ class GITProblem(object):
             if len(M_kernel)==1: #The weights have one-dimensional solution
                 #Check that the ray perpendicular to the set of weights 'candidate'
                 #is in the Weyl fundamental chamber (and choose the right generator)
-                gamma_OPS=one_param_subgroup(M_kernel[0])
+                gamma_OPS=one_param_subgroup(M_kernel[0], field=self.group.lattice_field())
                 if self.group.in_cone(gamma_OPS):
                     destabilizing_OPS = gamma_OPS
                 elif self.group.in_cone(-gamma_OPS):
@@ -509,7 +511,8 @@ class GITProblem(object):
                 lambda_ops=self.gamma_OPS_nonstable_dictionary[candidate]
                 for g in group_elements:
                     for state in maximal_nonstable_candidate_states_list_copy:
-                        lambda_ops_acted = one_param_subgroup(list(g.inverse()*(self.group.H_coordinates(lambda_ops))), type_A=self.Dynkin_type=="A")
+                        print(g);
+                        lambda_ops_acted = one_param_subgroup(list(Matrix(self.group.lattice_field(), g.inverse())*(self.group.H_coordinates(lambda_ops))), type_A=self.Dynkin_type=="A", field=self.group.lattice_field())
                         acted_state=self.destabilized_weights(lambda_ops_acted, all_weights_considered=True)
                         if acted_state.issubset(state) and len(acted_state)!=len(state):
                             is_maximal=False
@@ -579,7 +582,7 @@ class GITProblem(object):
             if len(M_kernel)==1: #The weights have one-dimensional solution
                 #Check that the ray perpendicular to the set of weights 'candidate'
                 #is in the Weyl fundamental chamber (and choose the right generator)
-                gamma_OPS = one_param_subgroup(M_kernel[0])
+                gamma_OPS = one_param_subgroup(M_kernel[0], field=self.group.lattice_field())
                 pairing_value = self.group.pairing(gamma_OPS, substract_weight)
                 if self.group.in_cone(gamma_OPS):
                     destabilizing_OPS=gamma_OPS
@@ -624,7 +627,7 @@ class GITProblem(object):
                 lambda_ops=self.gamma_OPS_unstable_dictionary[candidate]
                 for g in group_elements:
                     for state in maximal_unstable_candidate_states_list_copy:
-                        lambda_ops_acted = one_param_subgroup(list(g.inverse()*(self.group.H_coordinates(lambda_ops))), type_A=self.Dynkin_type=="A")
+                        lambda_ops_acted = one_param_subgroup(list(g.inverse()*(self.group.H_coordinates(lambda_ops))), type_A=self.Dynkin_type=="A", field=self.group.lattice_field())
                         acted_state=self.destabilized_weights(lambda_ops_acted, all_weights_considered=True)
                         if acted_state.issubset(state) and len(acted_state)!=len(state):
                             is_maximal = False
