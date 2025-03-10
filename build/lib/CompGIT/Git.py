@@ -1,4 +1,4 @@
-debug=True;
+debug=False;
 """
 GIT (Geometric Invariant Theory) package
 
@@ -506,34 +506,22 @@ class GITProblem(object):
         # Perform optimisation step using the Weyl stabilisers
         
         if Weyl_optimisation:
-            if debug: print("Enters Weyl_optimisation");
             group_elements = self.Weyl_group()
             maximal_nonstable_final = set() #WARNING: This is a Python set, not a Sage set. Needed for add/remove
             maximal_nonstable_candidate_states_list_copy = list(self.unoptimized_maximal_nonstable_states)
-            if debug:
-                print('unoptimized_maximal_nonstable_states', self.unoptimized_maximal_nonstable_states)
             for candidate in list(self.unoptimized_maximal_nonstable_states):
                 is_maximal = True
                 lambda_ops=self.gamma_OPS_nonstable_dictionary[candidate]
-                if debug:
-                    print('CANDIDATE', candidate, 'lambdaOPS', lambda_ops); input('')
                 for g in group_elements:
                     for state in maximal_nonstable_candidate_states_list_copy:
-                        if debug:
-                            print('g\n', g, '\n\ng.inverse', g.inverse(),'\ng.inverse()*(self.group.H_coordinates(lambda_ops)\n', g.inverse()*self.group.H_coordinates(lambda_ops), '\n\n'); 
-                            print('g\n', g, '\n\ng.inverse', g.inverse(),'\n Matrix version: \n', Matrix(self.group.lattice_field(), g.inverse()), '\n Product\n', Matrix(self.group.lattice_field(), g.inverse())*(self.group.H_coordinates(lambda_ops)), '\n\n'); input(' ')
                         lambda_ops_acted = one_param_subgroup(list(Matrix(self.group.lattice_field(), g.inverse())*(self.group.H_coordinates(lambda_ops))), type_A=self.Dynkin_type=="A", field=self.group.lattice_field())
                         acted_state=self.destabilized_weights(lambda_ops_acted, all_weights_considered=True)
-                        if debug: print("acted_state", acted_state); input('');
                         if acted_state.issubset(state) and len(acted_state)!=len(state):
                             is_maximal=False
-                            if debug: print("not maximal as it is inside ", state), input('')
                             break
                     if not is_maximal:
-                        if debug: input("not maximal, break");
                         break
                 if is_maximal:
-                    if debug: print("Adds candidate", candidate); input('');
                     maximal_nonstable_final.add(candidate)
             self.maximal_nonstable_states=Set(list(maximal_nonstable_final))
         else:
@@ -616,13 +604,13 @@ class GITProblem(object):
                         elif currently_maximal_state.issubset(destabilized_state):
                             maximal_unstable_candidate_states.remove(currently_maximal_state)
                             self.gamma_OPS_unstable_dictionary.pop(currently_maximal_state)
-                            # if debug:
-                                # print('currently_maximal_state', currently_maximal_state, 'removed\n'); input('')
+                            if debug:
+                                print('currently_maximal_state', currently_maximal_state, 'removed\n'); input('')
                     if candidate_is_maximal:
                         maximal_unstable_candidate_states.add(destabilized_state)        # We find the maximal states among all the destabilised states
                         self.gamma_OPS_unstable_dictionary[destabilized_state]=destabilizing_OPS
-                        # if debug:
-                            # print('destabilized_state', destabilized_state, 'added\n'); input('')
+                        if debug:
+                            print('destabilized_state', destabilized_state, 'added\n'); input('')
 
 
         
@@ -641,35 +629,34 @@ class GITProblem(object):
             group_elements = self.Weyl_group()
             maximal_unstable_final = set() #WARNING: This is a Python set, not a Sage set. Needed for add/remove
             maximal_unstable_candidate_states_list_copy = list(maximal_unstable_candidate_states)
-            # if debug:
-                # print('unoptimized_maximal_unstable_states', self.unoptimized_maximal_unstable_states)
+            if debug:
+                print('unoptimized_maximal_unstable_states', self.unoptimized_maximal_unstable_states)
             for candidate in list(self.unoptimized_maximal_unstable_states):
                 is_maximal = True
                 lambda_ops=self.gamma_OPS_unstable_dictionary[candidate]
-                # if debug:
-                    # print('CANDIDATE', candidate); input('')
+                if debug:
+                    print('CANDIDATE', candidate); input('')
                 for g in group_elements:
                     for state in maximal_unstable_candidate_states_list_copy:
-                        print('g\n', g, '\n\ng.inverse', g.inverse(), '\ng.inverse()*(self.group.H_coordinates(lambda_ops)\n', g.inverse()*(self.group.H_coordinates(lambda_ops)), '\n\n'); input(' ');
                         lambda_ops_acted = one_param_subgroup(list(g.inverse()*(self.group.H_coordinates(lambda_ops))), type_A=self.Dynkin_type=="A", field=self.group.lattice_field())
                         if debug:
                             print('lambda_ops_acted', lambda_ops_acted); input('');
                         acted_state=self.destabilized_weights(lambda_ops_acted, all_weights_considered=True)
-                        # if debug:
-                            # print('acted_state', acted_state, '\nstate', state); input('');
+                        if debug:
+                            print('acted_state', acted_state, '\nstate', state); input('');
                         if acted_state.issubset(state) and len(acted_state)!=len(state):
                             is_maximal = False
-                            # if debug:
-                                # print('is_maximal', is_maximal)
-                            # if debug:
-                                # print('acted_state', acted_state, 'state', state)
-                            # input('')
+                            if debug:
+                                print('is_maximal', is_maximal)
+                            if debug:
+                                print('acted_state', acted_state, 'state', state)
+                            input('')
                             break
                     if not is_maximal:
                         break
                 if is_maximal:
-                    # if debug:
-                        # print('added', candidate); input('')
+                    if debug:
+                        print('added', candidate); input('')
                     maximal_unstable_final.add(candidate)
             self.maximal_unstable_states=Set(list(maximal_unstable_final))
         else:
