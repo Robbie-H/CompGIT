@@ -188,8 +188,10 @@ class GITProblem(object):
         #Transforming weights into tuple form
         weights_dict=self.rep.weight_multiplicities()
         weights=tuple(weights_dict.keys())
-        if self.Dynkin_type=='A':
+        if self.Dynkin_type=='A' or self.Dynkin_type=='G' or (self.Dynkin_type == 'E' and self.rank = 7):
             length = self.rank + 1
+        elif self.Dynkin_type == 'E' and self.rank = 6:
+            length = self.rank + 2
         else:
             length = self.rank
         weights=tuple([tuple([weight[i] for i in range(length)]) for weight in weights])
@@ -200,6 +202,18 @@ class GITProblem(object):
             for i in range(len(weights)):
                 conversion_dictionary[self.weights[i]]=H_weights[i]
             self.L_coord_to_H_dual_conversion=conversion_dictionary
+        elif self.Dynkin_type=='G':
+            #***to do: projection of weights to self.weights one dimension lower would go here, just as for An (different matrix).
+            print("G NOT FULLY IMPLEMENTED")
+            return None;
+        elif (self.Dynkin_type == 'E' and self.rank = 7)
+            #***to do: projection of weights to self.weights one dimension lower would go here, just as for An (different matrix).
+            print("E7 NOT FULLY IMPLEMENTED")
+            return None;
+        elif (self.Dynkin_type == 'E' and self.rank = 6)
+            #***to do: projection of weights to self.weights one dimension lower would go here, just as for An (different matrix).
+            print("E6 NOT FULLY IMPLEMENTED")
+            return None;
         else:
             self.weights=weights
         self.trivial_character=averageWeight(self.weights)
