@@ -188,9 +188,9 @@ class GITProblem(object):
         #Transforming weights into tuple form
         weights_dict=self.rep.weight_multiplicities()
         weights=tuple(weights_dict.keys())
-        if self.Dynkin_type=='A' or self.Dynkin_type=='G' or (self.Dynkin_type == 'E' and self.rank = 7):
+        if self.Dynkin_type=='A' or self.Dynkin_type=='G' or (self.Dynkin_type == 'E' and self.rank == 7):
             length = self.rank + 1
-        elif self.Dynkin_type == 'E' and self.rank = 6:
+        elif self.Dynkin_type == 'E' and self.rank == 6:
             length = self.rank + 2
         else:
             length = self.rank
@@ -203,14 +203,16 @@ class GITProblem(object):
                 conversion_dictionary[self.weights[i]]=H_weights[i]
             self.L_coord_to_H_dual_conversion=conversion_dictionary
         elif self.Dynkin_type=='G':
-            #***to do: projection of weights to self.weights one dimension lower would go here, just as for An (different matrix).
+            # projection of weights to self.weights one dimension lower
+            M = matrix(QQ[sqrt(3)], [[1/2, -1/2, 0], [sqrt(3)/6, sqrt(3)/6, -sqrt(3)/3]])
+            self.weights = tuple([tuple([M * weight[i]] for i in range(len(weight)-1)) for weight in weights])
             print("G NOT FULLY IMPLEMENTED")
             return None;
-        elif (self.Dynkin_type == 'E' and self.rank = 7)
+        elif (self.Dynkin_type == 'E' and self.rank == 7):
             #***to do: projection of weights to self.weights one dimension lower would go here, just as for An (different matrix).
             print("E7 NOT FULLY IMPLEMENTED")
             return None;
-        elif (self.Dynkin_type == 'E' and self.rank = 6)
+        elif (self.Dynkin_type == 'E' and self.rank == 6):
             #***to do: projection of weights to self.weights one dimension lower would go here, just as for An (different matrix).
             print("E6 NOT FULLY IMPLEMENTED")
             return None;
@@ -534,7 +536,7 @@ class GITProblem(object):
                 for g in group_elements:
                     for state in maximal_nonstable_candidate_states_list_copy:
                         if debug:
-                            print('g\n', g, '\n\ng.inverse', g.inverse(),'\ng.inverse()*(self.group.H_coordinates(lambda_ops)\n', g.inverse()*self.group.H_coordinates(lambda_ops), '\n\n'); 
+                            print('g\n', g, '\n\ng.inverse', g.inverse(),'\ng.inverse()*(self.group.H_coordinates(lambda_ops)\n', g.inverse()*self.group.H_coordinates(lambda_ops), '\n\n');
                             print('g\n', g, '\n\ng.inverse', g.inverse(),'\n Matrix version: \n', Matrix(self.group.lattice_field(), g.inverse()), '\n Product\n', Matrix(self.group.lattice_field(), g.inverse())*(self.group.H_coordinates(lambda_ops)), '\n\n'); input(' ')
                         lambda_ops_acted = one_param_subgroup(list(Matrix(self.group.lattice_field(), g.inverse())*(self.group.H_coordinates(lambda_ops))), type_A=self.Dynkin_type=="A", field=self.group.lattice_field())
                         acted_state=self.destabilized_weights(lambda_ops_acted, all_weights_considered=True)
