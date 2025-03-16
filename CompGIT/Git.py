@@ -32,9 +32,13 @@ def proportional(v1, v2):
     """
     Decides if two non-zero vectors are proportional.
 
-    The vectors inputed can be of any class that allows iteration and comparison of individual entries. They must be of the same size. Returns ``True`` if they are proportional and ``False`` otherwise.
+    The given vectors can be of any class that allows iteration and
+    comparison of individual entries. They must be of the same
+    size. Returns ``True`` if they are proportional and ``False``
+    otherwise.
 
     INPUT:
+
     - ``v1`` -- Vector v1
     - ``v2`` -- Vector v2
 
@@ -400,7 +404,8 @@ class GITProblem(object):
           it will include those weights whose pairing with ``OPS`` is non-negative.
         - ``nonstable_weights_considered`` -- If ``True``, it will only
           consider weights that are non-stable with respect to ``OPS``.
-          If ``False`` it will consider weights taht are unstable with respect to ``OPS``.
+          If ``False`` it will consider weights that are unstable with
+          respect to ``OPS``.
 
         EXAMPLES::
 
