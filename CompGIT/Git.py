@@ -769,7 +769,7 @@ class GITProblem(object):
         i=1
         for state in self.maximal_nonstable_states:
             print('({n}) 1-PS = '.format(n=i), self.group.H_coordinates(self.gamma_OPS_nonstable_dictionary[state]), ' yields a state with ', len(list(state)), ' characters', sep='')
-            statelist = [self.H_dual_coordinates(element) for element in state];
+            statelist = [self.H_dual_coordinates(element) for element in state]
             statestr = str(statelist)
             print('Maximal nonstable state={',statestr[1:-1],"}")
             #print('\n')
@@ -802,7 +802,7 @@ class GITProblem(object):
         i = 1
         for state in self.maximal_nonstable_states:
             s = s + '({n}) 1-PS = '.format(n=i)+str(self.group.H_coordinates(self.gamma_OPS_nonstable_dictionary[state]))+' yields a state with '+str(len(list(state)))+' characters\n'
-            statelist = [self.H_dual_coordinates(element) for element in state];
+            statelist = [self.H_dual_coordinates(element) for element in state]
             statestr = str(statelist)
             s = s + 'Maximal nonstable state={'+statestr[1:-1]+"}\n"
             i = i + 1
@@ -844,7 +844,7 @@ class GITProblem(object):
         i=1
         for state in self.maximal_unstable_states:
             print ('({d}) 1-PS = '.format(d=i), self.group.H_coordinates(self.gamma_OPS_unstable_dictionary[state]), ' yields a state with ', len(list(state)), ' characters', sep='')
-            statelist = [self.H_dual_coordinates(element) for element in state];
+            statelist = [self.H_dual_coordinates(element) for element in state]
             statestr = str(statelist)
             print('Maximal unstable state={',statestr[1:-1],"}")
             #print('\n')
@@ -877,7 +877,7 @@ class GITProblem(object):
         i = 1
         for state in self.maximal_unstable_states:
             s = s + '({n}) 1-PS = '.format(n=i)+str(self.group.H_coordinates(self.gamma_OPS_unstable_dictionary[state]))+' yields a state with '+str(len(list(state)))+' characters\n'
-            statelist = [self.H_dual_coordinates(element) for element in state];
+            statelist = [self.H_dual_coordinates(element) for element in state]
             statestr = str(statelist)
             s = s + 'Maximal unstable state={'+statestr[1:-1]+"}\n"
             i = i + 1
@@ -929,7 +929,7 @@ class GITProblem(object):
         i = 1
         for state in self.strictly_polystable_states:
             print ('({d}) '.format(d=i),'A state with ', len(list(state)), ' characters', sep='')
-            statelist = [self.H_dual_coordinates(element) for element in state];
+            statelist = [self.H_dual_coordinates(element) for element in state]
             statestr = str(statelist)
             print('Strictly polystable state={',statestr[1:-1],"}")
             #print('\n')
@@ -968,7 +968,7 @@ class GITProblem(object):
         i = 1
         for state in self.strictly_polystable_states:
             s = s + '({n}) '.format(n=i)+'A state with '+str(len(list(state)))+' characters\n'
-            statelist=[self.H_dual_coordinates(element) for element in state];
+            statelist=[self.H_dual_coordinates(element) for element in state]
             statestr=str(statelist)
             s = s + 'Strictly polystable state={'+statestr[1:-1]+"}\n"
             i = i + 1
