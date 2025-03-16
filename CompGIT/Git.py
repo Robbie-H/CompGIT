@@ -485,7 +485,7 @@ class GITProblem(object):
                 else:
                     destabilizing_OPS = None
 
-                if destabilizing_OPS != None:
+                if destabilizing_OPS is not None:
                     destabilized_state=self.destabilized_weights(destabilizing_OPS)
 
                     candidate_is_maximal = True
@@ -600,7 +600,7 @@ class GITProblem(object):
                 else:
                     destabilizing_OPS = None
 
-                if destabilizing_OPS != None:
+                if destabilizing_OPS is not None:
                     destabilized_state=self.destabilized_weights(destabilizing_OPS, all_weights_considered=False, strict_inequality=True,nonstable_weights_considered=False)
 
                     candidate_is_maximal = True
