@@ -205,7 +205,7 @@ class GITProblem(object):
         elif self.Dynkin_type=='G':
             # projection of weights to self.weights one dimension lower
             M = matrix(QQ[sqrt(3)], [[1/2, -1/2, 0], [sqrt(3)/6, sqrt(3)/6, -sqrt(3)/3]])
-            self.weights = tuple([tuple([M * weight[i]] for i in range(len(weight)-1)) for weight in weights])
+            self.weights = tuple([tuple(vector(weight)*M.transpose()) for weight in weights])
             print("G NOT FULLY IMPLEMENTED")
             return None;
         elif (self.Dynkin_type == 'E' and self.rank == 7):
