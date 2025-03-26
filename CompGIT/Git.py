@@ -1,3 +1,4 @@
+debug=True;
 """
 GIT (Geometric Invariant Theory) package
 
@@ -191,8 +192,10 @@ class GITProblem(object):
         #Transforming weights into tuple form
         weights_dict=self.rep.weight_multiplicities()
         weights=tuple(weights_dict.keys())
-        if self.Dynkin_type=='A':
+        if self.Dynkin_type=='A' or self.Dynkin_type=='G' or (self.Dynkin_type == 'E' and self.rank == 7):
             length = self.rank + 1
+        elif self.Dynkin_type == 'E' and self.rank == 6:
+            length = self.rank + 2
         else:
             length = self.rank
         weights=tuple([tuple([weight[i] for i in range(length)]) for weight in weights])
@@ -203,6 +206,20 @@ class GITProblem(object):
             for i in range(len(weights)):
                 conversion_dictionary[self.weights[i]]=H_weights[i]
             self.L_coord_to_H_dual_conversion=conversion_dictionary
+        elif self.Dynkin_type=='G':
+            # projection of weights to self.weights one dimension lower
+            M = matrix(QQ[sqrt(3)], [[1/2, -1/2, 0], [sqrt(3)/6, sqrt(3)/6, -sqrt(3)/3]])
+            self.weights = tuple([tuple(vector(weight)*M.transpose()) for weight in weights])
+            print("G NOT FULLY IMPLEMENTED")
+            return None;
+        elif (self.Dynkin_type == 'E' and self.rank == 7):
+            #***to do: projection of weights to self.weights one dimension lower would go here, just as for An (different matrix).
+            print("E7 NOT FULLY IMPLEMENTED")
+            return None;
+        elif (self.Dynkin_type == 'E' and self.rank == 6):
+            #***to do: projection of weights to self.weights one dimension lower would go here, just as for An (different matrix).
+            print("E6 NOT FULLY IMPLEMENTED")
+            return None;
         else:
             self.weights=weights
         self.trivial_character=averageWeight(self.weights)
@@ -219,7 +236,7 @@ class GITProblem(object):
         self.fundamental_chamber_generators=self.group.fundamental_chamber_generators()
 
         #Compute the states destabilised by each generator of the Weyl fundamental chamber
-        self.OPS_rays_list=([one_param_subgroup(tuple(self.fundamental_chamber_generators[:,i].transpose())[0]) for i in range(0,self.rank)])
+        self.OPS_rays_list=([one_param_subgroup(tuple(self.fundamental_chamber_generators[:,i].transpose())[0], field=self.group.lattice_field()) for i in range(0,self.rank)])
         states_destabilized_by_rays=[Set(self.destabilized_weights(OPS, all_weights_considered=True)) for OPS in self.OPS_rays_list]
         self.states_destabilized_by_rays_strict=[Set(self.destabilized_weights(OPS, all_weights_considered=True, strict_inequality=True)) for OPS in self.OPS_rays_list]
 
@@ -247,8 +264,9 @@ class GITProblem(object):
 
     def Weyl_group(self):
         """
-        Returns the Weyl group (class ``WeylGroup``) of the simple group associated to the object in the class ``GITProblem``.
-
+        Returns a set of matrices of the Weyl group of the simple group
+        associated to the object in the class ``GITProblem``.
+        
         EXAMPLES::
 
             sage: from Git import GITProblem
@@ -258,6 +276,9 @@ class GITProblem(object):
             sage: print(GITProblem.Weyl_group(P))
             Weyl Group of type ['A', 2] (as a matrix group acting on the ambient space)
         """
+        if self.Dynkin_type=='G' or (self.Dynkin_type=='E' and (self.rank==6 or self.rank==7)):
+            group_temp=self.group.Weyl_Group_elements();
+            return [group_temp.reflection_representation().representation_matrix(g) for g in group_temp]
         return self.group.Weyl_Group_elements()
 
     def weyl_elt_action_on_state(self,M,state):
@@ -477,7 +498,7 @@ class GITProblem(object):
             if len(M_kernel)==1: #The weights have one-dimensional solution
                 #Check that the ray perpendicular to the set of weights 'candidate'
                 #is in the Weyl fundamental chamber (and choose the right generator)
-                gamma_OPS=one_param_subgroup(M_kernel[0])
+                gamma_OPS=one_param_subgroup(M_kernel[0], field=self.group.lattice_field())
                 if self.group.in_cone(gamma_OPS):
                     destabilizing_OPS = gamma_OPS
                 elif self.group.in_cone(-gamma_OPS):
@@ -514,22 +535,34 @@ class GITProblem(object):
         # Perform optimisation step using the Weyl stabilisers
 
         if Weyl_optimisation:
+            if debug: print("Enters Weyl_optimisation");
             group_elements = self.Weyl_group()
             maximal_nonstable_final = set() #WARNING: This is a Python set, not a Sage set. Needed for add/remove
             maximal_nonstable_candidate_states_list_copy = list(self.unoptimized_maximal_nonstable_states)
+            if debug:
+                print('unoptimized_maximal_nonstable_states', self.unoptimized_maximal_nonstable_states)
             for candidate in list(self.unoptimized_maximal_nonstable_states):
                 is_maximal = True
                 lambda_ops=self.gamma_OPS_nonstable_dictionary[candidate]
+                if debug:
+                    print('CANDIDATE', candidate, 'lambdaOPS', lambda_ops); input('')
                 for g in group_elements:
                     for state in maximal_nonstable_candidate_states_list_copy:
-                        lambda_ops_acted = one_param_subgroup(list(g.inverse()*(self.group.H_coordinates(lambda_ops))), type_A=self.Dynkin_type=="A")
+                        if debug:
+                            print('g\n', g, '\n\ng.inverse', g.inverse(),'\ng.inverse()*(self.group.H_coordinates(lambda_ops)\n', g.inverse()*self.group.H_coordinates(lambda_ops), '\n\n');
+                            print('g\n', g, '\n\ng.inverse', g.inverse(),'\n Matrix version: \n', Matrix(self.group.lattice_field(), g.inverse()), '\n Product\n', Matrix(self.group.lattice_field(), g.inverse())*(self.group.H_coordinates(lambda_ops)), '\n\n'); input(' ')
+                        lambda_ops_acted = one_param_subgroup(list(Matrix(self.group.lattice_field(), g.inverse())*(self.group.H_coordinates(lambda_ops))), type_A=self.Dynkin_type=="A", field=self.group.lattice_field())
                         acted_state=self.destabilized_weights(lambda_ops_acted, all_weights_considered=True)
+                        if debug: print("acted_state", acted_state); input('');
                         if acted_state.issubset(state) and len(acted_state)!=len(state):
                             is_maximal=False
+                            if debug: print("not maximal as it is inside ", state), input('')
                             break
                     if not is_maximal:
+                        if debug: input("not maximal, break");
                         break
                 if is_maximal:
+                    if debug: print("Adds candidate", candidate); input('');
                     maximal_nonstable_final.add(candidate)
             self.maximal_nonstable_states=Set(list(maximal_nonstable_final))
         else:
@@ -581,8 +614,8 @@ class GITProblem(object):
             #Step carried out to make linear system to solve a homogeneous one
             candidate_list = list(candidate)
             substract_weight=candidate_list[len(candidate_list)-1]
-            substract_matrix = Matrix(QQ, [substract_weight for i in range(len(substract_weight)-1)])
-            character_matrix = Matrix(QQ, candidate_list[0:len(candidate_list)-1])
+            substract_matrix = Matrix(self.group.lattice_field(), [substract_weight for i in range(len(substract_weight)-1)])
+            character_matrix = Matrix(self.group.lattice_field(), candidate_list[0:len(candidate_list)-1])
             linear_system_matrix=character_matrix-substract_matrix
 
             #Check if they have a unique solution and find it.
@@ -591,7 +624,7 @@ class GITProblem(object):
             if len(M_kernel)==1: #The weights have one-dimensional solution
                 #Check that the ray perpendicular to the set of weights 'candidate'
                 #is in the Weyl fundamental chamber (and choose the right generator)
-                gamma_OPS = one_param_subgroup(M_kernel[0])
+                gamma_OPS = one_param_subgroup(M_kernel[0], field=self.group.lattice_field())
                 pairing_value = self.group.pairing(gamma_OPS, substract_weight)
                 if self.group.in_cone(gamma_OPS):
                     destabilizing_OPS=gamma_OPS
@@ -611,9 +644,14 @@ class GITProblem(object):
                         elif currently_maximal_state.issubset(destabilized_state):
                             maximal_unstable_candidate_states.remove(currently_maximal_state)
                             self.gamma_OPS_unstable_dictionary.pop(currently_maximal_state)
+                            # if debug:
+                                # print('currently_maximal_state', currently_maximal_state, 'removed\n'); input('')
                     if candidate_is_maximal:
                         maximal_unstable_candidate_states.add(destabilized_state)        # We find the maximal states among all the destabilised states
                         self.gamma_OPS_unstable_dictionary[destabilized_state]=destabilizing_OPS
+                        # if debug:
+                            # print('destabilized_state', destabilized_state, 'added\n'); input('')
+
 
 
         #Add the weights that are unnstable and in every maximal state back into all maximal states
@@ -631,19 +669,35 @@ class GITProblem(object):
             group_elements = self.Weyl_group()
             maximal_unstable_final = set() #WARNING: This is a Python set, not a Sage set. Needed for add/remove
             maximal_unstable_candidate_states_list_copy = list(maximal_unstable_candidate_states)
+            # if debug:
+                # print('unoptimized_maximal_unstable_states', self.unoptimized_maximal_unstable_states)
             for candidate in list(self.unoptimized_maximal_unstable_states):
                 is_maximal = True
                 lambda_ops=self.gamma_OPS_unstable_dictionary[candidate]
+                # if debug:
+                    # print('CANDIDATE', candidate); input('')
                 for g in group_elements:
                     for state in maximal_unstable_candidate_states_list_copy:
-                        lambda_ops_acted = one_param_subgroup(list(g.inverse()*(self.group.H_coordinates(lambda_ops))), type_A=self.Dynkin_type=="A")
+                        print('g\n', g, '\n\ng.inverse', g.inverse(), '\ng.inverse()*(self.group.H_coordinates(lambda_ops)\n', g.inverse()*(self.group.H_coordinates(lambda_ops)), '\n\n'); input(' ');
+                        lambda_ops_acted = one_param_subgroup(list(g.inverse()*(self.group.H_coordinates(lambda_ops))), type_A=self.Dynkin_type=="A", field=self.group.lattice_field())
+                        if debug:
+                            print('lambda_ops_acted', lambda_ops_acted); input('');
                         acted_state=self.destabilized_weights(lambda_ops_acted, all_weights_considered=True)
+                        # if debug:
+                            # print('acted_state', acted_state, '\nstate', state); input('');
                         if acted_state.issubset(state) and len(acted_state)!=len(state):
                             is_maximal = False
+                            # if debug:
+                                # print('is_maximal', is_maximal)
+                            # if debug:
+                                # print('acted_state', acted_state, 'state', state)
+                            # input('')
                             break
                     if not is_maximal:
                         break
                 if is_maximal:
+                    # if debug:
+                        # print('added', candidate); input('')
                     maximal_unstable_final.add(candidate)
             self.maximal_unstable_states=Set(list(maximal_unstable_final))
         else:
