@@ -203,18 +203,35 @@ class GITProblem(object):
                 conversion_dictionary[self.weights[i]]=H_weights[i]
             self.L_coord_to_H_dual_conversion=conversion_dictionary
         elif self.Dynkin_type=='G':
-            # projection of weights to self.weights one dimension lower
+            # projection of dim 3 weights to dim 2 weights
             M = matrix(QQ[sqrt(3)], [[1/2, -1/2, 0], [sqrt(3)/6, sqrt(3)/6, -sqrt(3)/3]])
             self.weights = tuple([tuple(vector(weight)*M.transpose()) for weight in weights])
             print("G NOT FULLY IMPLEMENTED")
             return None;
         elif (self.Dynkin_type == 'E' and self.rank == 7):
-            #***to do: projection of weights to self.weights one dimension lower would go here, just as for An (different matrix).
-            print("E7 NOT FULLY IMPLEMENTED")
+            # projection of dim 8 weights to dim 7 weights
+            M = matrix(QQ[sqrt(3)], [
+            [ -1,    0,    1,    0,    0,    0,    0,    0]
+            [ -1,    0,    0,    1,    0,    0,    0,    0]
+            [3/4, -1/4, -1/4, -1/4,  3/4, -1/4, -1/4, -1/4]
+            [3/4, -1/4, -1/4, -1/4, -1/4,  3/4, -1/4, -1/4]
+            [3/4, -1/4, -1/4, -1/4, -1/4, -1/4,  3/4, -1/4]
+            [9/4, -3/4, -3/4, -3/4, -3/4, -3/4,  1/4,  5/4]
+            [7/8*sqrt2 - 21/4, -1/8*sqrt2 + 9/4, -1/8*sqrt2 + 7/4, -1/8*sqrt2 + 5/4, -1/8*sqrt2 + 3/4, -1/8*sqrt2 + 1/4, -1/8*sqrt2 - 1/4, -1/8*sqrt2 - 3/4]
+            ])
+            self.weights = tuple([tuple(vector(weight)*M.transpose()) for weight in weights])
             return None;
         elif (self.Dynkin_type == 'E' and self.rank == 6):
-            #***to do: projection of weights to self.weights one dimension lower would go here, just as for An (different matrix).
-            print("E6 NOT FULLY IMPLEMENTED")
+            # projection of dim 9 weights to dim 6 weights
+            M = matrix(QQ[sqrt(3)], [
+            [-1/3 , 2/3, -1/3, -2/3,  1/3,  1/3,    0,    0,   0],
+            [ 2/3, -1/3, -1/3,  1/3, -2/3,  1/3,    0,    0,   0],
+            [-2/3,  1/3,  1/3,  1/3,  1/3, -2/3, -2/3,  1/3, 1/3],
+            [ 2/3, -1/3, -1/3,    0,    0,    0,  1/3, -2/3, 1/3],
+            [ 2,     -1,   -1,    0,    0,    0,    1,    0,  -1],
+            [sqrt(3) - 5/2, -1/2*sqrt(3) + 1, -1/2*sqrt(3) + 3/2, -1/2, 0, 1/2, -1/2, 0, 1/2]
+            ])
+            self.weights = tuple([tuple(vector(weight)*M.transpose()) for weight in weights])
             return None;
         else:
             self.weights=weights
