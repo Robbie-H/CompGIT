@@ -508,7 +508,9 @@ class SimpleGroup(object):
             weyl_list = []
             M = ProjE6
             for g in self.WeylGroup:
-                weyl_list.append(M * g * M.transpose() * (( M * M.transpose() ).inverse()) # project weyl group elements from 9 dim representation to 6 dim representation
+                M_prime = (M * M.transpose()).inverse()
+                g_proj = M * g * M.transpose() * M_prime
+                weyl_list.append(g_proj) # project weyl group elements from 9 dim representation to 6 dim representation
             self.WeylGroup = weyl_list
             
         elif Dynkin_type == 'E' and rnk == 7:
@@ -529,7 +531,9 @@ class SimpleGroup(object):
             weyl_list = []
             M = ProjE7
             for g in self.WeylGroup:
-                weyl_list.append(M * g * M.transpose() * (( M * M.transpose() ).inverse()) # project weyl group elements from 8 dim representation to 7 dim representation
+                M_prime = (M * M.transpose()).inverse()
+                g_proj = M * g * M.transpose() * M_prime
+                weyl_list.append(g_proj) # project weyl group elements from 9 dim representation to 6 dim representation
             self.WeylGroup = weyl_list
             
         elif Dynkin_type == 'E' and rnk == 8:
@@ -566,7 +570,9 @@ class SimpleGroup(object):
             weyl_list = []
             M = ProjG2
             for g in self.WeylGroup:
-                weyl_list.append(M * g * M.transpose() * (( M * M.transpose() ).inverse()) # project weyl group elements from 3 dim representation to 2 dim representation
+                M_prime = (M * M.transpose()).inverse()
+                g_proj = M * g * M.transpose() * M_prime
+                weyl_list.append(g_proj) # project weyl group elements from 9 dim representation to 6 dim representation
             self.WeylGroup = weyl_list
                                  
         else:
