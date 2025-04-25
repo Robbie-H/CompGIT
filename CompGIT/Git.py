@@ -1,4 +1,4 @@
-debug=True;
+debug=False;
 """
 GIT (Geometric Invariant Theory) package
 
@@ -181,6 +181,7 @@ class GITProblem(object):
         self.rank=pair[1]
         self.rep=rep
         self.group=SimpleGroup(self.Dynkin_type, self.rank)
+        self.maximal_unstable_states=None
         if self.group is None:
             print ('Group {Dynkin_type}{rank} not yet implemented'.format(Dynkin_type=self.Dynkin_type, rank=self.rank), sep='')
             return None
@@ -683,7 +684,8 @@ class GITProblem(object):
                     # print('CANDIDATE', candidate); input('')
                 for g in group_elements:
                     for state in maximal_unstable_candidate_states_list_copy:
-                        print('g\n', g, '\n\ng.inverse', g.inverse(), '\ng.inverse()*(self.group.H_coordinates(lambda_ops)\n', g.inverse()*(self.group.H_coordinates(lambda_ops)), '\n\n'); input(' ');
+                        if debug:
+                            print('g\n', g, '\n\ng.inverse', g.inverse(), '\ng.inverse()*(self.group.H_coordinates(lambda_ops)\n', g.inverse()*(self.group.H_coordinates(lambda_ops)), '\n\n'); input(' ');
                         lambda_ops_acted = one_param_subgroup(list(g.inverse()*(self.group.H_coordinates(lambda_ops))), type_A=self.Dynkin_type=="A", field=self.group.lattice_field())
                         if debug:
                             print('lambda_ops_acted', lambda_ops_acted); input('');

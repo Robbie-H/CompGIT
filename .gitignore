@@ -1,0 +1,13 @@
+CompGIT/__pycache__/
+build/
+examples.sage.py
+output.txt
+output2.txt
+CompGIT.egg-info/
+CompGIT.egg-info/dependency_links.txt
+CompGIT.egg-info/PKG-INFO
+CompGIT.egg-info/SOURCES.txt
+CompGIT.egg-info/top_level.txt
+CompGIT/__pycache__/__init__.cpython-310.pyc
+CompGIT/__pycache__/Git.cpython-310.pyc
+CompGIT/__pycache__/SimpleGroup.cpython-310.pyc
