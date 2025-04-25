@@ -207,8 +207,6 @@ class GITProblem(object):
             # projection of dim 3 weights to dim 2 weights
             M = matrix(QQ[sqrt(3)], [[1/2, -1/2, 0], [sqrt(3)/6, sqrt(3)/6, -sqrt(3)/3]])
             self.weights = tuple([tuple(vector(weight)*M.transpose()) for weight in weights])
-            print("G NOT FULLY IMPLEMENTED")
-            return None;
         elif (self.Dynkin_type == 'E' and self.rank == 7):
             # projection of dim 8 weights to dim 7 weights
             M = matrix(QQ[sqrt(3)], [
@@ -221,7 +219,6 @@ class GITProblem(object):
             [7/8*sqrt2 - 21/4, -1/8*sqrt2 + 9/4, -1/8*sqrt2 + 7/4, -1/8*sqrt2 + 5/4, -1/8*sqrt2 + 3/4, -1/8*sqrt2 + 1/4, -1/8*sqrt2 - 1/4, -1/8*sqrt2 - 3/4]
             ])
             self.weights = tuple([tuple(vector(weight)*M.transpose()) for weight in weights])
-            return None;
         elif (self.Dynkin_type == 'E' and self.rank == 6):
             # projection of dim 9 weights to dim 6 weights
             M = matrix(QQ[sqrt(3)], [
@@ -233,7 +230,6 @@ class GITProblem(object):
             [sqrt(3) - 5/2, -1/2*sqrt(3) + 1, -1/2*sqrt(3) + 3/2, -1/2, 0, 1/2, -1/2, 0, 1/2]
             ])
             self.weights = tuple([tuple(vector(weight)*M.transpose()) for weight in weights])
-            return None;
         else:
             self.weights=weights
         self.trivial_character=averageWeight(self.weights)

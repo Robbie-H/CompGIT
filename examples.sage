@@ -9,16 +9,16 @@ from CompGIT import *
 # G.fundamental_chamber_generators() # rays of the fundamental chamber
 # G.fetch_pairing_matrix() # pairing between one parameter subgroups and characters 
 
-# # Solve a GIT problem for plane cubics
-# Phi = WeylCharacterRing("A2")
-# representation= Phi(3,0,0) # SL_2 is acting on a 3 dimensional weight system with highest weight 3omega_1
-# P=GITProblem(representation,label="Plane cubics")
-# P.solve_non_stable(Weyl_optimisation=True)
-# P.print_solution_nonstable() 
-# P.solve_unstable(Weyl_optimisation=True)
-# P.print_solution_unstable()
-# P.solve_strictly_polystable()
-# P.print_solution_strictly_polystable()
+# Solve a GIT problem for plane cubics
+Phi = WeylCharacterRing("A2")
+representation= Phi(3,0,0) # SL_2 is acting on a 3 dimensional weight system with highest weight 3omega_1
+P=GITProblem(representation,label="Plane cubics")
+P.solve_non_stable(Weyl_optimisation=True)
+P.print_solution_nonstable() 
+P.solve_unstable(Weyl_optimisation=True)
+P.print_solution_unstable()
+P.solve_strictly_polystable()
+P.print_solution_strictly_polystable()
 
 # # Solve a GIT problem for cubic surfaces
 # Phi = WeylCharacterRing("A3")
