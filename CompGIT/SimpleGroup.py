@@ -22,20 +22,6 @@ from sage.rings.rational_field import QQ
 from sage.modules.free_module_element import vector
 from sage.all import *
 
-
-#if type_A=True, the type is A and
-#the vector has coordinates in basis H
-class OneParamSubgroup(Vector_rational_dense):
-    """
-    Wrapper of Vector_rational_dense to store one-parameter subgroups by storing its weights (in H-coordinates).
-
-    It should always be called using one_param_subgroup constructor.
-    The reason for the wrapper is to make sure the class Vector_rational_dense is used.
-    """
-    def __init__(self, parent, value):
-        Vector_rational_dense.__init__(self, parent, value)
-
-
 def upper_triangular_entries(rnk, x, y):
     """
     Constructor for a square matrix with entries equal to 1 if they are in the diagonal or above the diagonal and 0 elsewhere.
@@ -80,15 +66,16 @@ def lower_triangular_entries(rnk, x, y):
     """
     return upper_triangular_entries(rnk, y, x)
 
-def one_param_subgroup(data, type_A=False):
+#*** to edit comments
+def one_param_subgroup(data, type_A=False, field=QQ):
     """
     Wrapper for OneParamSubgroup constructor that returns a OneParamSubgroup given in data as a vector.
-
+    
     If type_A = True, it takes data in coordinates given by basis T and returns them in H-coordinates.
     Otherwise, it assumes the data is already in H-coordinates.
-
+    
     EXAMPLES::
-
+        
         sage: from SimpleGroup import one_param_subgroup
         sage: v1 = vector([2, 1, -3])
         sage: v2 = vector([3, 2, 1])
@@ -98,14 +85,15 @@ def one_param_subgroup(data, type_A=False):
         (3, 2, 1)
     """
     if type_A:
-        BasisChange=matrix(QQ, len(data)-1, len(data)-1,
+        BasisChange = matrix(QQ, len(data)-1, len(data)-1,
                            lambda x,y: lower_triangular_entries(len(data)-1,x,y))
-        v=vector(data[0:len(data)-1])
-        v=tuple(BasisChange*v)
-
+        v = vector(data[0:len(data)-1])
+        v = tuple(BasisChange*v)
+    
     else:
-        v=tuple(data)
-    return OneParamSubgroup(QQ**len(v), v)
+        v = tuple(data)
+    # return OneParamSubgroup(QQ**len(v), v)
+    return vector(field, v)
 
 def A_coord_change_from_T_to_H(rnk,x, y):
     """
@@ -272,6 +260,81 @@ def D_T_basis_constructor_from_gamma(rnk, x, y):
         return 0
 
 
+# Computation of projection matrices that send roots from higher to lower dimensional representations
+# Choices of simple roots sets for G2, E7, E8 are stored as matrices in which:
+# - columns are choices of simple roots in a specified dimension
+# - in higher dimensional cases (denoted X), orthogonal vectors are appended until the matrix is square
+# - in lower dimensional cases (denoted Y), zero vectors are appended until the matrix is square
+
+# to-do: add doctests.
+
+# G2
+simplerootsG2dim3 = matrix(QQ[sqrt(3)],
+                           [[ 1,  -1, 1],
+                            [-1,   2, 1],
+                            [ 0 , -1, 1]])
+
+simplerootsG2dim2 = matrix(QQ[sqrt(3)],
+                           [[1,    0,         0],
+                            [-3/2, sqrt(3)/2, 0]]
+                            ) # the final column is an orthogonal vector
+
+X = simplerootsG2dim3
+Y = simplerootsG2dim2
+ProjG2 = ( Y * X.transpose() ) * (( X * X.transpose() ).inverse())
+
+# E6
+simplerootsE6dim9 = matrix([
+                           [0,  0,  0,  0,  0,  1/3, 1, 0, 0],
+                           [1,  0,  0,  0,  0, -2/3, 1, 0, 0],
+                           [-1, 0,  0,  0,  0,  1/3, 1, 0, 0],
+                           [0,  1,  0,  0,  0, -2/3, 0, 1, 0],
+                           [0, -1,  1,  0,  0,  1/3, 0, 1, 0],
+                           [0,  0, -1,  0,  0,  1/3, 0, 1, 0],
+                           [0,  0,  0,  1,  0, -2/3, 0, 0, 1],
+                           [0,  0,  0, -1,  1,  1/3, 0, 0, 1],
+                           [0,  0,  0,  0, -1,  1/3, 0, 0, 1]
+                           ]) # the final three columns are orthogonal vectors
+
+simplerootsE6dim6 = matrix(QQ[sqrt(3)], [
+                                   [1,    -1,    0,    0,    0,   0,          0, 0, 0],
+                                   [0,     1,   -1,    0,    0,   0,          0, 0, 0],
+                                   [0,     0,    1,   -1,    0,   0,          0, 0, 0],
+                                   [0,     0,    0,    1,   -1,   0,          0, 0, 0],
+                                   [0,     0,    0,    1,    1,   0,          0, 0, 0],
+                                   [-1/2, -1/2, -1/2, -1/2, -1/2, sqrt(3)/2,  0, 0, 0]
+                                   ])
+  
+X = simplerootsE6dim9
+Y = simplerootsE6dim6
+ProjE6 = ( Y * X.transpose() ) * (( X * X.transpose() ).inverse())
+
+
+# E7
+simplerootsE7dim8 = matrix([
+                           [0,  0,  0,  0,   0,  0,  1/2, 1],
+                           [-1, 0,  0,  0,   0,  0,  1/2, 1],
+                           [1, -1,  0,  0,   0,  0,  1/2, 1],
+                           [0,  1, -1,  0,   0,  0,  1/2, 1],
+                           [0,  0,  1, -1,   0,  0, -1/2, 1],
+                           [0,  0,  0,  1,  -1,  0, -1/2, 1],
+                           [0,  0,  0,  0,   1, -1, -1/2, 1],
+                           [0,  0,  0,  0,   0,  1, -1/2, 1]
+                          ]) # the final column is an orthogonal vector
+
+simplerootsE7dim7 = matrix(QQ[sqrt(2)],
+                                   [[1,   -1,    0,    0,    0,    0,   0,          0],
+                                   [ 0,    1,   -1,    0,    0,    0,   0,          0],
+                                   [ 0,    0,    1,   -1,    0,    0,   0,          0],
+                                   [ 0,    0,    0,    1,   -1,    0,   0,          0],
+                                   [ 0,    0,    0,    0,    1,   -1,   0,          0],
+                                   [ 0,    0,    0,    0,    1,    1,   0,          0],
+                                   [-1/2, -1/2, -1/2, -1/2, -1/2, -1/2, sqrt(2)/2 , 0]
+                                   ])
+
+X = simplerootsE7dim8
+Y = simplerootsE7dim7
+ProjE7 = ( Y * X.transpose() ) * (( X * X.transpose() ).inverse())
 
 
 class SimpleGroup(object):
@@ -386,7 +449,6 @@ class SimpleGroup(object):
             for i in range(0,rnk-1):
                 self.pairing_matrix[i,i+1]=-1
 
-
         elif Dynkin_type == 'B':
             self.cone_basis = matrix(QQ, rnk, rnk,
                                 lambda x,y: upper_triangular_entries(rnk,x,y)) #stores rays of the fundamental chamber in H-coordinates. Change of coordinate matrix from gamma-coordinates to H-coordinates.
@@ -409,6 +471,9 @@ class SimpleGroup(object):
             self.T_to_H_change = matrix.identity(QQ, rnk) #Change of coordinate matrix from T-coordinates to H-coordinates. Returns T-vectors in H-coordinates.
 
         elif Dynkin_type == 'E' and rnk == 6:
+            R = QuadraticField(3, 'a')
+            self.field = R
+            self.pairing_matrix = matrix.identity(self.field, rnk)
             self.cone_basis = matrix(QQ[sqrt(3)], [[3,   0,   0,   0,   0,    sqrt(3)],
                                                    [1/5, 1/5, 1/5, 1/5, 1/5,  sqrt(3)],
                                                    [1/3, 1/3, 1/3, 1/3, -1/3, sqrt(3)],
@@ -418,8 +483,19 @@ class SimpleGroup(object):
                                                    ).transpose()
             self.T_to_gamma_change = self.cone_basis.inverse()
             self.T_to_H_change = matrix.identity(QQ[sqrt(3)], 6)
+            
+            weyl_list = []
+            M = ProjE6
+            for g in self.WeylGroup:
+                M_prime = (M * M.transpose()).inverse()
+                g_proj = M * g * M.transpose() * M_prime
+                weyl_list.append(g_proj) # project weyl group elements from 9 dim representation to 6 dim representation
+            self.WeylGroup = weyl_list
 
         elif Dynkin_type == 'E' and rnk == 7:
+            R=QuadraticField(2, 'a')
+            self.field = R
+            self.pairing_matrix = matrix.identity(self.field, rnk)
             self.cone_basis = matrix(QQ[sqrt(2)], [[1/4, 1/4, 1/4, 1/4, 1/4, -1/4, sqrt(2)],
                                                    [1/6, 1/6, 1/6, 1/6, 1/6, 1/6,  sqrt(2)],
                                                    [0,   0,   0,   0,   0,   0,    sqrt(2)],
@@ -430,6 +506,14 @@ class SimpleGroup(object):
                                                    ).transpose()
             self.T_to_gamma_change = self.cone_basis.inverse()
             self.T_to_H_change = matrix.identity(QQ[sqrt(2)], 7)
+            
+            weyl_list = []
+            M = ProjE7
+            for g in self.WeylGroup:
+                M_prime = (M * M.transpose()).inverse()
+                g_proj = M * g * M.transpose() * M_prime
+                weyl_list.append(g_proj) # project weyl group elements from 9 dim representation to 6 dim representation
+            self.WeylGroup = weyl_list
 
         elif Dynkin_type == 'E' and rnk == 8:
             self.cone_basis = matrix(QQ, [[-1,    0,    0,    0,    0,    0,    0,   1],
@@ -454,11 +538,21 @@ class SimpleGroup(object):
             self.T_to_H_change = matrix.identity(QQ, 4)
 
         elif Dynkin_type == 'G':
-            self.cone_basis = matrix(QQ[sqrt(3)], [[0,   1],
-                                                   [1/3, sqrt(3)]]
-                                                   ).transpose() #stores rays of the fundamental chamber in H-coordinates. Change of coordinate matrix from gamma-coordinates to H-coordinates.
+            R=QuadraticField(3, 'a')
+            self.field = R
+            self.pairing_matrix = matrix.identity(self.field, rnk)
+            M = Matrix(self.field, [[0,   1],[1, 3*sqrt(3)]])
+            self.cone_basis = M.transpose() #stores rays of the fundamental chamber in H-coordinates. Change of coordinate matrix from gamma-coordinates to H-coordinates.
             self.T_to_gamma_change = self.cone_basis.inverse() # inverse matrix to self.cone_basis. Change of coordinate matrix from T-coordinates to gamma-coordinates. Returns T-vectors in gamma-coordinates.
-            self.T_to_H_change = matrix.identity(QQ[sqrt(3)], 2)
+            self.T_to_H_change = matrix.identity(self.field, 2)
+            
+            weyl_list = []
+            M = ProjG2
+            for g in self.WeylGroup:
+                M_prime = (M * M.transpose()).inverse()
+                g_proj = M * g * M.transpose() * M_prime
+                weyl_list.append(g_proj) # project weyl group elements from 9 dim representation to 6 dim representation
+            self.WeylGroup = weyl_list
 
         else:
             print ('Error: Dynkin type ', Dynkin_type, 'not supported/known')
@@ -577,5 +671,13 @@ class SimpleGroup(object):
         Returns basis T in the coordinates of H.
         """
         return self.T_to_H_change
+
+     def lattice_field(self):
+        """
+        Returns the ground field used in the vector space containing the lattice.
+        """
+        return self.field
+
+
 
 
