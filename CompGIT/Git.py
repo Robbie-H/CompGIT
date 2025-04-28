@@ -561,9 +561,6 @@ class GITProblem(object):
                     print('CANDIDATE', candidate, 'lambdaOPS', lambda_ops); input('')
                 for g in group_elements:
                     for state in maximal_nonstable_candidate_states_list_copy:
-                        if debug:
-                            print('g\n', g, '\n\ng.inverse', g.inverse(),'\ng.inverse()*(self.group.H_coordinates(lambda_ops)\n', g.inverse()*self.group.H_coordinates(lambda_ops), '\n\n');
-                            print('g\n', g, '\n\ng.inverse', g.inverse(),'\n Matrix version: \n', Matrix(self.group.lattice_field(), g.inverse()), '\n Product\n', Matrix(self.group.lattice_field(), g.inverse())*(self.group.H_coordinates(lambda_ops)), '\n\n'); input(' ')
                         lambda_ops_acted = one_param_subgroup(list(Matrix(self.group.lattice_field(), g.inverse())*(self.group.H_coordinates(lambda_ops))), type_A=self.Dynkin_type=="A", field=self.group.lattice_field())
                         acted_state=self.destabilized_weights(lambda_ops_acted, all_weights_considered=True)
                         if debug: print("acted_state", acted_state); input('');
@@ -665,6 +662,8 @@ class GITProblem(object):
                         # if debug:
                             # print('destabilized_state', destabilized_state, 'added\n'); input('')
 
+
+        
         # Add the weights that are unnstable and in every maximal state back into all maximal states
         enlarged_max_unstable_states_list=list()
         for reduced_state in maximal_unstable_candidate_states:
