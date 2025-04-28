@@ -207,19 +207,32 @@ class GITProblem(object):
                 conversion_dictionary[self.weights[i]]=H_weights[i]
             self.L_coord_to_H_dual_conversion=conversion_dictionary
         elif self.Dynkin_type=='G':
-            # projection of weights to self.weights one dimension lower
+            # projection of dim 3 weights to dim 2 weights
             M = matrix(QQ[sqrt(3)], [[1/2, -1/2, 0], [sqrt(3)/6, sqrt(3)/6, -sqrt(3)/3]])
             self.weights = tuple([tuple(vector(weight)*M.transpose()) for weight in weights])
-            print("G NOT FULLY IMPLEMENTED")
-            return None;
         elif (self.Dynkin_type == 'E' and self.rank == 7):
-            #***to do: projection of weights to self.weights one dimension lower would go here, just as for An (different matrix).
-            print("E7 NOT FULLY IMPLEMENTED")
-            return None;
+            # projection of dim 8 weights to dim 7 weights
+            M = matrix(QQ[sqrt(3)], [
+            [ -1,    0,    1,    0,    0,    0,    0,    0],
+            [ -1,    0,    0,    1,    0,    0,    0,    0],
+            [3/4, -1/4, -1/4, -1/4,  3/4, -1/4, -1/4, -1/4],
+            [3/4, -1/4, -1/4, -1/4, -1/4,  3/4, -1/4, -1/4],
+            [3/4, -1/4, -1/4, -1/4, -1/4, -1/4,  3/4, -1/4],
+            [9/4, -3/4, -3/4, -3/4, -3/4, -3/4,  1/4,  5/4],
+            [7/8*sqrt2 - 21/4, -1/8*sqrt2 + 9/4, -1/8*sqrt2 + 7/4, -1/8*sqrt2 + 5/4, -1/8*sqrt2 + 3/4, -1/8*sqrt2 + 1/4, -1/8*sqrt2 - 1/4, -1/8*sqrt2 - 3/4]
+            ])
+            self.weights = tuple([tuple(vector(weight)*M.transpose()) for weight in weights])
         elif (self.Dynkin_type == 'E' and self.rank == 6):
-            #***to do: projection of weights to self.weights one dimension lower would go here, just as for An (different matrix).
-            print("E6 NOT FULLY IMPLEMENTED")
-            return None;
+            # projection of dim 9 weights to dim 6 weights
+            M = matrix(QQ[sqrt(3)], [
+            [-1/3 , 2/3, -1/3, -2/3,  1/3,  1/3,    0,    0,   0],
+            [ 2/3, -1/3, -1/3,  1/3, -2/3,  1/3,    0,    0,   0],
+            [-2/3,  1/3,  1/3,  1/3,  1/3, -2/3, -2/3,  1/3, 1/3],
+            [ 2/3, -1/3, -1/3,    0,    0,    0,  1/3, -2/3, 1/3],
+            [ 2,     -1,   -1,    0,    0,    0,    1,    0,  -1],
+            [sqrt(3) - 5/2, -1/2*sqrt(3) + 1, -1/2*sqrt(3) + 3/2, -1/2, 0, 1/2, -1/2, 0, 1/2]
+            ])
+            self.weights = tuple([tuple(vector(weight)*M.transpose()) for weight in weights])
         else:
             self.weights=weights
         self.trivial_character=averageWeight(self.weights)
@@ -652,9 +665,7 @@ class GITProblem(object):
                         # if debug:
                             # print('destabilized_state', destabilized_state, 'added\n'); input('')
 
-
-
-        #Add the weights that are unnstable and in every maximal state back into all maximal states
+        # Add the weights that are unnstable and in every maximal state back into all maximal states
         enlarged_max_unstable_states_list=list()
         for reduced_state in maximal_unstable_candidate_states:
             enlarged_max_unstable_states_list.append(reduced_state.union(self.weights_in_all_unstable_states))
@@ -678,23 +689,15 @@ class GITProblem(object):
                     # print('CANDIDATE', candidate); input('')
                 for g in group_elements:
                     for state in maximal_unstable_candidate_states_list_copy:
-                        print('g\n', g, '\n\ng.inverse', g.inverse(), '\ng.inverse()*(self.group.H_coordinates(lambda_ops)\n', g.inverse()*(self.group.H_coordinates(lambda_ops)), '\n\n'); input(' ');
                         lambda_ops_acted = one_param_subgroup(list(g.inverse()*(self.group.H_coordinates(lambda_ops))), type_A=self.Dynkin_type=="A", field=self.group.lattice_field())
-                        if debug:
-                            print('lambda_ops_acted', lambda_ops_acted); input('');
                         acted_state=self.destabilized_weights(lambda_ops_acted, all_weights_considered=True)
-                        # if debug:
-                            # print('acted_state', acted_state, '\nstate', state); input('');
                         if acted_state.issubset(state) and len(acted_state)!=len(state):
                             is_maximal = False
-                            # if debug:
-                                # print('is_maximal', is_maximal)
-                            # if debug:
-                                # print('acted_state', acted_state, 'state', state)
-                            # input('')
                             break
                     if not is_maximal:
                         break
+                if is_maximal:
+                    maximal_unstable_final.add(candidate)
                 if is_maximal:
                     # if debug:
                         # print('added', candidate); input('')
