@@ -22,6 +22,21 @@ from sage.rings.rational_field import QQ
 from sage.modules.free_module_element import vector
 from sage.all import *
 
+
+#if type_A=True, the type is A and
+#the vector has coordinates in basis H
+#*** to deprecate
+#class OneParamSubgroup(Vector_rational_dense):
+#    """
+#    Wrapper of Vector_rational_dense to store one-parameter subgroups by storing its weights (in H-coordinates).
+#
+#    It should always be called using one_param_subgroup constructor.
+#    The reason for the wrapper is to make sure the class Vector_rational_dense is used.
+#    """
+#    def __init__(self, parent, value):
+#        Vector_rational_dense.__init__(self, parent, value)
+
+
 def upper_triangular_entries(rnk, x, y):
     """
     Constructor for a square matrix with entries equal to 1 if they are in the diagonal or above the diagonal and 0 elsewhere.
@@ -261,6 +276,7 @@ def D_T_basis_constructor_from_gamma(rnk, x, y):
 
 
 # Computation of projection matrices that send roots from higher to lower dimensional representations
+#
 # Choices of simple roots sets for G2, E7, E8 are stored as matrices in which:
 # - columns are choices of simple roots in a specified dimension
 # - in higher dimensional cases (denoted X), orthogonal vectors are appended until the matrix is square
@@ -282,6 +298,7 @@ simplerootsG2dim2 = matrix(QQ[sqrt(3)],
 X = simplerootsG2dim3
 Y = simplerootsG2dim2
 ProjG2 = ( Y * X.transpose() ) * (( X * X.transpose() ).inverse())
+
 
 # E6
 simplerootsE6dim9 = matrix([
@@ -448,7 +465,7 @@ class SimpleGroup(object):
             self.dual_basis = matrix.identity(QQ,rnk+1)
             for i in range(0,rnk-1):
                 self.pairing_matrix[i,i+1]=-1
-
+                
         elif Dynkin_type == 'B':
             self.cone_basis = matrix(QQ, rnk, rnk,
                                 lambda x,y: upper_triangular_entries(rnk,x,y)) #stores rays of the fundamental chamber in H-coordinates. Change of coordinate matrix from gamma-coordinates to H-coordinates.
@@ -491,7 +508,7 @@ class SimpleGroup(object):
                 g_proj = M * g * M.transpose() * M_prime
                 weyl_list.append(g_proj) # project weyl group elements from 9 dim representation to 6 dim representation
             self.WeylGroup = weyl_list
-
+            
         elif Dynkin_type == 'E' and rnk == 7:
             R=QuadraticField(2, 'a')
             self.field = R
@@ -514,7 +531,7 @@ class SimpleGroup(object):
                 g_proj = M * g * M.transpose() * M_prime
                 weyl_list.append(g_proj) # project weyl group elements from 9 dim representation to 6 dim representation
             self.WeylGroup = weyl_list
-
+            
         elif Dynkin_type == 'E' and rnk == 8:
             self.cone_basis = matrix(QQ, [[-1,    0,    0,    0,    0,    0,    0,   1],
                                           [-1/3, -1/3, -1/3,  0,    0,    0,    0,   1],
@@ -553,7 +570,7 @@ class SimpleGroup(object):
                 g_proj = M * g * M.transpose() * M_prime
                 weyl_list.append(g_proj) # project weyl group elements from 9 dim representation to 6 dim representation
             self.WeylGroup = weyl_list
-
+            
         else:
             print ('Error: Dynkin type ', Dynkin_type, 'not supported/known')
             return None
@@ -671,13 +688,10 @@ class SimpleGroup(object):
         Returns basis T in the coordinates of H.
         """
         return self.T_to_H_change
-
+        
      def lattice_field(self):
         """
         Returns the ground field used in the vector space containing the lattice.
         """
         return self.field
-
-
-
-
+         
