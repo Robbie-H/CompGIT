@@ -285,9 +285,6 @@ class GITProblem(object):
             sage: print(GITProblem.Weyl_group(P))
             Weyl Group of type ['A', 2] (as a matrix group acting on the ambient space)
         """
-        #if self.Dynkin_type=='G' or (self.Dynkin_type=='E' and (self.rank==6 or self.rank==7)):
-        #    group_temp=self.group.Weyl_Group_elements();
-        #    return [group_temp.reflection_representation().representation_matrix(g) for g in group_temp]
         return self.group.Weyl_Group_elements()
 
     def weyl_elt_action_on_state(self,M,state):
