@@ -16,8 +16,8 @@ REFERENCES:
 - [HMG] R. Hanson, J. Martinez-Garcia "CompGIT, a Sagemath package for Geometric Invariant Theory". To appear.
 """
 
-from sage.modules.vector_rational_dense import Vector_rational_dense
-from sage.matrix.constructor import matrix
+#from sage.modules.vector_rational_dense import Vector_rational_dense
+#from sage.matrix.constructor import Matrix
 from sage.rings.rational_field import QQ
 from sage.modules.free_module_element import vector
 from sage.all import *
@@ -451,6 +451,7 @@ class SimpleGroup(object):
         self.max_torus_dim = rnk
         self.pairing_matrix = matrix.identity(QQ, rnk)
         self.WeylGroup = WeylGroup([Dynkin_type, rnk])
+        self.field = QQ
 
         if Dynkin_type == 'A':
 #            self.cone_basis_in_H = matrix(QQ, rnk+1, rnk,
@@ -465,7 +466,7 @@ class SimpleGroup(object):
             self.dual_basis = matrix.identity(QQ,rnk+1)
             for i in range(0,rnk-1):
                 self.pairing_matrix[i,i+1]=-1
-                
+
         elif Dynkin_type == 'B':
             self.cone_basis = matrix(QQ, rnk, rnk,
                                 lambda x,y: upper_triangular_entries(rnk,x,y)) #stores rays of the fundamental chamber in H-coordinates. Change of coordinate matrix from gamma-coordinates to H-coordinates.
@@ -570,7 +571,7 @@ class SimpleGroup(object):
                 g_proj = M * g * M.transpose() * M_prime
                 weyl_list.append(g_proj) # project weyl group elements from 9 dim representation to 6 dim representation
             self.WeylGroup = weyl_list
-            
+
         else:
             print ('Error: Dynkin type ', Dynkin_type, 'not supported/known')
             return None
@@ -614,7 +615,7 @@ class SimpleGroup(object):
             sage: G.pairing(1, [1,2])
             (-1, 2)
         """
-        character=vector(QQ,list(character_tuple))
+        character=vector(self.field,list(character_tuple))
         return (OPS * self.pairing_matrix) * character
 
 
@@ -688,10 +689,11 @@ class SimpleGroup(object):
         Returns basis T in the coordinates of H.
         """
         return self.T_to_H_change
-        
-     def lattice_field(self):
+    
+    def lattice_field(self):
         """
         Returns the ground field used in the vector space containing the lattice.
         """
         return self.field
+        
          

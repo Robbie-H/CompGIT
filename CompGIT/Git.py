@@ -185,6 +185,7 @@ class GITProblem(object):
         self.rank=pair[1]
         self.rep=rep
         self.group=SimpleGroup(self.Dynkin_type, self.rank)
+        self.maximal_unstable_states=None
         if self.group is None:
             print ('Group {Dynkin_type}{rank} not yet implemented'.format(Dynkin_type=self.Dynkin_type, rank=self.rank), sep='')
             return None
@@ -661,6 +662,7 @@ class GITProblem(object):
                         self.gamma_OPS_unstable_dictionary[destabilized_state]=destabilizing_OPS
                         # if debug:
                             # print('destabilized_state', destabilized_state, 'added\n'); input('')
+
 
 
         
