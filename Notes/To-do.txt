@@ -1,0 +1,23 @@
+# CompGIT to-do list 
+
+Complete all doctest comments/examples in SimpleGroup.py and GIT.py (POTENTIALLY DONE)
+* Add examples of outputs for key functions and classes, following sagemamth standard notation
+
+
+Rewrite README.txt 
+* JMG to look
+* Add a section describing how to run tests in CompGIT (via sage -t commands)
+
+Figure out that doctests run OK (see "issues")
+* Need to install first (requires setup.py) RH
+* * e.g. https://gitlab.com/modulispaces/admcycles/-/blob/master/setup.py?ref_type=heads
+* Check if current writeup of doctests is up to standard (ask Frederic). JMG
+
+Consider adding other examples to the examples.sage file from https://jesusmartinezgarcia.net/git/ JMG
+
+
+Useful links 
+* Inclusion procedure: https://doc.sagemath.org/html/en/developer/packaging.html#section-inclusion-procedure 
+* Peer review / refereeing: https://doc.sagemath.org/html/en/developer/review.html#chapter-review
+* Sage conventions: https://doc.sagemath.org/html/en/developer/coding_basics.html#chapter-code-basics
+* On Doctests: https://doc.sagemath.org/html/en/developer/coding_basics.html#section-doctest-writing

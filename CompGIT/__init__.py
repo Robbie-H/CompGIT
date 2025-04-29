@@ -3,7 +3,7 @@ from sage.all import WeylGroup #experimental purposes only
 from CompGIT import SimpleGroup
 from CompGIT import Git
 
-from SimpleGroup import (#OneParamSubgroup,
+from SimpleGroup import (OneParamSubgroup,
                          upper_triangular_entries,
                          lower_triangular_entries,
                          one_param_subgroup,
