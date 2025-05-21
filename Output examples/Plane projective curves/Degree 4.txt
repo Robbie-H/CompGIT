@@ -1,0 +1,29 @@
+***************************************
+SOLUTION TO GIT PROBLEM: NONSTABLE LOCI
+***************************************
+Group: A2 RepresentationA2(4,0,0)
+Set of maximal non-stable states:
+(1) 1-PS = (1, 1/2, -3/2) yields a state with 9 characters
+Maximal nonstable state={(1, 2, 1), (3, 0, 1), (4, 0, 0), (0, 4, 0), (3, 1, 0), (2, 2, 0), (2, 1, 1), (0, 3, 1), (1, 3, 0)}
+(2) 1-PS = (1, 0, -1) yields a state with 9 characters
+Maximal nonstable state={(1, 2, 1), (3, 0, 1), (4, 0, 0), (0, 4, 0), (3, 1, 0), (2, 0, 2), (2, 2, 0), (2, 1, 1), (1, 3, 0)}
+
+
+**************************************
+SOLUTION TO GIT PROBLEM: UNSTABLE LOCI
+**************************************
+Group: A2 RepresentationA2(4,0,0)
+Set of maximal unstable states:
+(1) 1-PS = (1, -1/5, -4/5) yields a state with 7 characters
+Maximal unstable state={(3, 0, 1), (4, 0, 0), (2, 2, 0), (2, 1, 1), (1, 3, 0), (3, 1, 0), (2, 0, 2)}
+(2) 1-PS = (1, 1, -2) yields a state with 9 characters
+Maximal unstable state={(1, 2, 1), (3, 0, 1), (4, 0, 0), (0, 4, 0), (3, 1, 0), (2, 2, 0), (2, 1, 1), (0, 3, 1), (1, 3, 0)}
+
+
+*************************************************************
+SOLUTION TO GIT PROBLEM: STRICTLY POLYSTABLE LOCI
+*************************************************************
+Group: A2 RepresentationA2(4,0,0)
+Set of strictly polystable states:
+(1) A state with 3 characters
+Strictly polystable state={(1, 2, 1), (0, 4, 0), (2, 0, 2)}
