@@ -9,6 +9,7 @@ license = {file = "LICENSE"}
 readme = "README.md"
 authors = [
     {name = "Patricio Gallardo"}, 
+    {name = "Robert Hanson"},
     {name = "Jesus Martinez-Garcia"},
     {name = "Han-Bom Moon"}, 
     {name = "David Swinarski"},

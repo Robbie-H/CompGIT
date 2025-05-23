@@ -23,24 +23,12 @@ from sage.modules.free_module_element import vector
 from sage.all import *
 
 
-K2 = QuadraticField(2, 's2')
+K2 = QuadraticField(2, 'sqrt2')
 sqrt2 = K2.gen()
-K3 = QuadraticField(3, 's3')
+K3 = QuadraticField(3, 'sqrt3')
 sqrt3 = K3.gen()
 
 
-#if type_A=True, the type is A and
-#the vector has coordinates in basis H
-#*** to deprecate
-#class OneParamSubgroup(Vector_rational_dense):
-#    """
-#    Wrapper of Vector_rational_dense to store one-parameter subgroups by storing its weights (in H-coordinates).
-#
-#    It should always be called using one_param_subgroup constructor.
-#    The reason for the wrapper is to make sure the class Vector_rational_dense is used.
-#    """
-#    def __init__(self, parent, value):
-#        Vector_rational_dense.__init__(self, parent, value)
 
 
 def upper_triangular_entries(rnk, x, y):
@@ -91,9 +79,9 @@ def lower_triangular_entries(rnk, x, y):
 #*** to edit comments
 def one_param_subgroup(data, type_A=False, field=QQ):
     """
-    Wrapper for OneParamSubgroup constructor that returns a OneParamSubgroup given in data as a vector.
+    Wrapper for ``vector`` constructor that returns a vector over the appropriate ``field`` with the given ``data`` as a vector.
 
-    If type_A = True, it takes data in coordinates given by basis T and returns them in H-coordinates.
+    If ``type_A`` = True, it takes data in coordinates given by basis T and returns them in H-coordinates.
     Otherwise, it assumes the data is already in H-coordinates.
 
     EXAMPLES::
@@ -114,7 +102,6 @@ def one_param_subgroup(data, type_A=False, field=QQ):
 
     else:
         v = tuple(data)
-    # return OneParamSubgroup(QQ**len(v), v)
     return vector(field, v)
 
 
@@ -504,8 +491,7 @@ class SimpleGroup(object):
             self.T_to_H_change = matrix.identity(QQ, rnk) #Change of coordinate matrix from T-coordinates to H-coordinates. Returns T-vectors in H-coordinates.
             
         elif Dynkin_type == 'E' and rnk == 6:
-            R = QuadraticField(3, 'a')
-            self.field = R
+            self.field = K3
             self.pairing_matrix = matrix.identity(self.field, rnk)
             self.cone_basis = matrix(K3, [[3,   0,   0,   0,   0,    sqrt3],
                                           [1/5, 1/5, 1/5, 1/5, 1/5,  sqrt3],
@@ -526,8 +512,7 @@ class SimpleGroup(object):
             self.WeylGroup = weyl_list
 
         elif Dynkin_type == 'E' and rnk == 7:
-            R=QuadraticField(2, 'a')
-            self.field = R
+            self.field = K2
             self.pairing_matrix = matrix.identity(self.field, rnk)
             self.cone_basis = matrix(K2, [[1/4, 1/4, 1/4, 1/4, 1/4, -1/4, sqrt2],
                                           [1/6, 1/6, 1/6, 1/6, 1/6, 1/6,  sqrt2],
@@ -571,8 +556,7 @@ class SimpleGroup(object):
             self.T_to_H_change = matrix.identity(QQ, 4)
             
         elif Dynkin_type == 'G':
-            R = K3
-            self.field = R
+            self.field = K3
             self.pairing_matrix = matrix.identity(self.field, rnk)
             M = Matrix(self.field, [[0,   1],[1, 3*sqrt3]])
             self.cone_basis = M.transpose() #stores rays of the fundamental chamber in H-coordinates. Change of coordinate matrix from gamma-coordinates to H-coordinates.

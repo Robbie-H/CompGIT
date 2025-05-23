@@ -28,6 +28,12 @@ from sage.all import *
 from SimpleGroup import *
 
 
+
+K2 = QuadraticField(2, 'sqrt2')
+sqrt2 = K2.gen()
+K3 = QuadraticField(3, 'sqrt3')
+sqrt3 = K3.gen()
+
 def proportional(v1, v2):
     """
     Decides if two non-zero vectors are proportional.
@@ -54,9 +60,9 @@ def proportional(v1, v2):
     return all(m2 * c1 == m1 * c2 for c1, c2 in zip(v1, v2))
 
 
-def weights_matrix(weights_set):
+def weights_matrix(weights_set, field=QQ):
     """
-    Takes a ``Set`` of weights (vectors) and returns it as a matrix of row vectors (type ``list`` over ``QQ``.
+    Takes a ``Set`` of weights (vectors) and returns it as a matrix of row vectors (type ``list`` over ``field``.
     
     INPUT:
     - ``weights_set`` -- The Set of weights.
@@ -69,7 +75,7 @@ def weights_matrix(weights_set):
         [1 2]
         [3 4]
     """
-    return Matrix(QQ, [list(weight) for weight in weights_set])
+    return Matrix(field, [list(weight) for weight in weights_set])
 
 # computes length vector and picks up minimum entry.
 
@@ -204,7 +210,7 @@ class GITProblem(object):
             self.L_coord_to_H_dual_conversion=conversion_dictionary
         elif self.Dynkin_type=='G':
             # projection of dim 3 weights to dim 2 weights
-            M = matrix(QQ[sqrt(3)], [[1/2, -1/2, 0], [sqrt(3)/6, sqrt(3)/6, -sqrt(3)/3]])
+            M = matrix(self.group.lattice_field(), [[1/2, -1/2, 0], [sqrt3/6, sqrt3/6, -sqrt3/3]])
             self.weights = tuple([tuple(vector(weight)*M.transpose()) for weight in weights])
         elif (self.Dynkin_type == 'E' and self.rank == 7):
             # projection of dim 8 weights to dim 7 weights
@@ -220,13 +226,13 @@ class GITProblem(object):
             self.weights = tuple([tuple(vector(weight)*M.transpose()) for weight in weights])
         elif (self.Dynkin_type == 'E' and self.rank == 6):
             # projection of dim 9 weights to dim 6 weights
-            M = matrix(QQ[sqrt(3)], [
+            M = matrix(self.group.lattice_field(), [
             [-1/3 , 2/3, -1/3, -2/3,  1/3,  1/3,    0,    0,   0],
             [ 2/3, -1/3, -1/3,  1/3, -2/3,  1/3,    0,    0,   0],
             [-2/3,  1/3,  1/3,  1/3,  1/3, -2/3, -2/3,  1/3, 1/3],
             [ 2/3, -1/3, -1/3,    0,    0,    0,  1/3, -2/3, 1/3],
             [ 2,     -1,   -1,    0,    0,    0,    1,    0,  -1],
-            [sqrt(3) - 5/2, -1/2*sqrt(3) + 1, -1/2*sqrt(3) + 3/2, -1/2, 0, 1/2, -1/2, 0, 1/2]
+            [sqrt3 - 5/2, -1/2*sqrt3 + 1, -1/2*sqrt3 + 3/2, -1/2, 0, 1/2, -1/2, 0, 1/2]
             ])
             self.weights = tuple([tuple(vector(weight)*M.transpose()) for weight in weights])
         else:
@@ -487,7 +493,7 @@ class GITProblem(object):
         maximal_nonstable_candidate_states = set() #WARNING: This is a Python set, not a Sage set. Needed for add/remove
                                                                                                             
         for candidate in candidate_weights_subsets:
-            character_matrix=Matrix(QQ, weights_matrix(candidate))
+            character_matrix=Matrix(self.group.lattice_field(), weights_matrix(candidate, self.group.lattice_field()))
             #Check if they have a unique solution and find it.
             M = character_matrix*self.group.fetch_pairing_matrix().transpose()
 
@@ -733,7 +739,7 @@ class GITProblem(object):
                 Q = Polyhedron(vertices=list(subset))
                 if Q.dim() < P.dim():
                     if self.trivial_character in Q.relative_interior():
-                        V = VectorSpace(QQ,self.rank)
+                        V = VectorSpace(self.group.lattice_field(),self.rank)
                         span_of_subset = V.subspace(subset)
                         new_state = Set([v for v in self.weights if V(v) in span_of_subset])
                         maximal_states.add(new_state)
