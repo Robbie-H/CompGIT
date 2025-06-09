@@ -20,13 +20,12 @@ from operator import itemgetter
 
 from sage.combinat.subset import Subsets
 from sage.geometry.polyhedron.constructor import Polyhedron
-from sage.matrix.constructor import Matrix
 from sage.modules.free_module import VectorSpace
 from sage.rings.rational_field import QQ
 from sage.sets.set import Set
-from sage.all import *
-from SimpleGroup import *
+from sage.all import QuadraticField, matrix, vector, sqrt
 
+from SimpleGroup import SimpleGroup, one_param_subgroup
 
 
 K2 = QuadraticField(2, 'sqrt2')
@@ -34,23 +33,28 @@ sqrt2 = K2.gen()
 K3 = QuadraticField(3, 'sqrt3')
 sqrt3 = K3.gen()
 
-def proportional(v1, v2):
+
+def proportional(v1, v2) -> bool:
     """
-    Decides if two non-zero vectors are proportional.
-    
-    The vectors inputed can be of any class that allows iteration and comparison of individual entries. They must be of the same size. Returns ``True`` if they are proportional and ``False`` otherwise.
-    
+    Decide if two non-zero vectors are proportional.
+
+    The two vectors can be of any class that allows iteration and
+    comparison of individual entries. They must be of the same
+    size. Returns ``True`` if they are proportional and ``False``
+    otherwise.
+
     INPUT:
+
     - ``v1`` -- Vector v1
     - ``v2`` -- Vector v2
-    
+
     EXAMPLES::
-        
+
         sage: from Git import proportional
         sage: v1 = vector([2,0,6])
         sage: v2 = vector([6,9,1])
         sage: proportional(v1, 2*v1)
-        True 
+        True
         sage: proportional(v1, v2)
         False
     """
@@ -63,19 +67,20 @@ def proportional(v1, v2):
 def weights_matrix(weights_set, field=QQ):
     """
     Takes a ``Set`` of weights (vectors) and returns it as a matrix of row vectors (type ``list`` over ``field``.
-    
+
     INPUT:
+
     - ``weights_set`` -- The Set of weights.
-    
+
     EXAMPLES::
-                
+
         sage: from Git import weights_matrix
         sage: weights = ([1,2], [3,4])
         sage: weights_matrix(weights)
         [1 2]
         [3 4]
     """
-    return Matrix(field, [list(weight) for weight in weights_set])
+    return matrix(field, [list(weight) for weight in weights_set])
 
 # computes length vector and picks up minimum entry.
 
@@ -88,20 +93,21 @@ def weights_matrix(weights_set, field=QQ):
 def averageWeight(x):
     """
     Takes a tuple of ``m`` vectors (each of them expressed as a tuple of numbers) ``v^i=(v^i_1, ... v^i_n)``, ``i=1..m`` and returns the average vector ``v``, with j^th entry ``v_j=( v^1_j + ... + v^m_j ) / m``
-    
+
     INPUT:
+
     ``x`` -- A tuple of vectors, each of them expressed as a tuple of numbers.
-    
+
     EXAMPLES::
-        
+
         sage: from Git import averageWeight
         sage: weights_set = ([1,2], [3,4])
         sage: averageWeight(weights_set)
         (2, 3)
     """
-    n=len(x[0])
-    N=len(x)
-    xbar=[0 for j in range(n)]
+    n = len(x[0])
+    N = len(x)
+    xbar=[0 for _ in range(n)]
     for i in range(N):
         for j in range(n):
             xbar[j] = xbar[j]+x[i][j]
@@ -110,34 +116,31 @@ def averageWeight(x):
     return tuple(xbar)
 
 
-
-
-
-
 class GITProblem(object):
     """
     Class to solve GIT problems consisting on a simple connected group acting on projective space.
-    
+
     This class that encapsulates a representation of the action of a simple group, with
-    designated weights. Its methods can find the maximal families of non-stable, unstable and strictly polystable loci with respect to a fixed torus, storing these families inside the object.  When an object of the class GITProblem is created, a number of sets of weights (determining any family) is created and stored in the object, to later be used by the class's methods to find the maximal families (determined by maximal sets of weights) of non-stable, unstable and strictly polystable points. When creating the object, an object of the class ``SimpleGroup`` is created. 
-    
-    INPUT::
+    designated weights. Its methods can find the maximal families of non-stable, unstable and strictly polystable loci with respect to a fixed torus, storing these families inside the object.  When an object of the class GITProblem is created, a number of sets of weights (determining any family) is created and stored in the object, to later be used by the class's methods to find the maximal families (determined by maximal sets of weights) of non-stable, unstable and strictly polystable points. When creating the object, an object of the class ``SimpleGroup`` is created.
+
+    INPUT:
+
     - ``rep`` -- A representation (an object of the class ``sage.combinat.root_system.weyl_characters.WeylCharacterRing_with_category.element_class``, see Examples to see an easy way of creating such objects).
     - ``label`` -- (optional) a string to label the GIT problem for easy tracking, e.g. ``label='plane cubics'``.
-    
-    
+
+
     EXAMPLES::
-                 
+
         # Cubics in P2
-        sage: from Git import GITProblem 
+        sage: from Git import GITProblem
         sage: Phi = WeylCharacterRing("A2")
         sage: representation= Phi(3,0,0)
         sage: P=GITProblem(representation,label="Plane cubics")
         sage: P.solve_non_stable(Weyl_optimisation=True)
         {{(1, 2), (2, 1), (0, 0), (-1, 1), (0, 3), (1, -1), (3, 0)}, {(1, 2), (-1, -2), (2, 1), (0, 0), (1, -1), (3, 0)}}
         sage: P.print_solution_nonstable()
-        <BLANKLINE>                
-        <BLANKLINE>                
+        <BLANKLINE>
+        <BLANKLINE>
         ***************************************
         SOLUTION TO GIT PROBLEM: NONSTABLE LOCI
         ***************************************
@@ -148,12 +151,12 @@ class GITProblem(object):
         Maximal nonstable state={ (1, 2, 0), (2, 1, 0), (1, 1, 1), (0, 2, 1), (0, 3, 0), (2, 0, 1), (3, 0, 0) }
         (2) 1-PS = (1, -1/2, -1/2) yields a state with 6 characters
         Maximal nonstable state={ (1, 2, 0), (1, 0, 2), (2, 1, 0), (1, 1, 1), (2, 0, 1), (3, 0, 0) }
-                  
+
         sage: P.solve_unstable(Weyl_optimisation=True)
         {{(1, 2), (2, 1), (0, 3), (1, -1), (3, 0)}}
         sage: P.print_solution_unstable()
-        <BLANKLINE>       
-        <BLANKLINE>                
+        <BLANKLINE>
+        <BLANKLINE>
         **************************************
         SOLUTION TO GIT PROBLEM: UNSTABLE LOCI
         **************************************
@@ -162,12 +165,12 @@ class GITProblem(object):
         Set of maximal unstable states:
         (1) 1-PS = (1, 1/4, -5/4) yields a state with 5 characters
         Maximal unstable state={ (1, 2, 0), (2, 1, 0), (0, 3, 0), (2, 0, 1), (3, 0, 0) }
-           
+
         sage: P.solve_strictly_polystable()
         {{(0, 0)}, {(-1, 1), (1, -1), (0, 0)}}
         sage: P.print_solution_strictly_polystable()
-        <BLANKLINE>             
-        <BLANKLINE>        
+        <BLANKLINE>
+        <BLANKLINE>
         *************************************************************
         SOLUTION TO GIT PROBLEM: STRICTLY POLYSTABLE LOCI
         *************************************************************
@@ -249,42 +252,40 @@ class GITProblem(object):
         self.gamma_OPS_strictly_polystable_dictionary={}
         # self.all_states=Set([z for z in powerset(list(self.weights))])   #NOT REALLY NEEDED, HEAVY TO FORM COMPUTATIONALLY
         self.fundamental_chamber_generators=self.group.fundamental_chamber_generators()
-        
+
         #Compute the states destabilised by each generator of the Weyl fundamental chamber
         self.OPS_rays_list=([one_param_subgroup(tuple(self.fundamental_chamber_generators[:,i].transpose())[0], field=self.group.lattice_field()) for i in range(0,self.rank)])
         states_destabilized_by_rays=[Set(self.destabilized_weights(OPS, all_weights_considered=True)) for OPS in self.OPS_rays_list]
         self.states_destabilized_by_rays_strict=[Set(self.destabilized_weights(OPS, all_weights_considered=True, strict_inequality=True)) for OPS in self.OPS_rays_list]
-        
-            
+
         #Compute the weights that may be in SOME destabilised state (union) both for later computing the non-stable states and the unstable states
         self.nonstable_weights_destabilized=Set([])
         self.unstable_weights_destabilized=Set([])
         for i in range(self.rank):
             self.nonstable_weights_destabilized=self.nonstable_weights_destabilized.union(states_destabilized_by_rays[i])
             self.unstable_weights_destabilized=self.unstable_weights_destabilized.union(self.states_destabilized_by_rays_strict[i])
-        
+
         #Compute the weights that must be in ALL nonstable states and a superset of the weights that must be in all unstable states (intersection)
         self.weights_in_all_nonstable_states=Set(self.weights)
         for i in range(self.rank):
             self.weights_in_all_nonstable_states=self.weights_in_all_nonstable_states.intersection(self.states_destabilized_by_rays_strict[i])
-        
+
         #Compute the weights that must be in ALL unstable states
         self.compute_weights_in_all_unstable_states()
-            
+
         #Compute the difference of both sets (these are the weights
         #that must be tested) (difference between union and intersection)
         self.nonstable_weights_candidates=self.nonstable_weights_destabilized.difference(self.weights_in_all_nonstable_states)
         self.unstable_weights_candidates=self.unstable_weights_destabilized.difference(self.weights_in_all_unstable_states)
 
-
     def Weyl_group(self):
         """
         Returns a set of matrices of the Weyl group of the simple group
         associated to the object in the class ``GITProblem``.
-        
+
         EXAMPLES::
-                
-            sage: from Git import GITProblem 
+
+            sage: from Git import GITProblem
             sage: Phi = WeylCharacterRing("A2")
             sage: representation= Phi(3,0,0)
             sage: P=GITProblem(representation,label="Plane cubics")
@@ -293,31 +294,31 @@ class GITProblem(object):
         """
         return self.group.Weyl_Group_elements()
 
-    def weyl_elt_action_on_state(self,M,state):
+    def weyl_elt_action_on_state(self, M, state):
         """
         It returns the ``Set`` of weights corresponding to acting on the ``Set`` ``state`` via the element ``M`` in the Weyl group of the problem.
-        
+
         INPUT:
-        
+
         - ``M`` -- a group element in the Weyl group of the group in the problem.
         - ``state`` -- a specific state.
         """
         L=list(state)
-        if self.Dynkin_type=='A':
+        if self.Dynkin_type == 'A':
             L=[self.L_coord_to_H_dual_conversion[x] for x in L]
-        ML=[M*((Matrix(v)).transpose()) for v in L]
+        ML=[M*((matrix(v)).transpose()) for v in L]
         L=[[x[0] for x in y] for y in ML]
         if self.Dynkin_type=='A':
             L=[ [weight[i]-weight[len(weight)-1] for i in range(len(weight)-1)] for weight in L]
         L=[tuple(x) for x in L]
         return Set(L)
 
-    def intersection_set(self, I_i, ray_i, monomial_0):
+    def intersection_set(self, I_i, ray_i, monomial_0) -> Set:
         """
         Returns a list of monomials in ``I_i`` whose pairing with ``ray_i`` is larger than the
         pairing with ``monomial_0``.
         """
-        returning_list=list()
+        returning_list = []
         for monomial in I_i:
             if self.group.pairing(ray_i, monomial)>self.group.pairing(ray_i, monomial_0):
                 returning_list.append(monomial)
@@ -325,16 +326,17 @@ class GITProblem(object):
 
     def compute_weights_in_all_unstable_states(self):
         """
-        Computes the Set of weights that are present in all unstable states and stores it in the object. In most cases this set may be empty.
-        
+        Compute the Set of weights that are present in all unstable states and stores it in the object.
+
+        In most cases this set may be empty.
+
         EXAMPLES::
-                
-            sage: from Git import GITProblem 
+
+            sage: from Git import GITProblem
             sage: Phi = WeylCharacterRing("A2")
             sage: representation= Phi(3,0,0)
             sage: P=GITProblem(representation,label="Plane cubics")
             sage: P.compute_weights_in_all_unstable_states()
-
         """
         weights=list(self.weights)
         #lengths gives a Euclidean norm to the weights, so that we have a way of choosing one.
@@ -358,31 +360,31 @@ class GITProblem(object):
                     J_weight=J_weight.intersection(J_weight_i)
                 intersection=intersection.difference(J_weight)
         self.weights_in_all_unstable_states=self.weights_in_all_nonstable_states.difference(intersection)
-        
+
     def H_dual_coordinates(self, weight):
         """
         Returns ``weight`` in H-dual coordinates, taking in account the type of group of GITProblem.
-        
+
         This method returns H-dual coordinates, on the hom-spaces Hom(T, GG_m) of characters.  These are dual to H-coordinates on the hom-spaces Hom(GG_m , T) of one parameter subgroups, defined by matrices H_i with only one non-zero element (i, i) of unitary size.
         H and T are two bases to express one-parameter subgroups (see ``SimpleGroup``
         documentation for details). For most groups, H-coordinates and T-coordinates are equal,
         but in groups of type ``A`` they differ. As a result, the H-dual coordinates of a weight
-        will depend on the group of the representation they live in.   
-        
+        will depend on the group of the representation they live in.
+
         INPUT:
-        
+
         - ``weight`` -- The weight whose H-coordinates we require, in T-coordinates.
-        
+
         EXAMPLES::
-                    
-            sage: from Git import GITProblem 
+
+            sage: from Git import GITProblem
             sage: Phi = WeylCharacterRing("A2")
             sage: representation= Phi(3,0,0)
             sage: P=GITProblem(representation,label="Plane cubics")
             sage: P.H_dual_coordinates((2,1))
             (2, 1, 0)
         """
-        if self.Dynkin_type=='A':
+        if self.Dynkin_type == 'A':
             return self.L_coord_to_H_dual_conversion[weight]
         else:
             return weight
@@ -392,20 +394,19 @@ class GITProblem(object):
         This method creates a set of optimal weights to consider to apply Algorithm 3.7 in
         [GMGMS] (Set A_3 in said Algorithm). This method stors that set in
         attribute optimized_weights_non_stable.
-        
+
         EXAMPLES::
-        
+
             sage: from Git import GITProblem
             sage: Phi = WeylCharacterRing("A2")
             sage: representation= Phi(3,0,0)
             sage: P=GITProblem(representation)
             sage: P.generate_optimal_weights_non_stable()
-
         """
         zero_weight_set=Set(tuple([tuple([0 for i in range(self.rank)])]))#This is set {0} in Algorithm 3.7 in [GMGMS]
         first_optimization=self.nonstable_weights_candidates.difference(zero_weight_set) #This is set A2 in Algorithm 3.7 in [GMGMS] #WARNING: This is a Python set, not a SAGE set
         second_optimization=set([]) #WARNING: This is a Python set, not a SAGE set
-        
+
         #These are lines 5-9 in Algirthm 3.7 in [GMGMS]
         for candidate in first_optimization:
             good = True
@@ -417,23 +418,23 @@ class GITProblem(object):
                 second_optimization.add(candidate)
         #optimized_weights_non_stable is set A3 in Algorithm 3.7 in [GMGMS]
         self.optimized_weights_non_stable = Set(second_optimization)
-        
+
     def destabilized_weights(self, OPS, all_weights_considered=False, strict_inequality=False, nonstable_weights_considered=True):
         """
         Given a one-parameter subgroup (OPS) lambda = t^v determined by a
         vector ``OPS = v = (v_1, ... v_n)``, it returns the weights destabilized by its group action
 
         INPUT:
-        
+
         - ``OPS`` -- the one-parameter subgroup.
         - ``all_weights_considered`` --
         - ``strict_inequality`` --
         - ``nonstable_weights_considered`` -- If ``True``, it will find all weights in the representation which are destabilised by the one-parameter subgroup. If ``False``, it will consider the parameter ``nonstable_weights_considered`` to determine which weights to find.
         - ``strict_inequality`` -- If ``True`` it will only include those weights whose pairing with ``OPS`` is strictly positive. If ``False`` it will include those weights whose pairing with ``OPS`` is non-negative.
         -- ``nonstable_weights_considered`` -- If ``True``, it will only consider weights that are non-stable with respect to ``OPS``. If ``False`` it will consider weights taht are unstable with respect to ``OPS``.
-        
+
         EXAMPLES::
-            
+
             sage: from Git import GITProblem
             sage: Phi = WeylCharacterRing("A2")
             sage: representation= Phi(3,0,0)
@@ -460,23 +461,25 @@ class GITProblem(object):
                 nonstable_state.append(weight)
         return Set(nonstable_state)
 
-        
-
     def solve_non_stable(self, Weyl_optimisation=False):
         """
         Returns (and stores in the object) the non-stable locus of the group action with respect
-        to a fixed torus, in the format {{(a_1, ..., a_r), ... }}, where a_1 is the non-stable of weight associated to the first coordinate of weight space, and so on. 
+        to a fixed torus, in the format {{(a_1, ..., a_r), ... }}, where a_1 is the non-stable of weight associated to the first coordinate of weight space, and so on.
 
         INPUT:
-        
-        - ``Weyl_optimisation`` -- If ``True`` it will only consider one-parameter subgroups
-        within the fundamental chamber rather than the whole lattice, potentially reducing the final output by eliminating isomorphic unstable/non-stable families. Note that as of
-        January 2025, it is unknown whether this really reduces the number of maximal families
-        (see Conjecture 7.4 in [GMGMS]) as the output is the same with or without Weyl
+
+        - ``Weyl_optimisation`` -- If ``True`` it will only consider
+          one-parameter subgroups within the fundamental chamber rather
+          than the whole lattice, potentially reducing the final output
+          by eliminating isomorphic unstable/non-stable families.
+
+        Note that as of January 2025, it is unknown whether this
+        really reduces the number of maximal families (see Conjecture
+        7.4 in [GMGMS]) as the output is the same with or without Weyl
         optimisation.
-        
+
         EXAMPLES::
-            
+
             sage: from Git import GITProblem
             sage: Phi = WeylCharacterRing("A2")
             sage: representation= Phi(3,0,0)
@@ -488,12 +491,12 @@ class GITProblem(object):
         if self.optimized_weights_non_stable is None:
             self.generate_optimal_weights_non_stable()
         candidate_weights_subsets = Set(list(self.optimized_weights_non_stable.subsets(self.rank-1)))
-        
+
         #We find the maximal destabilised states
         maximal_nonstable_candidate_states = set() #WARNING: This is a Python set, not a Sage set. Needed for add/remove
-                                                                                                            
+
         for candidate in candidate_weights_subsets:
-            character_matrix=Matrix(self.group.lattice_field(), weights_matrix(candidate, self.group.lattice_field()))
+            character_matrix=matrix(self.group.lattice_field(), weights_matrix(candidate, self.group.lattice_field()))
             #Check if they have a unique solution and find it.
             M = character_matrix*self.group.fetch_pairing_matrix().transpose()
 
@@ -509,9 +512,9 @@ class GITProblem(object):
                 else:
                     destabilizing_OPS = None
 
-                if destabilizing_OPS != None:
+                if destabilizing_OPS is not None:
                     destabilized_state=self.destabilized_weights(destabilizing_OPS)
-                    
+
                     candidate_is_maximal = True
                     for currently_maximal_state in list(maximal_nonstable_candidate_states):
                         if destabilized_state.issubset(currently_maximal_state):
@@ -523,8 +526,8 @@ class GITProblem(object):
                     if candidate_is_maximal:
                         maximal_nonstable_candidate_states.add(destabilized_state)        # We find the maximal states among all the destabilised states
                         self.gamma_OPS_nonstable_dictionary[destabilized_state]=destabilizing_OPS
-        
-        
+
+
         #Add the weights that are nonstable and in every maximal state back into all maximal states
         enlarged_max_nonstable_states_list=list()
         for reduced_state in maximal_nonstable_candidate_states:
@@ -533,10 +536,9 @@ class GITProblem(object):
             self.gamma_OPS_nonstable_dictionary.pop(reduced_state)
             self.gamma_OPS_nonstable_dictionary[reduced_state.union(self.weights_in_all_nonstable_states)]=OPS
         self.unoptimized_maximal_nonstable_states=Set(enlarged_max_nonstable_states_list)
-        
 
         # Perform optimisation step using the Weyl stabilisers
-        
+
         if Weyl_optimisation:
             group_elements = self.Weyl_group()
             maximal_nonstable_final = set() #WARNING: This is a Python set, not a Sage set. Needed for add/remove
@@ -546,7 +548,7 @@ class GITProblem(object):
                 lambda_ops=self.gamma_OPS_nonstable_dictionary[candidate]
                 for g in group_elements:
                     for state in maximal_nonstable_candidate_states_list_copy:
-                        lambda_ops_acted = one_param_subgroup(list(Matrix(self.group.lattice_field(), g.inverse())*(self.group.H_coordinates(lambda_ops))), type_A=self.Dynkin_type=="A", field=self.group.lattice_field())
+                        lambda_ops_acted = one_param_subgroup(list(matrix(self.group.lattice_field(), g.inverse())*(self.group.H_coordinates(lambda_ops))), type_A=self.Dynkin_type=="A", field=self.group.lattice_field())
                         acted_state=self.destabilized_weights(lambda_ops_acted, all_weights_considered=True)
                         if acted_state.issubset(state) and len(acted_state)!=len(state):
                             is_maximal=False
@@ -572,22 +574,25 @@ class GITProblem(object):
                     maximal_nonstable_final.add(candidate)
             self.maximal_nonstable_states=Set(list(maximal_nonstable_final))
         return self.maximal_nonstable_states
-            
+
     def solve_unstable(self, Weyl_optimisation=False):
         """
-        Returns (and stores in the object) the unstable locus of the group action with respect to a fixed torus, in the format {{(a_1, ..., a_r), ... }}, where a_1 is the non-stable of weight associated to the first coordinate of weight space, and so on. 
-        
+        Returns (and stores in the object) the unstable locus of the group action with respect to a fixed torus, in the format {{(a_1, ..., a_r), ... }}, where a_1 is the non-stable of weight associated to the first coordinate of weight space, and so on.
+
         INPUT:
-        
-        - ``Weyl_optimisation`` -- If ``True`` it will only consider one-parameter subgroups
-        within the fundamental chamber rather than the whole lattice, potentially reducing the final output by eliminating isomorphic unstable/non-stable families. Note that as of
-        January 2025, it is unknown whether this really reduces the number of maximal families
-        (see Conjecture 7.4 in [GMGMS]) as the output is the same with or without Weyl
+
+        - ``Weyl_optimisation`` -- If ``True`` it will only consider
+          one-parameter subgroups within the fundamental chamber rather
+          than the whole lattice, potentially reducing the final output
+          by eliminating isomorphic unstable/non-stable families.
+
+        Note that as of January 2025, it is unknown whether this
+        really reduces the number of maximal families (see Conjecture
+        7.4 in [GMGMS]_) as the output is the same with or without Weyl
         optimisation.
 
-        
         EXAMPLES::
-            
+
             sage: from Git import GITProblem
             sage: Phi = WeylCharacterRing("A2")
             sage: representation= Phi(3,0,0)
@@ -596,20 +601,19 @@ class GITProblem(object):
             {{(1, 2), (2, 1), (0, 3), (1, -1), (3, 0)}}
         """
         candidate_weights_subsets = Set(list(self.unstable_weights_candidates.subsets(self.rank)))
-        
+
         #We find the maximal unstable states
-        unstable_states = []
         maximal_unstable_candidate_states = set() #WARNING: This is a Python set, not a Sage set. Needed for add/remove
 
         for candidate in candidate_weights_subsets:
-            
+
             #Step carried out to make linear system to solve a homogeneous one
             candidate_list = list(candidate)
-            substract_weight=candidate_list[len(candidate_list)-1]
-            substract_matrix = Matrix(self.group.lattice_field(), [substract_weight for i in range(len(substract_weight)-1)])
-            character_matrix = Matrix(self.group.lattice_field(), candidate_list[0:len(candidate_list)-1])
+            substract_weight = candidate_list[len(candidate_list)-1]
+            substract_matrix = matrix(self.group.lattice_field(), [substract_weight for i in range(len(substract_weight)-1)])
+            character_matrix = matrix(self.group.lattice_field(), candidate_list[0:len(candidate_list)-1])
             linear_system_matrix=character_matrix-substract_matrix
-            
+
             #Check if they have a unique solution and find it.
             M = linear_system_matrix*self.group.fetch_pairing_matrix().transpose()
             M_kernel = M.right_kernel().basis()
@@ -617,7 +621,7 @@ class GITProblem(object):
                 #Check that the ray perpendicular to the set of weights 'candidate'
                 #is in the Weyl fundamental chamber (and choose the right generator)
                 gamma_OPS = one_param_subgroup(M_kernel[0], field=self.group.lattice_field())
-                pairing_value = self.group.pairing(gamma_OPS, substract_weight)
+                # pairing_value = self.group.pairing(gamma_OPS, substract_weight)
                 if self.group.in_cone(gamma_OPS):
                     destabilizing_OPS=gamma_OPS
                 elif self.group.in_cone(-gamma_OPS):
@@ -625,9 +629,9 @@ class GITProblem(object):
                 else:
                     destabilizing_OPS = None
 
-                if destabilizing_OPS != None:
+                if destabilizing_OPS is not None:
                     destabilized_state=self.destabilized_weights(destabilizing_OPS, all_weights_considered=False, strict_inequality=True,nonstable_weights_considered=False)
-                    
+
                     candidate_is_maximal = True
                     for currently_maximal_state in list(maximal_unstable_candidate_states):
                         if destabilized_state.issubset(currently_maximal_state):
@@ -640,8 +644,6 @@ class GITProblem(object):
                         maximal_unstable_candidate_states.add(destabilized_state)        # We find the maximal states among all the destabilised states
                         self.gamma_OPS_unstable_dictionary[destabilized_state]=destabilizing_OPS
 
-
-        
         #Add the weights that are unnstable and in every maximal state back into all maximal states
         enlarged_max_unstable_states_list=list()
         for reduced_state in maximal_unstable_candidate_states:
@@ -651,8 +653,6 @@ class GITProblem(object):
             self.gamma_OPS_unstable_dictionary[reduced_state.union(self.weights_in_all_unstable_states)] = OPS
         self.unoptimized_maximal_unstable_states = Set(enlarged_max_unstable_states_list)
 
-   
-        
         if Weyl_optimisation:
             group_elements = self.Weyl_group()
             maximal_unstable_final = set() #WARNING: This is a Python set, not a Sage set. Needed for add/remove
@@ -689,18 +689,17 @@ class GITProblem(object):
             self.maximal_unstable_states=Set(list(maximal_unstable_final))
             self.maximal_unstable_states=Set(list(self.unoptimized_maximal_unstable_states))
         return self.maximal_unstable_states
-        
-        
-# solve_strictly_polystable is NOT YET FULLY IMPLEMENTED
-# Need to add Weyl group optimization
+
+    # solve_strictly_polystable is NOT YET FULLY IMPLEMENTED
+    # Need to add Weyl group optimization
 
     def solve_strictly_polystable(self):
         """
         Returns the strictly polystable locus of the group action with respect to a fixed torus,
         in the format {{(a_1, ..., a_r), ... }}, where a_1 is the non-stable of weight associated to the first coordinate of weight space, and so on. Note solve_non_stable() and solve_unstable() must have been called first.
-        
+
         EXAMPLES::
-            
+
             sage: from Git import GITProblem
             sage: Phi = WeylCharacterRing("A2")
             sage: representation= Phi(3,0,0)
@@ -712,7 +711,7 @@ class GITProblem(object):
             sage: P.solve_unstable()
             {{(1, 2), (2, 1), (0, 3), (1, -1), (3, 0)}}
             sage: P.solve_strictly_polystable()
-            {{(0, 0)}, {(-1, 1), (1, -1), (0, 0)}}  
+            {{(0, 0)}, {(-1, 1), (1, -1), (0, 0)}}
         """
         # Do lines 2 and 3 of Alg. 3.27
         maximal_states = set()   #This is the set $P_{ps}^F$ in Alg. 3.27
@@ -760,11 +759,11 @@ class GITProblem(object):
 
     def print_solution_nonstable(self):
         """
-        It prints the weights of maximal non-stable families with respect to a fixed torus. Note 
+        It prints the weights of maximal non-stable families with respect to a fixed torus. Note
         solve_non_stable() must have been called first.
-        
+
         EXAMPLES::
-            
+
             sage: from Git import GITProblem
             sage: Phi = WeylCharacterRing("A2")
             sage: representation= Phi(3,0,0)
@@ -772,8 +771,8 @@ class GITProblem(object):
             sage: P.solve_non_stable()
             {{(1, 2), (2, 1), (0, 0), (-1, 1), (0, 3), (1, -1), (3, 0)}, {(1, 2), (-1, -2), (2, 1), (0, 0), (1, -1), (3, 0)}}
             sage: P.print_solution_nonstable()
-            <BLANKLINE>           
-            <BLANKLINE>            
+            <BLANKLINE>
+            <BLANKLINE>
             ***************************************
             SOLUTION TO GIT PROBLEM: NONSTABLE LOCI
             ***************************************
@@ -795,21 +794,20 @@ class GITProblem(object):
         i=1
         for state in self.maximal_nonstable_states:
             print('({n}) 1-PS = '.format(n=i), self.group.H_coordinates(self.gamma_OPS_nonstable_dictionary[state]), ' yields a state with ', len(list(state)), ' characters', sep='')
-            statelist = [self.H_dual_coordinates(element) for element in state];
+            statelist = [self.H_dual_coordinates(element) for element in state]
             statestr = str(statelist)
             print('Maximal nonstable state={',statestr[1:-1],"}")
             #print('\n')
             i = i+1
 
-        
     def solution_nonstable_str(self):
         """
         It returns a (very long) string describing the weights of maximal non-stable families
         with respect to a fixed torus. This may be useful to save it in a file. Note
         solve_non_stable() must have been called first.
-                
+
         EXAMPLES::
-            
+
             sage: from Git import GITProblem
             sage: Phi = WeylCharacterRing("A2")
             sage: representation= Phi(3,0,0)
@@ -828,20 +826,19 @@ class GITProblem(object):
         i = 1
         for state in self.maximal_nonstable_states:
             s = s + '({n}) 1-PS = '.format(n=i)+str(self.group.H_coordinates(self.gamma_OPS_nonstable_dictionary[state]))+' yields a state with '+str(len(list(state)))+' characters\n'
-            statelist = [self.H_dual_coordinates(element) for element in state];
+            statelist = [self.H_dual_coordinates(element) for element in state]
             statestr = str(statelist)
             s = s + 'Maximal nonstable state={'+statestr[1:-1]+"}\n"
             i = i + 1
         return s
 
-    
     def print_solution_unstable(self):
         """
-        It prints the weights of maximal unstable families with respect to a fixed torus. Note 
+        It prints the weights of maximal unstable families with respect to a fixed torus. Note
         solve_non_unstable() must have been called first.
 
         EXAMPLES::
-            
+
             sage: from Git import GITProblem
             sage: Phi = WeylCharacterRing("A2")
             sage: representation = Phi(3,0,0)
@@ -850,7 +847,7 @@ class GITProblem(object):
             {{(1, 2), (2, 1), (0, 3), (1, -1), (3, 0)}}
             sage: P.print_solution_unstable()
             <BLANKLINE>
-            <BLANKLINE>            
+            <BLANKLINE>
             **************************************
             SOLUTION TO GIT PROBLEM: UNSTABLE LOCI
             **************************************
@@ -870,7 +867,7 @@ class GITProblem(object):
         i=1
         for state in self.maximal_unstable_states:
             print ('({d}) 1-PS = '.format(d=i), self.group.H_coordinates(self.gamma_OPS_unstable_dictionary[state]), ' yields a state with ', len(list(state)), ' characters', sep='')
-            statelist = [self.H_dual_coordinates(element) for element in state];
+            statelist = [self.H_dual_coordinates(element) for element in state]
             statestr = str(statelist)
             print('Maximal unstable state={',statestr[1:-1],"}")
             #print('\n')
@@ -882,9 +879,9 @@ class GITProblem(object):
         with respect to a fixed torus. This may be useful to save it in a file. Note
         solve_unstable() must have been called first.
 
-        
+
         EXAMPLES::
-            
+
             sage: from Git import GITProblem
             sage: Phi = WeylCharacterRing("A2")
             sage: representation= Phi(3,0,0)
@@ -903,22 +900,22 @@ class GITProblem(object):
         i = 1
         for state in self.maximal_unstable_states:
             s = s + '({n}) 1-PS = '.format(n=i)+str(self.group.H_coordinates(self.gamma_OPS_unstable_dictionary[state]))+' yields a state with '+str(len(list(state)))+' characters\n'
-            statelist = [self.H_dual_coordinates(element) for element in state];
+            statelist = [self.H_dual_coordinates(element) for element in state]
             statestr = str(statelist)
             s = s + 'Maximal unstable state={'+statestr[1:-1]+"}\n"
             i = i + 1
         return s
 
-            
+
     def print_solution_strictly_polystable(self):
         """
         It prints the weights of maximal strictly polystable (polystable but not stable) families
         with respect to a fixed torus. Note solve_non_unstable(), solve_unstable() and
         solve_strictly_polystable() must have been called first.
 
-        
+
         EXAMPLES::
-            
+
             sage: from Git import GITProblem
             sage: Phi = WeylCharacterRing("A2")
             sage: representation= Phi(3,0,0)
@@ -930,10 +927,10 @@ class GITProblem(object):
             sage: P.solve_unstable()
             {{(1, 2), (2, 1), (0, 3), (1, -1), (3, 0)}}
             sage: P.solve_strictly_polystable()
-            {{(0, 0)}, {(-1, 1), (1, -1), (0, 0)}}  
+            {{(0, 0)}, {(-1, 1), (1, -1), (0, 0)}}
             sage: P.print_solution_strictly_polystable()
-            <BLANKLINE>            
-            <BLANKLINE>            
+            <BLANKLINE>
+            <BLANKLINE>
             *************************************************************
             SOLUTION TO GIT PROBLEM: STRICTLY POLYSTABLE LOCI
             *************************************************************
@@ -955,7 +952,7 @@ class GITProblem(object):
         i = 1
         for state in self.strictly_polystable_states:
             print ('({d}) '.format(d=i),'A state with ', len(list(state)), ' characters', sep='')
-            statelist = [self.H_dual_coordinates(element) for element in state];
+            statelist = [self.H_dual_coordinates(element) for element in state]
             statestr = str(statelist)
             print('Strictly polystable state={',statestr[1:-1],"}")
             #print('\n')
@@ -969,7 +966,7 @@ class GITProblem(object):
         solve_strictly_polystable() must have been called first.
 
         EXAMPLES::
-            
+
             sage: from Git import GITProblem
             sage: Phi = WeylCharacterRing("A2")
             sage: representation= Phi(3,0,0)
@@ -981,7 +978,7 @@ class GITProblem(object):
             sage: P.solve_unstable()
             {{(1, 2), (2, 1), (0, 3), (1, -1), (3, 0)}}
             sage: P.solve_strictly_polystable()
-            {{(0, 0)}, {(-1, 1), (1, -1), (0, 0)}}    
+            {{(0, 0)}, {(-1, 1), (1, -1), (0, 0)}}
             sage: P.solution_strictly_polystable_str()
             '\n\n*************************************************************\nSOLUTION TO GIT PROBLEM: STRICTLY POLYSTABLE LOCI\n*************************************************************\nGroup: A2 Representation A2(3,0,0)\nSet of strictly polystable states:\n(1) A state with 1 characters\nStrictly polystable state={(1, 1, 1)}\n(2) A state with 3 characters\nStrictly polystable state={(0, 2, 1), (2, 0, 1), (1, 1, 1)}\n'
         """
@@ -994,20 +991,20 @@ class GITProblem(object):
         i = 1
         for state in self.strictly_polystable_states:
             s = s + '({n}) '.format(n=i)+'A state with '+str(len(list(state)))+' characters\n'
-            statelist=[self.H_dual_coordinates(element) for element in state];
+            statelist=[self.H_dual_coordinates(element) for element in state]
             statestr=str(statelist)
             s = s + 'Strictly polystable state={'+statestr[1:-1]+"}\n"
             i = i + 1
         return s
 
-            
+
 
     def print_solution(self):
         """
         It prints the weights of maximal unstable, non-stable and strictly polystable (polystable but not stable) families with respect to a fixed torus. Note solve_non_unstable(), solve_unstable() and solve_strictly_polystable() must have been called first.
 
         EXAMPLES::
-            
+
             sage: from Git import GITProblem
             sage: Phi = WeylCharacterRing("A2")
             sage: representation= Phi(3,0,0)
@@ -1017,7 +1014,7 @@ class GITProblem(object):
             sage: P.solve_unstable()
             {{(1, 2), (2, 1), (0, 3), (1, -1), (3, 0)}}
             sage: P.solve_strictly_polystable()
-            {{(0, 0)}, {(-1, 1), (1, -1), (0, 0)}}            
+            {{(0, 0)}, {(-1, 1), (1, -1), (0, 0)}}
             sage: P.print_solution()
             <BLANKLINE>
             <BLANKLINE>
