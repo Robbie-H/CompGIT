@@ -85,7 +85,7 @@ Maximal nonstable state={ (1, 2, 0), (1, 0, 2), (2, 1, 0), (1, 1, 1), (2, 0, 1),
 
 # Outputs 
 
-The output states the Dynkin type by the notation Xn, where X is either A, B, C, D, E, F or G, and n is a positive integer. In the example above, A2 corresponds to the special linear group $SL_3$. The output will also state the highest weight(s) of the group action. In the example above, $SL_3$ acts on a 3-dimensional weight system, with highest weight 3𝜔_1.
+The output states the Dynkin type by the notation Xn, where X is either A, B, C, D, E, F or G, and n is a positive integer. In the example above, A2 corresponds to the special linear group $SL_3$. The output will also state the highest weight(s) of the group action. In the example above, $SL_3$ acts on a 3-dimensional weight system, with highest weight 3𝜔_1.
 
 Outputs can also state a list of unstable and strictly polystable loci. Essentially, this is a list of one-parameter subgroups in 𝐺, presented by their weights up to multiplication by scalar. For each one-parameter subgroup, a state is listed. This state will contain all the weights of the representation which are non-stable, unstable or strictly polystable with respect to the one-parameter subgroup. The program (and the results in the paper) guarantee that any 𝑇-non-stable (or unstable, strictly polystable, respectively) point in 𝑋 must belong to one of these states. 
 
@@ -93,13 +93,31 @@ An example for cubic surfaces is worked out in the paper. In it, one can read ho
 
 # Running doctests
 
-To run doctests in CompGIT, use the following command within the CompGIT repository: 
+To run doctests for CompGIT, extract the files from the ```.zip``` into some folder. Make sure that you have a system variable called ```PYTHONPATH``` and include in it the path to the subfolder with ```CompGIT``` in it (the one with the file ```GIT.py``` in it). To check if the system variable exist you can run 
+
+```printenv PYTHONPATH```
+
+If something appears but not the CompGIT directory, write
+
+```export PYTHONPATH="${PYTHONPATH}:directory"```
+
+where ```directory``` is replaced by the full CompGIT source path.
+
+If when calling ```printenv``` above no paths are produced, then write
+
+```export PYTHONPATH="directory"```
+
+where ```directory``` is replaced by the full CompGIT source path.
+
+If when calling ```printenv``` you do see the CompGIT source path, you do not have to do anything, continue to the next step.
+
+Then, from the ```CompGIT``` subfolder (where ```GIT.py``` is stored) run
 
 ```
 sage -t .
 ```
 
-See also the sagemath dcoumentation on doctests available [here](https://doc.sagemath.org/html/en/developer/doctesting.html). If doctests pass, you will recieve the message 
+See also the sagemath documentation on doctests available [here](https://doc.sagemath.org/html/en/developer/doctesting.html). If doctests pass, you will receive the message 
 
 ```
 ----------------------------------------------------------------------
