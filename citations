@@ -1,1 +1,10 @@
 CITATION.cff
+
+R. Hanson and J. Martinez-Garcia. The CompGIT GitHub homepage. https://github.com/Robbie-H/CompGIT.
+
+@misc {GHMGMS,
+    AUTHOR = {Hanson, R. and Martinez-Garcia, J.},
+     TITLE = {The CompGIT GitHub homepage},
+       YEAR = {2025},
+howpublished = {\url{https://github.com/Robbie-H/CompGIT}},
+}
