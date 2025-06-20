@@ -17,6 +17,11 @@ For a quick introduction to GIT we recommend [notes by Richard Thomas](https://a
 
 The aforementioned paper by Gallardo et.al. considers the more general case of projective varieties by a reductive group. However, in most applications the group is simple or semisimple. This has the advantage that we can use existing libraries in Sagemath for simple groups.
 
+## Credit and citations
+Please consider citing the following references if you use this software for your own projects/papers:
+* P. Gallardo, J. Martinez-Garcia, H-B Moon, and D. Swinarski. “Computation of GIT quotients of semisimple groups”. arXiv:2308.08049 (2023).
+* R. Hanson and J. Martinez-Garcia. The CompGIT GitHub homepage. https://github.com/Robbie-H/CompGIT.
+
 # Dependencies 
 
 * SageMath version 9.0 or later and the SageMath standard library, 
