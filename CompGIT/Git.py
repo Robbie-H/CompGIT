@@ -23,7 +23,10 @@ from sage.geometry.polyhedron.constructor import Polyhedron
 from sage.modules.free_module import VectorSpace
 from sage.rings.rational_field import QQ
 from sage.sets.set import Set
-from sage.all import QuadraticField, matrix, vector, sqrt
+from sage.rings.number_field.number_field import QuadraticField
+from sage.matrix.constructor import Matrix as matrix
+from sage.modules.free_module_element import free_module_element as vector
+from sage.misc.functional import sqrt
 
 from SimpleGroup import SimpleGroup, one_param_subgroup
 
