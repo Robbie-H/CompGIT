@@ -31,8 +31,10 @@ passagemath = [
   "passagemath-graphs",
   "passagemath-groups",
   "passagemath-modules",
+  "passagemath-pari",
   "passagemath-polyhedra",
   "passagemath-repl",
+  "scipy",
 ]
 
 [tool.setuptools]
