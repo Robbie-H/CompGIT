@@ -28,7 +28,7 @@ from sage.matrix.constructor import Matrix as matrix
 from sage.modules.free_module_element import free_module_element as vector
 from sage.misc.functional import sqrt
 
-from SimpleGroup import SimpleGroup, one_param_subgroup
+from .SimpleGroup import SimpleGroup, one_param_subgroup
 
 
 K2 = QuadraticField(2, 'sqrt2')
