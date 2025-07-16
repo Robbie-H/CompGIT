@@ -24,6 +24,15 @@ classifiers = [
     ]
 requires-python = ">=3.9"
 
+[project.optional-dependencies]
+passagemath = [
+  "passagemath-combinat",
+  "passagemath-graphs",
+  "passagemath-groups",
+  "passagemath-modules",
+  "passagemath-polyhedra",
+  "passagemath-repl",
+]
 
 [tool.setuptools]
 packages = [
