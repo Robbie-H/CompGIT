@@ -22,7 +22,9 @@ Please consider citing the following references if you use this software for you
 * P. Gallardo, J. Martinez-Garcia, H-B Moon, and D. Swinarski. “Computation of GIT quotients of semisimple groups”. arXiv:2308.08049 (2023).
 * R. Hanson and J. Martinez-Garcia. The CompGIT GitHub homepage. https://github.com/Robbie-H/CompGIT.
 
-# Dependencies 
+# Installation with pip in SageMath
+
+## Dependencies 
 
 * SageMath version 9.0 or later and the SageMath standard library, 
 * Python version 3.9 or later
@@ -30,14 +32,23 @@ Please consider citing the following references if you use this software for you
 The Sage installation guide is available [here](https://doc.sagemath.org/html/en/installation/index.html)
 
 Commands are run within a console, such as the SageMath Shell on linux or terminal on MacOS. Once a sage session is launched, we include the prompt ‘sage:’ in our code.  
- 
-# Installation with pip 
+
+## Installation
 
 To add CompGIT to your SageMath installation, first download CompGIT as a ```.zip``` file from the [CompGIT GitHub homepage](https://github.com/Robbie-H/CompGIT) and then run the console command 
 
 ```
 sage -pip install (location of CompGIT)
 ```
+
+# Standalone installation with pip (no SageMath installation required)
+
+The package can also be installed in plain Python using the modularized distributions of the Sage library from the [passagemath](https://github.com/passagemath) project.
+
+```
+pip install "(location of CompGIT)[passagemath]"
+```
+
 
 # Example 
 
