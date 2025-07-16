@@ -1,5 +1,10 @@
-from sage.all import *
-from sage.all import WeylGroup #experimental purposes only
+try:
+    from sage.all__sagemath_combinat import *
+    from sage.all__sagemath_modules import *
+except ImportError:  # try monolithic Sage
+    from sage.all import *
+    from sage.all import WeylGroup #experimental purposes only
+
 from . import SimpleGroup
 from . import Git
 
