@@ -39,7 +39,7 @@ def upper_triangular_entries(rnk, x, y):
     
     EXAMPLES::
         
-        sage: from SimpleGroup import upper_triangular_entries
+        sage: from CompGIT.SimpleGroup import upper_triangular_entries
         sage: upper_triangular_entries(2, 0, 1)
         1
         sage: upper_triangular_entries(2, 1, 0)
@@ -61,7 +61,7 @@ def lower_triangular_entries(rnk, x, y):
     
     EXAMPLES::
         
-        sage: from SimpleGroup import lower_triangular_entries
+        sage: from CompGIT.SimpleGroup import lower_triangular_entries
         sage: lower_triangular_entries(2, 0, 1)
         0
         sage: lower_triangular_entries(2, 1, 0)
@@ -85,7 +85,7 @@ def one_param_subgroup(data, type_A=False, field=QQ):
 
     EXAMPLES::
 
-        sage: from SimpleGroup import one_param_subgroup
+        sage: from CompGIT.SimpleGroup import one_param_subgroup
         sage: v1 = vector([2, 1, -3])
         sage: v2 = vector([3, 2, 1])
         sage: one_param_subgroup(v1, type_A=True)
@@ -112,7 +112,7 @@ def A_coord_change_from_T_to_H(rnk, x, y):
     
     EXAMPLES::
         
-        sage: from SimpleGroup import A_coord_change_from_T_to_H
+        sage: from CompGIT.SimpleGroup import A_coord_change_from_T_to_H
         sage: x = 2
         sage: y = 3
         sage: rnk = 5
@@ -136,7 +136,7 @@ def inverse_of_upper_triangular(rnk, x, y):
     
     EXAMPLES::
         
-        sage: from SimpleGroup import inverse_of_upper_triangular
+        sage: from CompGIT.SimpleGroup import inverse_of_upper_triangular
         sage: x = 2
         sage: y = 3
         sage: rnk = 5
@@ -158,7 +158,7 @@ def inverse_of_upper_triangular(rnk, x, y):
 #
 #    EXAMPLES::
 #
-#        sage: from SimpleGroup import A_cone_basis_constructor
+#        sage: from CompGIT.SimpleGroup import A_cone_basis_constructor
 #        sage: x = 2
 #        sage: y = 3
 #        sage: rnk = 5
@@ -180,7 +180,7 @@ def A_cone_basis_constructor_from_T(rnk, x, y):
     
     EXAMPLES::
         
-        sage: from SimpleGroup import A_cone_basis_constructor_from_T
+        sage: from CompGIT.SimpleGroup import A_cone_basis_constructor_from_T
         sage: x = 2
         sage: y = 3
         sage: rnk = 5
@@ -203,7 +203,7 @@ def A_T_basis_constructor_from_gamma(rnk, x, y):
 
     EXAMPLES::
         
-        sage: from SimpleGroup import A_T_basis_constructor_from_gamma
+        sage: from CompGIT.SimpleGroup import A_T_basis_constructor_from_gamma
         sage: x = 2
         sage: y = 3
         sage: rnk = 5
@@ -225,7 +225,7 @@ def D_cone_basis_constructor(rnk, x, y):
     
     EXAMPLES::
         
-        sage: from SimpleGroup import D_cone_basis_constructor
+        sage: from CompGIT.SimpleGroup import D_cone_basis_constructor
         sage: x = 2
         sage: y = 3
         sage: rnk = 5
@@ -249,7 +249,7 @@ def D_T_basis_constructor_from_gamma(rnk, x, y):
 
     EXAMPLES::
         
-        sage: from SimpleGroup import D_T_basis_constructor_from_gamma
+        sage: from CompGIT.SimpleGroup import D_T_basis_constructor_from_gamma
         sage: x = 2
         sage: y = 3
         sage: rnk = 5
@@ -415,7 +415,7 @@ class SimpleGroup(object):
     
     EXAMPLES::
         
-        sage: from SimpleGroup import SimpleGroup
+        sage: from CompGIT.SimpleGroup import SimpleGroup
         sage: G=SimpleGroup("A", 2)
         sage: G.group_type()
         'A'
@@ -581,7 +581,7 @@ class SimpleGroup(object):
         
             EXAMPLES::
             
-            sage: from SimpleGroup import SimpleGroup 
+            sage: from CompGIT.SimpleGroup import SimpleGroup 
             sage: G = SimpleGroup("A", 2)
             sage: G.Weyl_Group_elements()
             Weyl Group of type ['A', 2] (as a matrix group acting on the ambient space)
@@ -595,7 +595,7 @@ class SimpleGroup(object):
         
             EXAMPLES::
             
-            sage: from SimpleGroup import SimpleGroup 
+            sage: from CompGIT.SimpleGroup import SimpleGroup 
             sage: G = SimpleGroup("A", 2)
             sage: G.fundamental_chamber_generators()
             [2 1]
@@ -609,7 +609,7 @@ class SimpleGroup(object):
         
             EXAMPLES::
             
-            sage: from SimpleGroup import SimpleGroup 
+            sage: from CompGIT.SimpleGroup import SimpleGroup 
             sage: G = SimpleGroup("A", 2)
             sage: G.pairing(1, [1,2])
             (-1, 2)
@@ -625,7 +625,7 @@ class SimpleGroup(object):
         
             EXAMPLES::
             
-            sage: from SimpleGroup import SimpleGroup 
+            sage: from CompGIT.SimpleGroup import SimpleGroup 
             sage: G = SimpleGroup("A", 2)
             sage: G.fetch_pairing_matrix()
             [ 1 -1]
@@ -639,7 +639,7 @@ class SimpleGroup(object):
         
             EXAMPLES::
             
-            sage: from SimpleGroup import SimpleGroup 
+            sage: from CompGIT.SimpleGroup import SimpleGroup 
             sage: G = SimpleGroup("A", 2)
             sage: G.in_cone(1)
             False
@@ -657,7 +657,7 @@ class SimpleGroup(object):
         
             EXAMPLES::
             
-            sage: from SimpleGroup import SimpleGroup 
+            sage: from CompGIT.SimpleGroup import SimpleGroup 
             sage: G = SimpleGroup("A", 2)
             sage: G.H_coordinates(1)
             [ 1  0]
