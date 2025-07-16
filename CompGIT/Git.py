@@ -25,7 +25,7 @@ from sage.rings.rational_field import QQ
 from sage.sets.set import Set
 from sage.all import QuadraticField, matrix, vector, sqrt
 
-from SimpleGroup import SimpleGroup, one_param_subgroup
+from .SimpleGroup import SimpleGroup, one_param_subgroup
 
 
 K2 = QuadraticField(2, 'sqrt2')
