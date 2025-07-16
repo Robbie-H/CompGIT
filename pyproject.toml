@@ -27,6 +27,7 @@ requires-python = ">=3.9"
 [project.optional-dependencies]
 passagemath = [
   "passagemath-combinat",
+  "passagemath-flint",
   "passagemath-graphs",
   "passagemath-groups",
   "passagemath-modules",
