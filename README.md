@@ -98,23 +98,7 @@ An example for cubic surfaces is worked out in the paper. In it, one can read ho
 
 # Running doctests
 
-To run doctests for CompGIT, extract the files from the ```.zip``` into some folder. Make sure that you have a system variable called ```PYTHONPATH``` and include in it the path to the subfolder with ```CompGIT``` in it (the one with the file ```GIT.py``` in it). To check if the system variable exist you can run 
-
-```printenv PYTHONPATH```
-
-If something appears but not the CompGIT directory, write
-
-```export PYTHONPATH="${PYTHONPATH}:directory"```
-
-where ```directory``` is replaced by the full CompGIT source path.
-
-If when calling ```printenv``` above no paths are produced, then write
-
-```export PYTHONPATH="directory"```
-
-where ```directory``` is replaced by the full CompGIT source path.
-
-If when calling ```printenv``` you do see the CompGIT source path, you do not have to do anything, continue to the next step.
+To run doctests for CompGIT, extract the files from the ```.zip``` into some folder.
 
 Then, from the ```CompGIT``` subfolder (where ```GIT.py``` is stored) run
 

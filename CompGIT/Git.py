@@ -53,7 +53,7 @@ def proportional(v1, v2) -> bool:
 
     EXAMPLES::
 
-        sage: from Git import proportional
+        sage: from CompGIT.Git import proportional
         sage: v1 = vector([2,0,6])
         sage: v2 = vector([6,9,1])
         sage: proportional(v1, 2*v1)
@@ -77,7 +77,7 @@ def weights_matrix(weights_set, field=QQ):
 
     EXAMPLES::
 
-        sage: from Git import weights_matrix
+        sage: from CompGIT.Git import weights_matrix
         sage: weights = ([1,2], [3,4])
         sage: weights_matrix(weights)
         [1 2]
@@ -103,7 +103,7 @@ def averageWeight(x):
 
     EXAMPLES::
 
-        sage: from Git import averageWeight
+        sage: from CompGIT.Git import averageWeight
         sage: weights_set = ([1,2], [3,4])
         sage: averageWeight(weights_set)
         (2, 3)
@@ -135,7 +135,7 @@ class GITProblem(object):
     EXAMPLES::
 
         # Cubics in P2
-        sage: from Git import GITProblem
+        sage: from CompGIT.Git import GITProblem
         sage: Phi = WeylCharacterRing("A2")
         sage: representation= Phi(3,0,0)
         sage: P=GITProblem(representation,label="Plane cubics")
@@ -288,7 +288,7 @@ class GITProblem(object):
 
         EXAMPLES::
 
-            sage: from Git import GITProblem
+            sage: from CompGIT.Git import GITProblem
             sage: Phi = WeylCharacterRing("A2")
             sage: representation= Phi(3,0,0)
             sage: P=GITProblem(representation,label="Plane cubics")
@@ -335,7 +335,7 @@ class GITProblem(object):
 
         EXAMPLES::
 
-            sage: from Git import GITProblem
+            sage: from CompGIT.Git import GITProblem
             sage: Phi = WeylCharacterRing("A2")
             sage: representation= Phi(3,0,0)
             sage: P=GITProblem(representation,label="Plane cubics")
@@ -380,7 +380,7 @@ class GITProblem(object):
 
         EXAMPLES::
 
-            sage: from Git import GITProblem
+            sage: from CompGIT.Git import GITProblem
             sage: Phi = WeylCharacterRing("A2")
             sage: representation= Phi(3,0,0)
             sage: P=GITProblem(representation,label="Plane cubics")
@@ -400,7 +400,7 @@ class GITProblem(object):
 
         EXAMPLES::
 
-            sage: from Git import GITProblem
+            sage: from CompGIT.Git import GITProblem
             sage: Phi = WeylCharacterRing("A2")
             sage: representation= Phi(3,0,0)
             sage: P=GITProblem(representation)
@@ -438,7 +438,7 @@ class GITProblem(object):
 
         EXAMPLES::
 
-            sage: from Git import GITProblem
+            sage: from CompGIT.Git import GITProblem
             sage: Phi = WeylCharacterRing("A2")
             sage: representation= Phi(3,0,0)
             sage: P=GITProblem(representation)
@@ -483,7 +483,7 @@ class GITProblem(object):
 
         EXAMPLES::
 
-            sage: from Git import GITProblem
+            sage: from CompGIT.Git import GITProblem
             sage: Phi = WeylCharacterRing("A2")
             sage: representation= Phi(3,0,0)
             sage: P=GITProblem(representation)
@@ -596,7 +596,7 @@ class GITProblem(object):
 
         EXAMPLES::
 
-            sage: from Git import GITProblem
+            sage: from CompGIT.Git import GITProblem
             sage: Phi = WeylCharacterRing("A2")
             sage: representation= Phi(3,0,0)
             sage: P=GITProblem(representation)
@@ -703,7 +703,7 @@ class GITProblem(object):
 
         EXAMPLES::
 
-            sage: from Git import GITProblem
+            sage: from CompGIT.Git import GITProblem
             sage: Phi = WeylCharacterRing("A2")
             sage: representation= Phi(3,0,0)
             sage: P=GITProblem(representation)
@@ -767,7 +767,7 @@ class GITProblem(object):
 
         EXAMPLES::
 
-            sage: from Git import GITProblem
+            sage: from CompGIT.Git import GITProblem
             sage: Phi = WeylCharacterRing("A2")
             sage: representation= Phi(3,0,0)
             sage: P=GITProblem(representation)
@@ -811,7 +811,7 @@ class GITProblem(object):
 
         EXAMPLES::
 
-            sage: from Git import GITProblem
+            sage: from CompGIT.Git import GITProblem
             sage: Phi = WeylCharacterRing("A2")
             sage: representation= Phi(3,0,0)
             sage: P=GITProblem(representation)
@@ -842,7 +842,7 @@ class GITProblem(object):
 
         EXAMPLES::
 
-            sage: from Git import GITProblem
+            sage: from CompGIT.Git import GITProblem
             sage: Phi = WeylCharacterRing("A2")
             sage: representation = Phi(3,0,0)
             sage: P=GITProblem(representation)
@@ -885,7 +885,7 @@ class GITProblem(object):
 
         EXAMPLES::
 
-            sage: from Git import GITProblem
+            sage: from CompGIT.Git import GITProblem
             sage: Phi = WeylCharacterRing("A2")
             sage: representation= Phi(3,0,0)
             sage: P=GITProblem(representation)
@@ -919,7 +919,7 @@ class GITProblem(object):
 
         EXAMPLES::
 
-            sage: from Git import GITProblem
+            sage: from CompGIT.Git import GITProblem
             sage: Phi = WeylCharacterRing("A2")
             sage: representation= Phi(3,0,0)
             sage: P=GITProblem(representation)
@@ -970,7 +970,7 @@ class GITProblem(object):
 
         EXAMPLES::
 
-            sage: from Git import GITProblem
+            sage: from CompGIT.Git import GITProblem
             sage: Phi = WeylCharacterRing("A2")
             sage: representation= Phi(3,0,0)
             sage: P=GITProblem(representation)
@@ -1008,7 +1008,7 @@ class GITProblem(object):
 
         EXAMPLES::
 
-            sage: from Git import GITProblem
+            sage: from CompGIT.Git import GITProblem
             sage: Phi = WeylCharacterRing("A2")
             sage: representation= Phi(3,0,0)
             sage: P=GITProblem(representation)
