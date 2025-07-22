@@ -1,0 +1,5 @@
+build/
+*.egg-info
+CompGIT/__pycache__/
+examples.sage.py
+
