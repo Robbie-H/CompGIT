@@ -16,12 +16,11 @@ REFERENCES:
 - [HMG] R. Hanson, J. Martinez-Garcia "CompGIT, a Sagemath package for Geometric Invariant Theory". To appear.
 """
 
-#from sage.modules.vector_rational_dense import Vector_rational_dense
-#from sage.matrix.constructor import Matrix
-from sage.rings.rational_field import QQ
+from sage.combinat.root_system.weyl_group import WeylGroup
+from sage.matrix.constructor import Matrix, matrix
 from sage.modules.free_module_element import vector
-from sage.all import *
-
+from sage.rings.number_field.number_field import QuadraticField
+from sage.rings.rational_field import QQ
 
 K2 = QuadraticField(2, 'sqrt2')
 sqrt2 = K2.gen()
